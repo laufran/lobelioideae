@@ -9,7 +9,6 @@ using PhyloNetworks
 using DataFrames
 using CSV
 using StaticArrays
-genetrees = readMultiTopology("data/newgts/all_singlecopy_orthologs_gene_trees.tre");
 ```
 
 Using our new dataset, we have 776 gene trees for many *Burmeistera*, *Siphocampylus*, *Centropogon* and outgroup (*Lobelia sp.*, *S. mannettiflorus*, *Lysipomia sp.*) species. To run SNaQ in tractable sizes (~20 taxa or less), we can take two approaches:
@@ -32,10 +31,29 @@ These clade / subclade names correspond to Lagomarsino et al. 2022. Clades that 
 
 to do: 
 
+- decide on outgroup to include? different one for each clade? []
+    - add to each group's labels []
 - modify `countquartetsintrees` to give quartets for a subset of taxa, given labels [X]
+    - debug pruning trees based on subset given [X]
 - run SNaQ for each group h=0 to max of ??? []
     - change default arguments? time test? []
 - graft subnetworks to backbone (see google groups convo w Rowan Schley) []
+
+```{julia}
+genetrees = readMultiTopology("data/newgts/all_singlecopy_orthologs_gene_trees.tre");
+
+#filter Burmeistera from genetrees
+tips = tipLabels(genetrees)
+burmeistera = filter(contains(r"Bur_"), tips)
+append!(burmeistera, filter(contains(r"Burmeistera_"), tips))
+for gt in genetrees
+    for tip in burmeistera
+        try deleteleaf!(gt,tip) 
+        catch e
+        end
+    end
+end
+```
 
 ```{julia}
 samples = DataFrame(CSV.File("samples2024.csv",stringtype=String))
@@ -87,6 +105,15 @@ append!(correoides_nobilis_labels, subcladedict["nobilis"])
 furax_actinothrix_labels = cladedict["furax"]
 append!(furax_actinothrix_labels, subcladedict["actinothrix"])
 push!(furax_actinothrix_labels, "S_asplundii")
+
+subnetwork_groups = [eucentropogonid_labels, peruvianid_labels, umbellatus_labels,
+                    andinus_labels, tupaeformis_labels, brevilimbatid_labels,
+                    giganteus_burmeisterid_labels, odontosepalus_colombianid_labels,
+                    correoides_nobilis_labels, furax_actinothrix_labels]
+subnetwork_names = ["eucentropogonid", "peruvianid", "umbellatus",
+                    "andinus", "tupaeformis", "brevilimbatid",
+                    "giganteus_burmeisterid", "odontosepalus_colombianid",
+                    "correoides_nobilis", "furax_actinothrix"]
 ```
 
 ```{julia}
@@ -101,9 +128,22 @@ function countquartets_pruned(tree::Vector{HybridNetwork},
     elseif whichQ == :labels
         #filter taxon map given taxlabels
         filteredtaxonmap = filter(p -> p.second ∈ taxlabels, taxonmap)
+        #filter gene trees given indl names in filteredtaxonmap
+        #deep copy tree so we don't modify original file
+        tree_copy = deepcopy(tree)
+        #get all tip labels to delete
+        tipstodelete = setdiff(collect(keys(taxonmap)), collect(keys(filteredtaxonmap)))
+        #fixit: silence warnings on this?
+        for gt in tree_copy
+            for tip in tipstodelete
+                try deleteleaf!(gt,tip) 
+                catch e
+                end
+            end
+        end
+        tree = filter(gt -> gt.numTaxa > 4, tree_copy) #remove gene trees with less than 4 tips
         taxa = sort!(collect(Set(haskey(filteredtaxonmap, l.name) ? filteredtaxonmap[l.name] : l.name
                                  for t in tree for l in t.leaf)))
-        #fixit: filter gene trees given taxlabels/taxonmap
     else
         taxa = sort!(collect(Set(haskey(taxonmap, l.name) ? taxonmap[l.name] : l.name
                                  for t in tree for l in t.leaf)))
@@ -160,5 +200,12 @@ function countquartets_pruned(tree::Vector{HybridNetwork},
     return quartet, taxa
 end
 
-countquartets_pruned(genetrees, indls_to_sp, eucentropogonid_labels, whichQ= :labels)
+idx = 1
+for group in subnetwork_groups
+    q,t = countquartets_pruned(genetrees, indls_to_sp, group, whichQ= :labels)
+    df = writeTableCF(q,t)
+    cladenames = split(subnetwork_names[idx], "_labels")[1]
+    CSV.write("data/cfs/$cladenames-tableCF.csv", df);
+    idx += 1
+end
 ```
