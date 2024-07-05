@@ -1,0 +1,320 @@
+#NEXUS
+begin taxa;
+	dimensions ntax=218;
+	taxlabels
+	122_S_lycioides
+	99_S_brevicalyx
+	Bur_cyclostigmata_A188_Lago309_L2
+	Bur_sp_A374_Lago930
+	Bur_sp_A376_Lago936
+	Bur_sp_A405_Lago980
+	Bur_sp_A431_Lago943
+	Bur_sp_AMB375_Lago991
+	Bur_succulenta_A193_CDB297_L2
+	Bur_toroensis_A195_Lago302_L2
+	Bur_vulgaris_LL32_Lago163_L1
+	Burmeistera_almedae_2016_001
+	Burmeistera_anderssonii_2016_113
+	Burmeistera_arbusculifera_2016_097
+	Burmeistera_aspera_2016_089
+	Burmeistera_auriculata_2016_199
+	Burmeistera_ball_2016_165
+	Burmeistera_borjensis_2016_219
+	Burmeistera_brachyandra_2016_114
+	Burmeistera_brighamioides_2016_121
+	Burmeistera_bullatifolia_2016_129
+	Burmeistera_ceratocarpa_2016_233
+	Burmeistera_cf_aeribacca_2016_087
+	Burmeistera_club_2016_124
+	Burmeistera_cone_2016_125
+	Burmeistera_crassifolia_2016_200
+	Burmeistera_crispiloba_2016_201
+	Burmeistera_curly_2016_123
+	Burmeistera_curviandra_2016_094
+	Burmeistera_cyclostigmata_2016_104
+	Burmeistera_cyclostigmata_2016_211
+	Burmeistera_cyclostigmata_2016_217
+	Burmeistera_cylindrocarpa_2016_235
+	Burmeistera_darienensis_2016_149
+	Burmeistera_domingensis_2016_192
+	Burmeistera_draconis_2016_133
+	Burmeistera_dukei_2016_153
+	Burmeistera_flava_sp_nova_2016_111
+	Burmeistera_glabrata_2016_227
+	Burmeistera_hojota_2016_127
+	Burmeistera_holm-nielsenii_2016_210
+	Burmeistera_huacamayensis_2016_115
+	Burmeistera_litensis_2016_214
+	Burmeistera_loejtnantii_2016_006
+	Burmeistera_lutosa_2016_209
+	Burmeistera_mcvaughii_2016_155
+	Burmeistera_multiflora_2016_196
+	Burmeistera_obtusifolia_2016_108
+	Burmeistera_olive_2016_126
+	Burmeistera_oyacachensis_2016_230
+	Burmeistera_pallida_2016_008
+	Burmeistera_pallida_ramosa_succulenta_2016_112
+	Burmeistera_panamensis_2016_151
+	Burmeistera_parviflora_LL_20
+	Burmeistera_purple_2016_167
+	Burmeistera_quercifolia_2016_009
+	Burmeistera_ramosa_2016_007
+	Burmeistera_refracta_2016_195
+	Burmeistera_resupinata_2016_240
+	Burmeistera_resupinata_var_heilbornii_2016_116
+	Burmeistera_reventador_2016_138
+	Burmeistera_rubrosepala_2016_239
+	Burmeistera_ruby_2016_186
+	Burmeistera_smaragdi_2016_236
+	Burmeistera_smooth_2016_135
+	Burmeistera_sodiroana_2016_197
+	Burmeistera_sp_nova_Cascada_Hollin_2016_117
+	Burmeistera_sp_nova_Sierrazul_2016_118
+	Burmeistera_succulenta_2016_143
+	Burmeistera_succulenta_2016_188
+	Burmeistera_succulenta_E_2016_229
+	Burmeistera_tenuiflora_2016_158
+	Burmeistera_truncata_2016_144
+	Burmeistera_utleyi_2016_156
+	Burmeistera_vulgaris_2016_100
+	Burmeistera_winged_2016_163
+	Burmeistera_xerampelina_2016_086
+	Burmeistera_zurquiensis_2016_098
+	Centro_argutus_A177_Lago319_L2
+	Centro_asclepiadeus_A359_JAS4801
+	Centro_bogotensis_A365_Lago784
+	Centro_britto_A26_Lago427_L4
+	Centro_congestus_LL34_Lago95_L1
+	Centro_cornutus_A179_CBD219_L2
+	Centro_cornutus_A378_Lago961
+	Centro_ferrugineus_A348_Lago662
+	Centro_foetidus_A358_Lago989
+	Centro_granulosus_A380_Lago942
+	Centro_incanus_A1_Lago423_L4
+	Centro_mandonis_A12_Lago193_L4
+	Centro_mandonis_A180_Lagosn_L2
+	Centro_nervosus_A181_Lago412_L2
+	Centro_palmanus_A50_Lago193_L4
+	Centro_palmanus_LL193_L1
+	Centro_peruvianus_A182_Lago386_L2
+	Centro_rex_A367_Lago806
+	Centro_smithii_A184_Lago281_L2
+	Centro_solanifolius_A185_Lago284_L2
+	Centro_solanifolius_A403_Lago941
+	Centro_sp_A332_Lago766
+	Centro_sp_A377_Lago939
+	Centro_sp_A407_Lago867
+	Centro_sp_A413_Lago974
+	Centro_sp_A425_Lago710
+	Centro_sp_A426_Lago940
+	Centro_sp_A428_Lago874
+	Centro_sp_A435_Lago746
+	Centro_valerii_A186_Lago177_L2
+	Centro_vargasii_A187_Lago356_L2
+	Centro_weberbaueri_A197_Lago328_L2
+	Centro_yarumalensis_A404_Lago944
+	LL101_S_werdermannii
+	LL102_S_siberiensis
+	LL104_Lysipomia
+	LL155_S_mattiaei
+	LL159_S_jelskii
+	LL161_C_granulosus_Peru
+	LL165_C_macbridei
+	LL167_S_virgatus
+	LL168_C_pulcher
+	LL171_C_urubambae
+	LL173_S_obovatus
+	LL180_C_viriduliflora
+	LL187_S_rusbyanus
+	LL189_S_antonellii
+	LL194_C_perlongus
+	LL195_C_dianae
+	LL21_C_congestus
+	LL244_C_vargasii
+	LL248_C_simulans
+	LL269_S_imbricatus
+	LL26_C_solanifolius
+	LL28_C_cornutus
+	LL312_C_alectrolophos
+	LL324_C_baezanus
+	LL325_C_costaricae
+	LL327_C_cordifolius
+	LL328_S_giganteus
+	LL329_S_nematosepalus
+	LL330_S_smilax
+	LL332_S_umbellatus
+	LL333_S_asplundii
+	LL334_S_aureus
+	LL337_S_nobilis
+	LL341_S_vatkeanus
+	LL348_S_odontosepalus
+	LL349_C_tessmannii
+	LL350_L_tupa
+	LL351_S_affinis
+	LL352_S_actinothrix
+	LL355_S_chloroleucus
+	LL357_S_correoides
+	LL358_S_fiebrigii
+	LL35_C_palmanus
+	LL360_S_fulgens
+	LL361_S_furax
+	LL363_S_krauseanus
+	LL365_S_longipedunculatus
+	LL366_S_longibracteolatus
+	LL367_S_macropodus
+	LL368_S_manntiaeflorus
+	LL371_S_planchonis
+	LL373_S_sangineus
+	LL375_S_scandens
+	LL378_S_verticillatus
+	LL47_C_grandidentatus
+	LL49_C_incanus
+	LL61_C_asclepideus
+	LL69_C_nigricans
+	LL6_C_smithii
+	LL83_C_brittonianus
+	LL85_C_incanus
+	LL86_C_mandonis
+	LL87_C_incanus_pink
+	LL88_S_ayersiae
+	LL90_S_boliviensis
+	LL91_S_corymbifer
+	LL93_S_orbignianus
+	LL94_S_andinus
+	LL97_S_tunarensis
+	LL98_S_tunicatus
+	LL99_S_tupaeformis
+	Lobelia_excelsa_Lagosn_L1
+	Lobelia_laxiflora_A216_Lago261_L3
+	Lysipomia_laciniata_A401_Lago780
+	Lysipomia_muscoides_A364_Lago781
+	Lysipomia_sp_A362_Lago633
+	Lysipomia_vitreola_A217_Antonellii6B_L3
+	Siph_andinus_A16_Lago226_L4
+	Siph_angustiflorus_A202_Lago417_L2
+	Siph_benthamianus_A329_HM23097
+	Siph_bogotensis_A347_Lago659
+	Siph_boliviensis_A210_Lago378_L3
+	Siph_clotho_A208_Lago367_L3
+	Siph_columnae_A357_JAS4781
+	Siph_correoides_A201_Lago413_L2
+	Siph_corynellus_ARC6_weigand5815_L1
+	Siph_corynoides_A209_Lago350_L3
+	Siph_ecuadoriensis_ARC7_Clarck1906_L1
+	Siph_elfriedii_A214_Lago387_L3
+	Siph_jelskii_A215_Lago321_L3
+	Siph_krauseanus_A203_Lago418_L2
+	Siph_lasiandrus_A370_Lago853
+	Siph_manettiflorus_A200_Herber_L2
+	Siph_matthaei_A207_Lago320_L3
+	Siph_purdieanus_A368_Lago820
+	Siph_rosmarinifolius_A206_Lago357_L3
+	Siph_rusbyanus_A17_Lago460_L4
+	Siph_rusbyanus_A213_Lago460_L3
+	Siph_secundus_A212_Lago313_L3
+	Siph_smilax_A205_Lago248_L1
+	Siph_sp_A350_CMT220
+	Siph_sp_A406_Lago649
+	Siph_sp_A414_Lago856
+	Siph_sp_A415_Lago882
+	Siph_tunarensis_A211_Lago232_L3
+	Siph_tupaeformis_A199_Lago434_L2
+	Siph_veteranus_A204_Lago385_L2
+;
+end;
+
+begin trees;
+	tree tree_1 = [&R] ((((LL99_S_tupaeformis[&!rotate=false,!color=#f0e402]:1.0,Siph_tupaeformis_A199_Lago434_L2[&!rotate=false,!color=#f0e402]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=251.412368;f2=8.426106;f3=8.156515;q1=0.938123;q2=0.031441;q3=0.030435]",!rotate=false,!color=#f0e402]:2.322317,(LL167_S_virgatus[&!rotate=false,!color=#f0e402]:1.0,(((LL363_S_krauseanus[&!rotate=false,!color=#f0e402]:1.0,Siph_krauseanus_A203_Lago418_L2[&!rotate=false,!color=#f0e402]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=333.958195;f2=16.343339;f3=23.112474;q1=0.894338;q2=0.043767;q3=0.061895]",!rotate=false,!color=#f0e402]:1.819687,(Siph_rosmarinifolius_A206_Lago357_L3[&!rotate=false,!color=#f0e402]:1.0,((LL173_S_obovatus[&!rotate=false,!color=#f0e402]:1.0,Siph_corynoides_A209_Lago350_L3[&!rotate=false,!color=#f0e402]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=188.329919;f2=19.299961;f3=29.264546;q1=0.794995;q2=0.081471;q3=0.123534]",!rotate=false,!color=#f0e402]:1.163087,Siph_ecuadoriensis_ARC7_Clarck1906_L1[&!rotate=false,!color=#f0e402]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=165.018163;f2=58.275610;f3=64.288850;q1=0.573811;q2=0.202640;q3=0.223549]",!rotate=false,!color=#f0e402]:0.442753)[&label="[pp1=0.999810;pp2=0.000098;pp3=0.000092;f1=151.920815;f2=100.360388;f3=99.031761;q1=0.432437;q2=0.285672;q3=0.281890]",!rotate=false,!color=#f0e402]:0.158779)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=207.546677;f2=116.198713;f3=75.234921;q1=0.520193;q2=0.291239;q3=0.188568]",!rotate=false,!color=#f0e402]:0.326199,(LL101_S_werdermannii[&!rotate=false,!color=#f0e402]:1.0,(LL367_S_macropodus[&!rotate=false,!color=#f0e402]:1.0,(LL334_S_aureus[&!rotate=false,!color=#f0e402]:1.0,LL358_S_fiebrigii[&!rotate=false,!color=#f0e402]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=332.748667;f2=48.917224;f3=48.188772;q1=0.774096;q2=0.113799;q3=0.112105]",!rotate=false,!color=#f0e402]:1.074257)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=316.250701;f2=34.310159;f3=54.374386;q1=0.780991;q2=0.084730;q3=0.134279]",!rotate=false,!color=#f0e402]:1.10443)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=192.199429;f2=102.784196;f3=90.580915;q1=0.498488;q2=0.266581;q3=0.234931]",!rotate=false,!color=#f0e402]:0.282095)[&label="[pp1=0.999926;pp2=0.000055;pp3=0.000020;f1=168.458848;f2=122.124051;f3=97.118615;q1=0.434507;q2=0.314995;q3=0.250498]",!rotate=false,!color=#f0e402]:0.162617)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=260.630507;f2=34.345209;f3=35.070185;q1=0.789680;q2=0.104062;q3=0.106259]",!rotate=false,!color=#f0e402]:1.14238)[&label="[pp1=0.698204;pp2=0.107999;pp3=0.193797;f1=91.338826;f2=75.199126;f3=82.079484;q1=0.367387;q2=0.302469;q3=0.330144]",!rotate=false,!color=#f0e402]:0.050108,(((((((((((Centro_solanifolius_A185_Lago284_L2[&!color=#ffb20d,!rotate=false]:1.0,LL26_C_solanifolius[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=101.078995;f2=21.395412;f3=65.035495;q1=0.539060;q2=0.114103;q3=0.346838]",!color=#ffb20d,!rotate=false]:0.362837,LL324_C_baezanus[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=0.938792;pp2=0.045341;pp3=0.015867;f1=91.815284;f2=75.736479;f3=61.635400;q1=0.400613;q2=0.330457;q3=0.268930]",!color=#ffb20d,!rotate=false]:0.103483,Centro_solanifolius_A403_Lago941[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=0.790521;pp2=0.095191;pp3=0.114288;f1=77.210224;f2=62.208077;f3=64.269368;q1=0.379062;q2=0.305409;q3=0.315529]",!color=#ffb20d,!rotate=false]:0.068081,(Centro_cornutus_A179_CBD219_L2[&!color=#ffb20d,!rotate=false]:1.0,Centro_granulosus_A380_Lago942[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=87.751158;f2=36.944845;f3=26.843770;q1=0.579064;q2=0.243796;q3=0.177140]",!color=#ffb20d,!rotate=false]:0.45083)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=207.891725;f2=54.398889;f3=47.983722;q1=0.670026;q2=0.175325;q3=0.154649]",!color=#ffb20d,!rotate=false]:0.696773,((LL244_C_vargasii[&!color=#ffb20d,!rotate=false]:1.0,Centro_vargasii_A187_Lago356_L2[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=164.729537;f2=49.641485;f3=15.972082;q1=0.715149;q2=0.215511;q3=0.069340]",!color=#ffb20d,!rotate=false]:0.839529,((LL161_C_granulosus_Peru[&!color=#ffb20d,!rotate=false]:1.0,LL168_C_pulcher[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=185.855776;f2=65.478011;f3=134.162714;q1=0.482121;q2=0.169854;q3=0.348026]",!color=#ffb20d,!rotate=false]:0.250142,LL171_C_urubambae[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=0.996016;pp2=0.001410;pp3=0.002573;f1=157.462126;f2=108.008262;f3=120.664462;q1=0.407791;q2=0.279716;q3=0.312493]",!color=#ffb20d,!rotate=false]:0.116653)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=191.530921;f2=94.415977;f3=96.931705;q1=0.500239;q2=0.246595;q3=0.253166]",!color=#ffb20d,!rotate=false]:0.285557)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=226.705471;f2=72.719397;f3=63.121100;q1=0.625315;q2=0.200580;q3=0.174105]",!color=#ffb20d,!rotate=false]:0.571625,((Centro_sp_A413_Lago974[&!color=#ffb20d,!rotate=false]:1.0,LL21_C_congestus[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=0.609943;pp2=0.071594;pp3=0.318463;f1=35.930812;f2=23.185313;f3=33.426414;q1=0.388263;q2=0.250537;q3=0.361201]",!color=#ffb20d,!rotate=false]:0.079225,Centro_congestus_LL34_Lago95_L1[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=83.591483;f2=21.759445;f3=4.607591;q1=0.760209;q2=0.197888;q3=0.041903]",!color=#ffb20d,!rotate=false]:0.994352)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=203.897507;f2=86.043102;f3=75.822579;q1=0.557458;q2=0.235243;q3=0.207300]",!color=#ffb20d,!rotate=false]:0.406325,(Centro_cornutus_A378_Lago961[&!color=#ffb20d,!rotate=false]:1.0,LL28_C_cornutus[&!color=#ffb20d,!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=351.881590;f2=12.347548;f3=15.777283;q1=0.925989;q2=0.032493;q3=0.041518]",!color=#ffb20d,!rotate=false]:2.16576)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=205.459638;f2=83.717794;f3=82.358879;q1=0.553000;q2=0.225329;q3=0.221671]",!color=#ffb20d,!rotate=false]:0.396417,LL312_C_alectrolophos[&!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=360.067597;f2=12.461410;f3=14.727357;q1=0.929791;q2=0.032179;q3=0.038030]",!rotate=false]:2.217277,(((Siph_sp_A415_Lago882[&!rotate=false]:1.0,(Siph_sp_A414_Lago856[&!rotate=false]:1.0,Siph_purdieanus_A368_Lago820[&!rotate=false]:1.0)[&label="[pp1=0.999047;pp2=0.000673;pp3=0.000280;f1=117.105459;f2=83.970520;f3=67.666140;q1=0.435754;q2=0.312458;q3=0.251788]",!rotate=false]:0.163941)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=247.385274;f2=24.606670;f3=18.892109;q1=0.850460;q2=0.084593;q3=0.064947]",!rotate=false]:1.47543,(LL337_S_nobilis[&!rotate=false]:1.0,LL375_S_scandens[&!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=246.016880;f2=31.988942;f3=29.640502;q1=0.799674;q2=0.103980;q3=0.096346]",!rotate=false]:1.189495)[&label="[pp1=0.999963;pp2=0.000026;pp3=0.000011;f1=153.833636;f2=106.990516;f3=85.351631;q1=0.444380;q2=0.309064;q3=0.246556]",!rotate=false]:0.179905,((Siph_correoides_A201_Lago413_L2[&!rotate=false]:1.0,(LL88_S_ayersiae[&!rotate=false]:1.0,LL357_S_correoides[&!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=167.539938;f2=86.677931;f3=69.931320;q1=0.516861;q2=0.267401;q3=0.215738]",!rotate=false]:0.3187)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=273.865849;f2=25.035608;f3=31.724988;q1=0.828324;q2=0.075722;q3=0.095954]",!rotate=false]:1.342237,(Siph_angustiflorus_A202_Lago417_L2[&!rotate=false]:1.0,LL355_S_chloroleucus[&!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=259.936290;f2=41.352185;f3=39.058327;q1=0.763739;q2=0.121500;q3=0.114760]",!rotate=false]:1.027929)[&label="[pp1=0.999986;pp2=0.000004;pp3=0.000010;f1=163.782737;f2=91.679776;f3=111.587463;q1=0.446214;q2=0.249775;q3=0.304012]",!rotate=false]:0.183324)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=214.728392;f2=67.987832;f3=66.219887;q1=0.615380;q2=0.194843;q3=0.189777]",!rotate=false]:0.545473)[&label="[pp1=0.890640;pp2=0.087855;pp3=0.021505;f1=136.749793;f2=121.729834;f3=99.477002;q1=0.382029;q2=0.340069;q3=0.277902]",!rotate=false]:0.074128,(((LL189_S_antonellii[&!rotate=false]:1.0,Siph_elfriedii_A214_Lago387_L3[&!rotate=false]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=118.124370;f2=49.264436;f3=27.616324;q1=0.605750;q2=0.252631;q3=0.141618]",!rotate=false]:0.517497,((Siph_veteranus_A204_Lago385_L2[&!rotate=false]:1.0,LL341_S_vatkeanus[&!rotate=false]:1.0)[&label="[pp1=0.999993;pp2=0.000002;pp3=0.000005;f1=106.978751;f2=47.110830;f3=66.282928;q1=0.485445;q2=0.213778;q3=0.300777]",!rotate=false]:0.254735,LL352_S_actinothrix[&!rotate=false]:1.0)[&label="[pp1=0.999999;pp2=0.000000;pp3=0.000000;f1=154.770223;f2=82.258967;f3=94.053756;q1=0.467467;q2=0.248454;q3=0.284079]",!rotate=false]:0.222005)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=237.934694;f2=39.954904;f3=34.114058;q1=0.762602;q2=0.128059;q3=0.109339]",!rotate=false]:1.022343,LL333_S_asplundii[&!rotate=false]:1.0)[&label="[pp1=0.999970;pp2=0.000024;pp3=0.000006;f1=141.998227;f2=100.878144;f3=70.770153;q1=0.452733;q2=0.321630;q3=0.225637]",!rotate=false]:0.194728)[&label="[pp1=0.999548;pp2=0.000118;pp3=0.000335;f1=153.393469;f2=91.333531;f3=114.279702;q1=0.427272;q2=0.254406;q3=0.318322]",!rotate=false]:0.149809,(((99_S_brevicalyx[&!color=#b988cf,!rotate=true]:1.0,(LL361_S_furax[&!color=#b988cf,!rotate=true]:1.0,LL351_S_affinis[&!color=#b988cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=269.096872;f2=29.055198;f3=26.223059;q1=0.829585;q2=0.089573;q3=0.080842]",!color=#b988cf,!rotate=true]:1.349205)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=132.806197;f2=59.879474;f3=76.477657;q1=0.493404;q2=0.222465;q3=0.284131]",!color=#b988cf,!rotate=true]:0.270977,Siph_benthamianus_A329_HM23097[&!color=#b988cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=217.604876;f2=51.631214;f3=31.751326;q1=0.722970;q2=0.171539;q3=0.105491]",!color=#b988cf,!rotate=true]:0.86956,((((((((((((((((((((Burmeistera_cone_2016_125[&!color=#3c800f]:1.0,Burmeistera_club_2016_124[&!color=#3c800f]:1.0)[&label="[pp1=0.960840;pp2=0.012628;pp3=0.026532;f1=152.860638;f2=113.726260;f3=127.378009;q1=0.388006;q2=0.288671;q3=0.323323]",!color=#3c800f]:0.083963,Burmeistera_ball_2016_165[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=208.626813;f2=79.059573;f3=78.235318;q1=0.570141;q2=0.216056;q3=0.213803]",!color=#3c800f]:0.435224,(Burmeistera_cf_aeribacca_2016_087[&!color=#3c800f]:1.0,Bur_sp_A431_Lago943[&!color=#3c800f]:1.0)[&label="[pp1=0.836001;pp2=0.031621;pp3=0.132378;f1=86.223691;f2=59.289373;f3=76.419286;q1=0.388513;q2=0.267151;q3=0.344336]",!color=#3c800f]:0.083551)[&label="[pp1=0.963546;pp2=0.002069;pp3=0.034385;f1=97.777780;f2=49.552464;f3=85.605071;q1=0.419764;q2=0.212731;q3=0.367506]",!color=#3c800f]:0.135767,Burmeistera_curviandra_2016_094[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=139.882711;f2=80.995787;f3=31.436913;q1=0.554396;q2=0.321010;q3=0.124594]",!color=#3c800f]:0.397961,((Burmeistera_rubrosepala_2016_239[&!color=#3c800f]:1.0,(Burmeistera_truncata_2016_144[&!color=#3c800f]:1.0,Burmeistera_auriculata_2016_199[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=192.852863;f2=119.907049;f3=110.803297;q1=0.455311;q2=0.283091;q3=0.261598]",!color=#3c800f]:0.200108)[&label="[pp1=0.999800;pp2=0.000070;pp3=0.000130;f1=174.509643;f2=110.363597;f3=125.620492;q1=0.425121;q2=0.268856;q3=0.306023]",!color=#3c800f]:0.146336,Burmeistera_quercifolia_2016_009[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=287.184569;f2=75.968895;f3=63.187484;q1=0.673603;q2=0.178188;q3=0.148209]",!color=#3c800f]:0.709358)[&label="[pp1=0.998971;pp2=0.000135;pp3=0.000894;f1=189.771072;f2=112.890455;f3=155.392383;q1=0.414299;q2=0.246457;q3=0.339245]",!color=#3c800f]:0.12794,(Burmeistera_smooth_2016_135[&!color=#3c800f]:1.0,(((((Burmeistera_ramosa_2016_007[&!color=#3c800f]:1.0,Burmeistera_refracta_2016_195[&!color=#3c800f]:1.0)[&label="[pp1=0.960710;pp2=0.025130;pp3=0.014159;f1=153.333661;f2=126.537861;f3=115.924887;q1=0.387405;q2=0.319704;q3=0.292890]",!color=#3c800f]:0.082994,Burmeistera_sp_nova_Cascada_Hollin_2016_117[&!color=#3c800f]:1.0)[&label="[pp1=0.999640;pp2=0.000069;pp3=0.000291;f1=175.588263;f2=102.972968;f3=136.333064;q1=0.423212;q2=0.248191;q3=0.328597]",!color=#3c800f]:0.143053,Burmeistera_reventador_2016_138[&!color=#3c800f]:1.0)[&label="[pp1=0.999354;pp2=0.000105;pp3=0.000541;f1=188.769267;f2=113.194006;f3=151.224659;q1=0.416536;q2=0.249773;q3=0.333691]",!color=#3c800f]:0.131738,((Burmeistera_draconis_2016_133[&!color=#3c800f]:1.0,((Burmeistera_borjensis_2016_219[&!color=#3c800f]:1.0,Burmeistera_oyacachensis_2016_230[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=185.305304;f2=113.126584;f3=105.859036;q1=0.458346;q2=0.279815;q3=0.261839]",!color=#3c800f]:0.205578,(Burmeistera_vulgaris_2016_100[&!color=#3c800f]:1.0,Burmeistera_sp_nova_Sierrazul_2016_118[&!color=#3c800f]:1.0)[&label="[pp1=0.829750;pp2=0.011946;pp3=0.158304;f1=155.227234;f2=105.643534;f3=145.829730;q1=0.381675;q2=0.259758;q3=0.358568]",!color=#3c800f]:0.073762)[&label="[pp1=0.965532;pp2=0.018555;pp3=0.015913;f1=161.145462;f2=129.284851;f3=126.322702;q1=0.386669;q2=0.310219;q3=0.303112]",!color=#3c800f]:0.081877)[&label="[pp1=0.951396;pp2=0.008261;pp3=0.040343;f1=160.128903;f2=111.954383;f3=140.431706;q1=0.388177;q2=0.271395;q3=0.340428]",!color=#3c800f]:0.084314,Burmeistera_glabrata_2016_227[&!color=#3c800f]:1.0)[&label="[pp1=0.997708;pp2=0.001556;pp3=0.000736;f1=184.456852;f2=143.706553;f3=126.236261;q1=0.405935;q2=0.316256;q3=0.277809]",!color=#3c800f]:0.113803)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=130.862670;f2=48.575018;f3=31.536630;q1=0.620278;q2=0.230241;q3=0.149481]",!color=#3c800f]:0.555173,Burmeistera_pallida_2016_008[&!color=#3c800f]:1.0)[&label="[pp1=0.990730;pp2=0.009247;pp3=0.000023;f1=92.503095;f2=82.572154;f3=21.978889;q1=0.469430;q2=0.419033;q3=0.111537]",!color=#3c800f]:0.223881)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=221.061346;f2=137.168764;f3=84.058384;q1=0.499813;q2=0.310134;q3=0.190053]",!color=#3c800f]:0.285056)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=370.263774;f2=37.015438;f3=46.986030;q1=0.815083;q2=0.081484;q3=0.103433]",!color=#3c800f]:1.272747,((((((Burmeistera_darienensis_2016_149[&!color=#3c800f]:1.0,(Burmeistera_cyclostigmata_2016_104[&!color=#3c800f]:1.0,Bur_cyclostigmata_A188_Lago309_L2[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=171.465256;f2=104.577141;f3=62.449641;q1=0.506556;q2=0.308950;q3=0.184494]",!color=#3c800f]:0.297862)[&label="[pp1=0.999388;pp2=0.000441;pp3=0.000172;f1=185.528543;f2=142.020141;f3=119.117753;q1=0.415363;q2=0.317956;q3=0.266682]",!color=#3c800f]:0.129713,(Burmeistera_dukei_2016_153[&!color=#3c800f]:1.0,Burmeistera_winged_2016_163[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=510.886954;f2=7.549748;f3=6.718805;q1=0.972830;q2=0.014376;q3=0.012794]",!color=#3c800f]:3.134336)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=275.715130;f2=107.387179;f3=88.293407;q1=0.584891;q2=0.227807;q3=0.187302]",!color=#3c800f]:0.470771,(Burmeistera_cyclostigmata_2016_217[&!color=#3c800f]:1.0,Burmeistera_cyclostigmata_2016_211[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=358.293635;f2=50.198117;f3=54.107758;q1=0.774522;q2=0.108513;q3=0.116965]",!color=#3c800f]:1.076687)[&label="[pp1=0.999921;pp2=0.000011;pp3=0.000068;f1=193.619375;f2=106.086970;f3=151.484718;q1=0.429129;q2=0.235126;q3=0.335744]",!color=#3c800f]:0.153467,Burmeistera_multiflora_2016_196[&!color=#3c800f]:1.0)[&label="[pp1=0.994943;pp2=0.002330;pp3=0.002728;f1=180.090394;f2=133.269300;f3=136.838578;q1=0.400025;q2=0.296024;q3=0.303952]",!color=#3c800f]:0.103925,((Burmeistera_litensis_2016_214[&!color=#3c800f]:1.0,Burmeistera_brachyandra_2016_114[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=232.852363;f2=81.233566;f3=33.115833;q1=0.670654;q2=0.233966;q3=0.095379]",!color=#3c800f]:0.699351,Burmeistera_domingensis_2016_192[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=211.950858;f2=131.390338;f3=102.205914;q1=0.475709;q2=0.294897;q3=0.229394]",!color=#3c800f]:0.238214)[&label="[pp1=0.999999;pp2=0.000001;pp3=0.000000;f1=203.308889;f2=145.271837;f3=102.896895;q1=0.450319;q2=0.321770;q3=0.227911]",!color=#3c800f]:0.191143,Burmeistera_holm-nielsenii_2016_210[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=260.499485;f2=62.603486;f3=107.663206;q1=0.604735;q2=0.145331;q3=0.249934]",!color=#3c800f]:0.519197)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=219.257194;f2=116.419005;f3=85.567641;q1=0.520499;q2=0.276370;q3=0.203131]",!color=#3c800f]:0.326978,((((((((((Burmeistera_almedae_2016_001[&!color=#3c800f]:1.0,Burmeistera_obtusifolia_2016_108[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=222.377165;f2=95.745945;f3=100.010841;q1=0.531832;q2=0.228984;q3=0.239184]",!color=#3c800f]:0.350757,Burmeistera_zurquiensis_2016_098[&!color=#3c800f]:1.0)[&label="[pp1=0.999874;pp2=0.000109;pp3=0.000016;f1=129.483973;f2=97.027834;f3=60.620161;q1=0.450956;q2=0.337921;q3=0.211123]",!color=#3c800f]:0.191266,Bur_vulgaris_LL32_Lago163_L1[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=250.661382;f2=31.707977;f3=13.159410;q1=0.848179;q2=0.107292;q3=0.044528]",!color=#3c800f]:1.460925,(Burmeistera_loejtnantii_2016_006[&!color=#3c800f]:1.0,Burmeistera_aspera_2016_089[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=335.074149;f2=41.190614;f3=38.524824;q1=0.807817;q2=0.099305;q3=0.092878]",!color=#3c800f]:1.233784)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=316.245758;f2=59.224103;f3=49.755915;q1=0.743713;q2=0.139277;q3=0.117011]",!color=#3c800f]:0.949205,(Burmeistera_smaragdi_2016_236[&!color=#3c800f]:1.0,Burmeistera_tenuiflora_2016_158[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=349.096474;f2=35.384023;f3=41.294171;q1=0.819909;q2=0.083105;q3=0.096986]",!color=#3c800f]:1.298216)[&label="[pp1=0.640867;pp2=0.057295;pp3=0.301837;f1=154.548075;f2=123.852693;f3=148.683145;q1=0.361868;q2=0.289996;q3=0.348136]",!color=#3c800f]:0.042421,((Burmeistera_succulenta_2016_143[&!color=#3c800f]:1.0,(Burmeistera_succulenta_E_2016_229[&!color=#3c800f]:1.0,(Burmeistera_huacamayensis_2016_115[&!color=#3c800f]:1.0,Burmeistera_pallida_ramosa_succulenta_2016_112[&!color=#3c800f]:1.0)[&label="[pp1=0.997157;pp2=0.002257;pp3=0.000586;f1=167.842072;f2=134.977491;f3=106.387186;q1=0.410164;q2=0.329852;q3=0.259984]",!color=#3c800f]:0.120753)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=378.431867;f2=28.763406;f3=30.290597;q1=0.865015;q2=0.065747;q3=0.069238]",!color=#3c800f]:1.582618)[&label="[pp1=0.992356;pp2=0.007448;pp3=0.000196;f1=164.921143;f2=146.213045;f3=85.014794;q1=0.416311;q2=0.369086;q3=0.214603]",!color=#3c800f]:0.131127,Burmeistera_cylindrocarpa_2016_235[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=209.921275;f2=125.445989;f3=77.326869;q1=0.508661;q2=0.303968;q3=0.187371]",!color=#3c800f]:0.302656)[&label="[pp1=0.999394;pp2=0.000592;pp3=0.000014;f1=107.398953;f2=87.914593;f3=36.268979;q1=0.463761;q2=0.379625;q3=0.156614]",!color=#3c800f]:0.213999,Burmeistera_arbusculifera_2016_097[&!color=#3c800f]:1.0)[&label="[pp1=0.998169;pp2=0.001802;pp3=0.000029;f1=97.965339;f2=82.244866;f3=30.898379;q1=0.464052;q2=0.389586;q3=0.146362]",!color=#3c800f]:0.214179,Burmeistera_ruby_2016_186[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=180.356057;f2=132.538012;f3=73.795774;q1=0.466410;q2=0.342750;q3=0.190840]",!color=#3c800f]:0.220411,(((Burmeistera_crispiloba_2016_201[&!color=#3c800f]:1.0,Bur_toroensis_A195_Lago302_L2[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=125.156342;f2=74.523547;f3=47.336555;q1=0.506672;q2=0.301695;q3=0.191633]",!color=#3c800f]:0.296984,(Burmeistera_sodiroana_2016_197[&!color=#3c800f]:1.0,(Burmeistera_succulenta_2016_188[&!color=#3c800f]:1.0,(Bur_sp_A405_Lago980[&!color=#3c800f]:1.0,Bur_succulenta_A193_CDB297_L2[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=146.512866;f2=74.670397;f3=53.040894;q1=0.534281;q2=0.272297;q3=0.193422]",!color=#3c800f]:0.354549)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=296.548013;f2=68.121742;f3=31.569882;q1=0.748406;q2=0.171921;q3=0.079674]",!color=#3c800f]:0.967012)[&label="[pp1=0.974658;pp2=0.025110;pp3=0.000233;f1=173.072948;f2=159.714690;f3=87.276272;q1=0.412016;q2=0.380215;q3=0.207769]",!color=#3c800f]:0.123927)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=360.779020;f2=24.202177;f3=29.391453;q1=0.870663;q2=0.058407;q3=0.070930]",!color=#3c800f]:1.623794,(Burmeistera_resupinata_2016_240[&!color=#3c800f]:1.0,Burmeistera_resupinata_var_heilbornii_2016_116[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=408.372238;f2=19.540818;f3=16.916721;q1=0.918042;q2=0.043929;q3=0.038030]",!color=#3c800f]:2.071264)[&label="[pp1=0.927594;pp2=0.003108;pp3=0.069298;f1=159.378095;f2=97.380146;f3=147.007169;q1=0.394729;q2=0.241180;q3=0.364091]",!color=#3c800f]:0.095005)[&label="[pp1=0.580639;pp2=0.413399;pp3=0.005962;f1=151.925269;f2=150.359317;f3=93.810983;q1=0.383557;q2=0.379604;q3=0.236839]",!color=#3c800f]:0.076759,Burmeistera_crassifolia_2016_200[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=201.740498;f2=112.970115;f3=85.362626;q1=0.504259;q2=0.282374;q3=0.213367]",!color=#3c800f]:0.293703)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=199.925743;f2=132.353758;f3=96.312810;q1=0.466471;q2=0.308810;q3=0.224719]",!color=#3c800f]:0.220743,((((Burmeistera_flava_sp_nova_2016_111[&!color=#3c800f]:1.0,Burmeistera_parviflora_LL_20[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=49.854604;f2=13.679231;f3=17.853149;q1=0.612562;q2=0.168076;q3=0.219361]",!color=#3c800f]:0.523726,(Burmeistera_mcvaughii_2016_155[&!color=#3c800f]:1.0,Burmeistera_utleyi_2016_156[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=190.963624;f2=30.577428;f3=143.454854;q1=0.523194;q2=0.083775;q3=0.393031]",!color=#3c800f]:0.332187)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=314.142941;f2=16.672983;f3=23.831580;q1=0.885789;q2=0.047013;q3=0.067198]",!color=#3c800f]:1.742672,((((((Burmeistera_panamensis_2016_151[&!color=#3c800f]:1.0,(Burmeistera_olive_2016_126[&!color=#3c800f]:1.0,Burmeistera_curly_2016_123[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=335.677463;f2=61.097601;f3=57.588872;q1=0.738785;q2=0.134468;q3=0.126746]",!color=#3c800f]:0.930756)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=248.407730;f2=111.312908;f3=94.136857;q1=0.547325;q2=0.245260;q3=0.207415]",!color=#3c800f]:0.384462,(Burmeistera_hojota_2016_127[&!color=#3c800f]:1.0,Burmeistera_purple_2016_167[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=290.100240;f2=89.365532;f3=73.042987;q1=0.641093;q2=0.197489;q3=0.161418]",!color=#3c800f]:0.615296)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=213.981786;f2=51.520436;f3=55.744116;q1=0.666099;q2=0.160377;q3=0.173525]",!color=#3c800f]:0.685273,Bur_sp_A374_Lago930[&!color=#3c800f]:1.0)[&label="[pp1=0.990467;pp2=0.008913;pp3=0.000620;f1=124.336559;f2=106.083135;f3=64.741849;q1=0.421249;q2=0.359407;q3=0.219344]",!color=#3c800f]:0.138964,(Bur_sp_AMB375_Lago991[&!color=#3c800f]:1.0,Burmeistera_bullatifolia_2016_129[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=183.697345;f2=27.265818;f3=49.105358;q1=0.706342;q2=0.104841;q3=0.188817]",!color=#3c800f]:0.810703)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=323.580313;f2=40.222408;f3=37.767571;q1=0.805787;q2=0.100163;q3=0.094050]",!color=#3c800f]:1.223084,Burmeistera_brighamioides_2016_121[&!color=#3c800f]:1.0)[&label="[pp1=0.999963;pp2=0.000025;pp3=0.000013;f1=116.157083;f2=73.968814;f3=60.436912;q1=0.463585;q2=0.295211;q3=0.241205]",!color=#3c800f]:0.213952,Bur_sp_A376_Lago936[&!color=#3c800f]:1.0)[&label="[pp1=0.999041;pp2=0.000863;pp3=0.000096;f1=113.830467;f2=89.234952;f3=53.143867;q1=0.444287;q2=0.348289;q3=0.207424]",!color=#3c800f]:0.178935)[&label="[pp1=0.998703;pp2=0.000610;pp3=0.000686;f1=156.128869;f2=108.019076;f3=110.626488;q1=0.416594;q2=0.288224;q3=0.295182]",!color=#3c800f]:0.131509,((Burmeistera_anderssonii_2016_113[&!color=#3c800f]:1.0,Burmeistera_ceratocarpa_2016_233[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=434.763189;f2=15.750679;f3=32.041166;q1=0.900961;q2=0.032640;q3=0.066399]",!color=#3c800f]:1.888137,Burmeistera_lutosa_2016_209[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=386.603604;f2=15.772009;f3=19.848669;q1=0.915636;q2=0.037355;q3=0.047010]",!color=#3c800f]:2.041824)[&label="[pp1=0.999974;pp2=0.000010;pp3=0.000016;f1=172.480227;f2=104.011116;f3=116.619262;q1=0.438758;q2=0.264585;q3=0.296658]",!color=#3c800f]:0.170155)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=180.053552;f2=66.169688;f3=92.308652;q1=0.531866;q2=0.195461;q3=0.272673]",!collapse={"collapsed",0.0},!color=#3c800f]:0.350195,Burmeistera_xerampelina_2016_086[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=206.194916;f2=51.082503;f3=59.127323;q1=0.651681;q2=0.161447;q3=0.186872]",!color=#3c800f]:0.643294,(((Centro_rex_A367_Lago806[&!color=#3c800f]:1.0,Centro_foetidus_A358_Lago989[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=140.373659;f2=30.836833;f3=44.973550;q1=0.649325;q2=0.142642;q3=0.208034]",!color=#3c800f]:0.63394,(LL6_C_smithii[&!color=#3c800f]:1.0,Centro_smithii_A184_Lago281_L2[&!color=#3c800f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=190.067110;f2=23.113597;f3=25.873221;q1=0.795080;q2=0.096688;q3=0.108232]",!color=#3c800f]:1.163639)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=139.065300;f2=71.079005;f3=69.153521;q1=0.497910;q2=0.254492;q3=0.247598]",!color=#3c800f]:0.27998,LL69_C_nigricans[&!color=#3c800f]:1.0)[&label="[pp1=0.925959;pp2=0.002118;pp3=0.071923;f1=132.132731;f2=72.437492;f3=121.869594;q1=0.404769;q2=0.221902;q3=0.373329]",!color=#3c800f]:0.111266)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=243.296365;f2=43.742384;f3=58.712102;q1=0.703675;q2=0.126514;q3=0.169810]",!color=#3c800f]:0.80401,(((((LL165_C_macbridei[&!color=#f09218]:1.0,(Centro_nervosus_A181_Lago412_L2[&!color=#f09218]:1.0,Centro_palmanus_LL193_L1[&!color=#f09218]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=90.365967;f2=16.146002;f3=27.703713;q1=0.673289;q2=0.120299;q3=0.206412]",!color=#f09218]:0.698089)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=138.845138;f2=84.021658;f3=32.314539;q1=0.544104;q2=0.329263;q3=0.126634]",!color=#f09218]:0.375377,LL47_C_grandidentatus[&!color=#f09218]:1.0)[&label="[pp1=0.581474;pp2=0.170808;pp3=0.247718;f1=92.910240;f2=81.804723;f3=85.993894;q1=0.356375;q2=0.313778;q3=0.329846]",!color=#f09218]:0.033061,Centro_argutus_A177_Lago319_L2[&!color=#f09218]:1.0)[&label="[pp1=0.614356;pp2=0.151267;pp3=0.234377;f1=107.999851;f2=94.392163;f3=99.808113;q1=0.357379;q2=0.312350;q3=0.330272]",!color=#f09218]:0.034902,((((((Centro_sp_A332_Lago766[&!color=#f09218]:1.0,Centro_ferrugineus_A348_Lago662[&!color=#f09218]:1.0)[&label="[pp1=0.948645;pp2=0.020320;pp3=0.031035;f1=99.193943;f2=72.040958;f3=78.143952;q1=0.397764;q2=0.288882;q3=0.313354]",!color=#f09218]:0.099006,(Centro_sp_A435_Lago746[&!color=#f09218]:1.0,Centro_sp_A425_Lago710[&!color=#f09218]:1.0)[&label="[pp1=0.999799;pp2=0.000142;pp3=0.000059;f1=119.813225;f2=82.523987;f3=65.100754;q1=0.448004;q2=0.308572;q3=0.243424]",!color=#f09218]:0.18573)[&label="[pp1=0.992782;pp2=0.004416;pp3=0.002802;f1=117.048998;f2=86.513757;f3=78.563433;q1=0.414882;q2=0.306649;q3=0.278469]",!color=#f09218]:0.127975,Centro_sp_A407_Lago867[&!color=#f09218]:1.0)[&label="[pp1=0.511589;pp2=0.066500;pp3=0.421911;f1=66.619975;f2=48.693536;f3=65.619084;q1=0.368203;q2=0.269125;q3=0.362671]",!color=#f09218]:0.050524,Centro_sp_A428_Lago874[&!color=#f09218]:1.0)[&label="[pp1=0.999999;pp2=0.000000;pp3=0.000000;f1=107.693553;f2=58.301444;f3=48.700634;q1=0.501610;q2=0.271554;q3=0.226836]",!color=#f09218]:0.286253,(LL61_C_asclepideus[&!color=#f09218]:1.0,Centro_asclepiadeus_A359_JAS4801[&!color=#f09218]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=137.843517;f2=56.683872;f3=67.450622;q1=0.526164;q2=0.216369;q3=0.257467]",!color=#f09218]:0.337216)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=154.978129;f2=84.476840;f3=89.348844;q1=0.471339;q2=0.256922;q3=0.271739]",!color=#f09218]:0.229243,((Centro_yarumalensis_A404_Lago944[&!color=#f09218]:1.0,Centro_weberbaueri_A197_Lago328_L2[&!color=#f09218]:1.0)[&label="[pp1=0.690945;pp2=0.222393;pp3=0.086662;f1=50.709942;f2=45.086189;f3=37.016764;q1=0.381815;q2=0.339471;q3=0.278714]",!color=#f09218]:0.070897,Centro_valerii_A186_Lago177_L2[&!color=#f09218]:1.0)[&label="[pp1=0.672846;pp2=0.283451;pp3=0.043704;f1=78.856427;f2=74.413690;f3=54.665770;q1=0.379234;q2=0.357868;q3=0.262897]",!color=#f09218]:0.068417)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=188.102151;f2=76.694426;f3=72.196443;q1=0.558178;q2=0.227585;q3=0.214237]",!color=#f09218]:0.407653)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=219.810898;f2=59.421339;f3=91.061604;q1=0.593612;q2=0.160471;q3=0.245917]",!color=#f09218]:0.491056,LL329_S_nematosepalus:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=189.432798;f2=128.985622;f3=41.897343;q1=0.525741;q2=0.357979;q3=0.116280]"]:0.337473)[&label="[pp1=0.640832;pp2=0.358075;pp3=0.001093;f1=129.266143;f2=127.360608;f3=61.278193;q1=0.406619;q2=0.400625;q3=0.192756]"]:0.114307,LL328_S_giganteus:1.0)[&label="[pp1=0.952460;pp2=0.011898;pp3=0.035642;f1=122.455317;f2=85.357763;f3=102.823219;q1=0.394208;q2=0.274784;q3=0.331008]"]:0.093668,((Siph_matthaei_A207_Lago320_L3:1.0,(LL155_S_mattiaei:1.0,Siph_secundus_A212_Lago313_L3:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=117.823111;f2=29.975686;f3=34.236326;q1=0.647255;q2=0.164670;q3=0.188075]"]:0.626569)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=189.549268;f2=9.721981;f3=16.569915;q1=0.878189;q2=0.045042;q3=0.076769]"]:1.66711,(LL159_S_jelskii:1.0,Siph_jelskii_A215_Lago321_L3:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=218.201282;f2=8.559223;f3=10.166331;q1=0.920965;q2=0.036126;q3=0.042909]"]:2.084583)[&label="[pp1=0.980830;pp2=0.009212;pp3=0.009957;f1=116.009772;f2=84.888748;f3=86.186559;q1=0.404095;q2=0.295692;q3=0.300213]"]:0.109859)[&label="[pp1=0.765663;pp2=0.108005;pp3=0.126332;f1=68.334901;f2=55.141792;f3=56.777464;q1=0.379103;q2=0.305911;q3=0.314986]"]:0.067762,LL373_S_sangineus:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=103.294441;f2=39.497397;f3=38.193301;q1=0.570734;q2=0.218236;q3=0.211030]"]:0.432935,(((((LL180_C_viriduliflora[&!color=#001fcf]:1.0,Centro_peruvianus_A182_Lago386_L2[&!color=#001fcf]:1.0)[&label="[pp1=0.999994;pp2=0.000004;pp3=0.000002;f1=131.985828;f2=83.892874;f3=66.129700;q1=0.468021;q2=0.297484;q3=0.234495]",!color=#001fcf]:0.222582,(LL194_C_perlongus[&!color=#001fcf]:1.0,(LL248_C_simulans[&!color=#001fcf]:1.0,LL195_C_dianae[&!color=#001fcf]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=225.355650;f2=55.120194;f3=91.026422;q1=0.606606;q2=0.148371;q3=0.245023]",!color=#001fcf]:0.523349)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=254.641355;f2=58.984746;f3=57.775318;q1=0.685623;q2=0.158817;q3=0.155560]",!color=#001fcf]:0.745858)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=199.730755;f2=85.514384;f3=111.203166;q1=0.503800;q2=0.215701;q3=0.280499]",!color=#001fcf]:0.29276,(((Centro_incanus_A1_Lago423_L4[&!color=#001fcf]:1.0,LL85_C_incanus[&!color=#001fcf]:1.0)[&label="[pp1=0.902646;pp2=0.041097;pp3=0.056257;f1=115.560202;f2=90.568957;f3=95.273487;q1=0.383408;q2=0.300492;q3=0.316100]",!color=#001fcf]:0.076029,LL87_C_incanus_pink[&!color=#001fcf]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=271.515591;f2=52.734490;f3=65.047878;q1=0.697449;q2=0.135460;q3=0.167090]",!color=#001fcf]:0.784152,LL49_C_incanus[&!color=#001fcf]:1.0)[&label="[pp1=0.999998;pp2=0.000001;pp3=0.000002;f1=175.205084;f2=96.693405;f3=115.460890;q1=0.452306;q2=0.249622;q3=0.298072]",!color=#001fcf]:0.19445)[&label="[pp1=0.999827;pp2=0.000014;pp3=0.000159;f1=181.622385;f2=93.825033;f3=146.597307;q1=0.430339;q2=0.222311;q3=0.347350]",!color=#001fcf]:0.155465,(((Centro_mandonis_A12_Lago193_L4[&!color=#001fcf]:1.0,LL86_C_mandonis[&!color=#001fcf]:1.0)[&label="[pp1=0.999991;pp2=0.000007;pp3=0.000002;f1=119.678995;f2=78.811145;f3=53.857701;q1=0.474262;q2=0.312312;q3=0.213426]",!color=#001fcf]:0.233933,Centro_mandonis_A180_Lagosn_L2[&!color=#001fcf]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=170.123642;f2=67.063302;f3=44.846589;q1=0.603204;q2=0.237785;q3=0.159012]",!color=#001fcf]:0.51351,(LL83_C_brittonianus[&!color=#001fcf]:1.0,Centro_britto_A26_Lago427_L4[&!color=#001fcf]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=180.120342;f2=48.957770;f3=39.076555;q1=0.671703;q2=0.182573;q3=0.145724]",!color=#001fcf]:0.700799)[&label="[pp1=0.990127;pp2=0.001686;pp3=0.008187;f1=156.842874;f2=100.642251;f3=130.907588;q1=0.403825;q2=0.259125;q3=0.337050]",!color=#001fcf]:0.110019)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=339.576913;f2=37.052875;f3=42.483649;q1=0.810227;q2=0.088408;q3=0.101366]",!color=#001fcf]:1.246349,(((Siph_boliviensis_A210_Lago378_L3[&!color=#9ee8f0]:1.0,LL90_S_boliviensis[&!color=#9ee8f0]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=245.019322;f2=18.766933;f3=28.142382;q1=0.839312;q2=0.064286;q3=0.096402]",!color=#9ee8f0]:1.405154,((LL98_S_tunicatus[&!color=#9ee8f0]:1.0,LL102_S_siberiensis[&!color=#9ee8f0]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=217.607537;f2=103.190626;f3=22.787363;q1=0.633343;q2=0.300335;q3=0.066322]",!color=#9ee8f0]:0.592863,LL332_S_umbellatus[&!color=#9ee8f0]:1.0)[&label="[pp1=0.999998;pp2=0.000002;pp3=0.000000;f1=171.468288;f2=144.433160;f3=35.753003;q1=0.487604;q2=0.410725;q3=0.101671]",!color=#9ee8f0]:0.260499)[&label="[pp1=0.992681;pp2=0.007300;pp3=0.000019;f1=150.295161;f2=136.683352;f3=56.798161;q1=0.437188;q2=0.397593;q3=0.165218]",!color=#9ee8f0]:0.167095,(LL97_S_tunarensis[&!color=#9ee8f0]:1.0,Siph_tunarensis_A211_Lago232_L3[&!color=#9ee8f0]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=188.800418;f2=9.595180;f3=3.315757;q1=0.935993;q2=0.047569;q3=0.016438]",!color=#9ee8f0]:2.273643)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=169.440887;f2=117.712726;f3=64.421768;q1=0.481948;q2=0.334815;q3=0.183237]",!color=#9ee8f0]:0.249579)[&label="[pp1=0.999997;pp2=0.000003;pp3=0.000000;f1=182.488393;f2=150.378097;f3=56.449526;q1=0.468741;q2=0.386262;q3=0.144997]"]:0.224783)[&label="[pp1=0.999993;pp2=0.000002;pp3=0.000005;f1=151.135439;f2=76.166499;f3=103.042684;q1=0.457508;q2=0.230567;q3=0.311925]"]:0.203576,(Siph_smilax_A205_Lago248_L1:1.0,LL330_S_smilax:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=388.789503;f2=3.809313;f3=5.251653;q1=0.977225;q2=0.009575;q3=0.013200]"]:3.274458)[&label="[pp1=0.668393;pp2=0.021211;pp3=0.310396;f1=120.887201;f2=82.201836;f3=116.777636;q1=0.377930;q2=0.256988;q3=0.365082]"]:0.067346,(((((((Siph_sp_A350_CMT220[&!color=#bff07f]:1.0,(LL366_S_longibracteolatus[&!color=#bff07f]:1.0,Siph_sp_A406_Lago649[&!color=#bff07f]:1.0)[&label="[pp1=0.993722;pp2=0.000003;pp3=0.006275;f1=135.826291;f2=37.370490;f3=124.353173;q1=0.456482;q2=0.125594;q3=0.417924]",!color=#bff07f]:0.201419)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=195.643792;f2=47.210555;f3=83.010097;q1=0.600384;q2=0.144878;q3=0.254738]",!color=#bff07f]:0.5072,LL371_S_planchonis[&!color=#bff07f]:1.0)[&label="[pp1=0.999964;pp2=0.000030;pp3=0.000007;f1=151.078004;f2=109.762885;f3=76.744589;q1=0.447525;q2=0.325141;q3=0.227334]",!color=#bff07f]:0.185493,((Siph_lasiandrus_A370_Lago853[&!color=#bff07f]:1.0,Siph_bogotensis_A347_Lago659[&!color=#bff07f]:1.0)[&label="[pp1=0.996423;pp2=0.001744;pp3=0.001833;f1=114.337761;f2=77.615037;f3=78.499469;q1=0.422765;q2=0.286982;q3=0.290253]",!color=#bff07f]:0.141346,Centro_bogotensis_A365_Lago784[&!color=#bff07f]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=245.434180;f2=29.636952;f3=26.777298;q1=0.813104;q2=0.098185;q3=0.088711]",!color=#bff07f]:1.257475)[&label="[pp1=0.999658;pp2=0.000225;pp3=0.000117;f1=142.536634;f2=100.663728;f3=86.461927;q1=0.432372;q2=0.305354;q3=0.262274]",!color=#bff07f]:0.158522,LL348_S_odontosepalus[&!color=#bff07f]:1.0)[&label="[pp1=0.998644;pp2=0.000650;pp3=0.000706;f1=146.119546;f2=100.261022;f3=102.027958;q1=0.419391;q2=0.287769;q3=0.292840]",!color=#bff07f]:0.136148,((LL325_C_costaricae[&!color=#f090b8]:1.0,(LL35_C_palmanus[&!color=#f090b8]:1.0,Centro_palmanus_A50_Lago193_L4[&!color=#f090b8]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=282.587898;f2=37.866047;f3=14.388400;q1=0.843943;q2=0.113086;q3=0.042971]",!color=#f090b8]:1.436095)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=306.226059;f2=24.387479;f3=21.312050;q1=0.870144;q2=0.069297;q3=0.060558]",!color=#f090b8]:1.617058,(LL327_C_cordifolius[&!color=#f090b8]:1.0,(Centro_sp_A377_Lago939[&!color=#f090b8]:1.0,Centro_sp_A426_Lago940[&!color=#f090b8]:1.0)[&label="[pp1=0.999999;pp2=0.000000;pp3=0.000001;f1=80.899787;f2=31.212074;f3=40.189858;q1=0.531181;q2=0.204936;q3=0.263883]",!color=#f090b8]:0.34471)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=183.503337;f2=57.075508;f3=34.697025;q1=0.666616;q2=0.207339;q3=0.126045]",!color=#f090b8]:0.685784)[&label="[pp1=0.962458;pp2=0.023474;pp3=0.014068;f1=136.328664;f2=110.482655;f3=101.556732;q1=0.391335;q2=0.317143;q3=0.291521]",!color=#f090b8]:0.089184)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=167.736065;f2=21.131465;f3=20.885815;q1=0.799682;q2=0.100744;q3=0.099573]"]:1.183621,LL349_C_tessmannii:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=98.723401;f2=51.177803;f3=20.734823;q1=0.578561;q2=0.299924;q3=0.121515]"]:0.450649,LL91_S_corymbifer:1.0)[&label="[pp1=0.986649;pp2=0.007639;pp3=0.005712;f1=123.733323;f2=93.170154;f3=88.061199;q1=0.405730;q2=0.305511;q3=0.288759]"]:0.112728)[&label="[pp1=0.746460;pp2=0.242864;pp3=0.010676;f1=141.099475;f2=135.392733;f3=91.608290;q1=0.383318;q2=0.367815;q3=0.248868]"]:0.076254,((((Lysipomia_laciniata_A401_Lago780:1.0,Lysipomia_sp_A362_Lago633:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=492.790846;f2=4.327864;f3=6.495078;q1=0.978509;q2=0.008594;q3=0.012897]"]:3.348286,LL104_Lysipomia:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=290.269479;f2=39.572589;f3=38.544878;q1=0.787947;q2=0.107421;q3=0.104631]"]:1.135446,(Lysipomia_vitreola_A217_Antonellii6B_L3:1.0,Lysipomia_muscoides_A364_Lago781:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=199.163406;f2=6.707939;f3=3.209557;q1=0.952566;q2=0.032083;q3=0.015351]"]:2.551661)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=308.636303;f2=1.332796;f3=0.686255;q1=0.993501;q2=0.004290;q3=0.002209]"]:4.23149,((Lobelia_laxiflora_A216_Lago261_L3:1.0,(LL368_S_manntiaeflorus:1.0,Siph_manettiflorus_A200_Herber_L2:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=88.131322;f2=3.592264;f3=0.466385;q1=0.955975;q2=0.038966;q3=0.005059]"]:2.508076)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=186.966285;f2=10.833955;f3=12.298335;q1=0.889898;q2=0.051566;q3=0.058536]"]:1.763309,(Lobelia_excelsa_Lagosn_L1:1.0,LL350_L_tupa:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=123.767757;f2=8.742552;f3=5.282341;q1=0.898217;q2=0.063447;q3=0.038335]"]:1.817808)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=280.165523;f2=26.453849;f3=17.745989;q1=0.863734;q2=0.081556;q3=0.054710]"]:1.56839)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=330.527490;f2=17.172876;f3=17.432360;q1=0.905226;q2=0.047032;q3=0.047743]"]:1.925038)[&label="[pp1=0.999576;pp2=0.000262;pp3=0.000162;f1=162.348813;f2=116.121738;f3=104.949005;q1=0.423423;q2=0.302858;q3=0.273718]",!rotate=true]:0.143273,(((((Siph_corynellus_ARC6_weigand5815_L1[&!color=#6802cf,!rotate=true]:1.0,LL93_S_orbignianus[&!color=#6802cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=235.412990;f2=11.824358;f3=35.962251;q1=0.831262;q2=0.041753;q3=0.126986]",!color=#6802cf,!rotate=true]:1.356756,LL269_S_imbricatus[&!color=#6802cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=187.740686;f2=90.718924;f3=63.565452;q1=0.548909;q2=0.265241;q3=0.185850]",!color=#6802cf,!rotate=true]:0.38708,((Siph_rusbyanus_A213_Lago460_L3[&!color=#6802cf,!rotate=true]:1.0,Siph_rusbyanus_A17_Lago460_L4[&!color=#6802cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=180.996689;f2=19.720245;f3=35.512881;q1=0.766189;q2=0.083479;q3=0.150332]",!color=#6802cf,!rotate=true]:1.034058,LL187_S_rusbyanus[&!color=#6802cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=301.949398;f2=26.724253;f3=26.906691;q1=0.849173;q2=0.075157;q3=0.075670]",!color=#6802cf,!rotate=true]:1.470494)[&label="[pp1=0.850152;pp2=0.060728;pp3=0.089120;f1=138.113245;f2=113.165793;f3=119.250378;q1=0.372746;q2=0.305416;q3=0.321838]",!color=#6802cf,!rotate=true]:0.05934,(Siph_clotho_A208_Lago367_L3[&!color=#6802cf,!rotate=true]:1.0,(Siph_andinus_A16_Lago226_L4[&!color=#6802cf,!rotate=true]:1.0,LL94_S_andinus[&!color=#6802cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=292.557278;f2=30.949884;f3=26.010785;q1=0.837031;q2=0.088550;q3=0.074419]",!color=#6802cf,!rotate=true]:1.394182)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=310.883025;f2=27.789731;f3=24.337143;q1=0.856404;q2=0.076554;q3=0.067043]",!color=#6802cf,!rotate=true]:1.519033)[&label="[pp1=0.999930;pp2=0.000068;pp3=0.000002;f1=174.854464;f2=142.906955;f3=77.325337;q1=0.442572;q2=0.361710;q3=0.195717]",!color=#6802cf,!rotate=true]:0.176955,(((122_S_lycioides[&!color=#6802cf,!rotate=true]:1.0,LL378_S_verticillatus[&!color=#6802cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=366.408186;f2=32.165174;f3=36.499860;q1=0.842176;q2=0.073930;q3=0.083894]",!color=#6802cf,!rotate=true]:1.428647,LL365_S_longipedunculatus[&!color=#6802cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=161.656785;f2=28.911420;f3=28.092086;q1=0.739306;q2=0.132221;q3=0.128474]",!color=#6802cf,!rotate=true]:0.926114,LL360_S_fulgens[&!color=#6802cf,!rotate=true]:1.0)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=121.553950;f2=73.536067;f3=17.341360;q1=0.572203;q2=0.346164;q3=0.081633]",!color=#6802cf,!rotate=true]:0.437395)[&label="[pp1=1.000000;pp2=0.000000;pp3=0.000000;f1=282.809389;f2=46.645019;f3=53.195580;q1=0.739081;q2=0.121900;q3=0.139019]",!color=#6802cf,!rotate=true]:0.930724)[&label="[pp1=0.995444;pp2=0.002814;pp3=0.001742;f1=145.430937;f2=109.567396;f3=99.935211;q1=0.409741;q2=0.308698;q3=0.281560]",!rotate=true]:0.119781)[&label="[pp1=0.991323;pp2=0.002754;pp3=0.005923;f1=141.940477;f2=96.706049;f3=111.322502;q1=0.405580;q2=0.276327;q3=0.318092]",!rotate=false]:0.112762)[&label="[pp1=0.508230;pp2=0.231824;pp3=0.259945;f1=98.916037;f2=91.538297;f3=92.824579;q1=0.349182;q2=0.323138;q3=0.327679]",!rotate=false,!color=#f0e402]:0.022175):1.0,Siph_columnae_A357_JAS4781[&!rotate=false,!color=#f0e402]:1.0);
+end;
+
+begin figtree;
+	set appearance.backgroundColorAttribute="Default";
+	set appearance.backgroundColour=#ffffff;
+	set appearance.branchColorAttribute="User selection";
+	set appearance.branchColorGradient=false;
+	set appearance.branchLineWidth=1.0;
+	set appearance.branchMinLineWidth=0.0;
+	set appearance.branchWidthAttribute="Fixed";
+	set appearance.foregroundColour=#000000;
+	set appearance.hilightingGradient=false;
+	set appearance.selectionColour=#2d3680;
+	set branchLabels.colorAttribute="User selection";
+	set branchLabels.displayAttribute="Branch times";
+	set branchLabels.fontName="sansserif";
+	set branchLabels.fontSize=8;
+	set branchLabels.fontStyle=0;
+	set branchLabels.isShown=false;
+	set branchLabels.significantDigits=4;
+	set layout.expansion=0;
+	set layout.layoutType="RECTILINEAR";
+	set layout.zoom=89;
+	set legend.attribute="label";
+	set legend.fontSize=10.0;
+	set legend.isShown=false;
+	set legend.significantDigits=4;
+	set nodeBars.barWidth=4.0;
+	set nodeBars.displayAttribute=null;
+	set nodeBars.isShown=false;
+	set nodeLabels.colorAttribute="User selection";
+	set nodeLabels.displayAttribute="Node ages";
+	set nodeLabels.fontName="sansserif";
+	set nodeLabels.fontSize=8;
+	set nodeLabels.fontStyle=0;
+	set nodeLabels.isShown=false;
+	set nodeLabels.significantDigits=4;
+	set nodeShapeExternal.colourAttribute="User selection";
+	set nodeShapeExternal.isShown=false;
+	set nodeShapeExternal.minSize=10.0;
+	set nodeShapeExternal.scaleType=Width;
+	set nodeShapeExternal.shapeType=Circle;
+	set nodeShapeExternal.size=4.0;
+	set nodeShapeExternal.sizeAttribute="Fixed";
+	set nodeShapeInternal.colourAttribute="User selection";
+	set nodeShapeInternal.isShown=false;
+	set nodeShapeInternal.minSize=10.0;
+	set nodeShapeInternal.scaleType=Width;
+	set nodeShapeInternal.shapeType=Circle;
+	set nodeShapeInternal.size=4.0;
+	set nodeShapeInternal.sizeAttribute="Fixed";
+	set polarLayout.alignTipLabels=false;
+	set polarLayout.angularRange=0;
+	set polarLayout.rootAngle=0;
+	set polarLayout.rootLength=100;
+	set polarLayout.showRoot=true;
+	set radialLayout.spread=0.0;
+	set rectilinearLayout.alignTipLabels=false;
+	set rectilinearLayout.curvature=0;
+	set rectilinearLayout.rootLength=100;
+	set scale.offsetAge=0.0;
+	set scale.rootAge=1.0;
+	set scale.scaleFactor=1.0;
+	set scale.scaleRoot=false;
+	set scaleAxis.automaticScale=true;
+	set scaleAxis.fontSize=8.0;
+	set scaleAxis.isShown=false;
+	set scaleAxis.lineWidth=1.0;
+	set scaleAxis.majorTicks=1.0;
+	set scaleAxis.minorTicks=0.5;
+	set scaleAxis.origin=0.0;
+	set scaleAxis.reverseAxis=false;
+	set scaleAxis.showGrid=true;
+	set scaleBar.automaticScale=true;
+	set scaleBar.fontSize=10.0;
+	set scaleBar.isShown=true;
+	set scaleBar.lineWidth=1.0;
+	set scaleBar.scaleRange=0.0;
+	set tipLabels.colorAttribute="User selection";
+	set tipLabels.displayAttribute="Names";
+	set tipLabels.fontName="sansserif";
+	set tipLabels.fontSize=8;
+	set tipLabels.fontStyle=0;
+	set tipLabels.isShown=true;
+	set tipLabels.significantDigits=4;
+	set trees.order=false;
+	set trees.orderType="increasing";
+	set trees.rooting=true;
+	set trees.rootingType="User Selection";
+	set trees.transform=false;
+	set trees.transformType="cladogram";
+end;
+

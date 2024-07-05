@@ -1,0 +1,134 @@
+---
+title: "overview of methods for Lobelioideae"
+output: github_document
+date: 2024-6-12
+---
+
+1. Do substitution rates vary between lineages?
+
+- Novel method we're developing
+  - Base case of no conflict with species tree, matching taxon sampling, no polytomies [X]
+  - Reconciling gene trees that conflict with species tree []
+- Other methods:
+  - [ClockStaRX](https://github.com/duchene/ClockstaRX/), needs gene trees and species trees, runs in R.
+  - [TreeShrink](https://github.com/uym2/TreeShrink), needs gene trees, runs using Python and R. However, it does not allow R 4.X. We can run older versions of R on Franklin/Darwin at /afs/cs.wisc.edu/s/R-3.5.1, or 3.6.1 or 3.6.2.
+  - [BEAST](https://www.beast2.org/) let's cross this bridge later, it's a bit complex to get going on this one
+  - [TCMM](https://github.com/shayesteh99/TCMM), requires gene trees and species trees in Newick format, uses Python.
+
+2. Is hybridization present in the Centropogonids?
+
+- Summary statistics:
+  - [HyDe?](https://hybridization-detection.readthedocs.io/), uses alignment as input (PHYLIP format, will need to convert probably), a mapping file (mapping individuals to populations/species) and Python v3.6+, returns .csv out with "significant" triplets that have hybridized. Instructions for downloading to cluster [here](https://github.com/cecileane/simulation-ratevariation/blob/fb448ed1191998d64ccf609e70557b399067b74e/notes/software_install.md?plain=1#L5). I have a function for generating the mapping file (assuming a single individual to each species) [here](https://github.com/cecileane/simulation-ratevariation/blob/fb448ed1191998d64ccf609e70557b399067b74e/scripts/infer_networks.jl#L25). I also have [a function](https://github.com/cecileane/simulation-ratevariation/blob/fb448ed1191998d64ccf609e70557b399067b74e/scripts/infer_networks.jl#L241) for automating the HyDe Python call from Julia, might be of use.
+
+example of a Python call, can find the example files this was run on [here](https://github.com/cecileane/simulation-ratevariation/blob/fb448ed1191998d64ccf609e70557b399067b74e/scripts/examples/sequential.phylip) and [here](https://github.com/cecileane/simulation-ratevariation/blob/fb448ed1191998d64ccf609e70557b399067b74e/scripts/examples/map.txt)
+
+```{python}
+run_hyde.py -i scripts/examples/sequential.phylip -m scripts/examples/map.txt -o P1 -n 5 -t 5 -s 12 --prefix scripts/examples/example
+```
+
+    - [f4/ABBA-BABA](https://uqrmaie1.github.io/admixtools/index.html) we can do ABBA-BABA (nearly equivalent to f4) using several different software packages, but it would be best to do this in `admixtools` given we can use the f4 results to infer graphs. We will need to convert alignment to eigenstrat format. Requires R and and two packages, `admixtools` and `tidyverse`.
+
+example code:
+
+```{julia}
+using RCall
+using DataFrames
+using CSV
+using Dates
+using PhyloNetworks
+R"library(admixtools)"
+R"library(rlang)"
+R"suppressWarnings(library(magrittr))"
+R"library(stringr)"
+R"suppressWarnings(library(dplyr))"
+
+rep_dir = "output/" * path * "/" * repstring
+prefix = rep_dir * "/seq"
+R"f2_blocks = f2_from_geno($prefix, blgsize = 10000, adjust_pseudohaploid = TRUE)"
+#calculate f4
+R"f4_alltaxa = f4(f2_blocks, f4mode = TRUE)"
+R"f4_alltaxa = f4_alltaxa %>% rename(f4 = est, f4_se = se, f4_Z = z, f4_P = p)"
+#calculate D
+R"d_alltaxa = f4(f2_blocks, f4mode = FALSE)"
+R"d_alltaxa = d_alltaxa %>% rename(d = est, d_se = se, d_Z = z, d_P = p)"
+#merge dfs- only if the column identies of d & f4 match
+R"stopifnot(d_alltaxa[,1:4]==f4_alltaxa[,1:4])"
+R"f4_d_alltaxa = cbind(f4_alltaxa, d_alltaxa[!names(d_alltaxa) %in% names(f4_alltaxa)])"
+
+#number of graph searchs to do per h
+nruns = 50
+#number of admixture events (h) to look for 
+hsearch = [0, 1, 2, 3, 4, 5] 
+
+graphs_df = DataFrame(newick= String[], score= Float64[], hash= String[],
+                        h_search= Int[], h_est= Int[], irun=Int64[])
+
+logio = open("$rep_dir/graphsearch_log.txt", "w+")
+datetime = Dates.format(Dates.now(), "yyyy-mm-dd HH:MM:SS")
+write(logio, "$datetime\n")
+write(logio, """
+stop_gen = 10000
+stop_gen2 = 100
+plusminus_generations = 100
+numstart = 100
+numgraphs = 50
+------
+""")
+
+for h in hsearch
+  #generate seeds for all 50 runs per h
+  seeds = sample(1:100_000, nruns; replace=false)
+
+    for irun in numruns
+      #index seed
+      irunseed = seeds[irun]
+      #search for graphs
+      #Nick: we should probably change some of these params
+      R"graphs = find_graphs(f2_blocks, outpop = 'chimp', stop_gen = 10000, stop_gen2 = 100, plusminus_generations = 100, numstart = 100, numgraphs = 50, numadmix = $h, seed = $irunseed, return_fstats = TRUE) %>% arrange(score)"
+      #get threshold: either min+10 or fifth smallest score, whichever is larger
+      R"l_threshold = max(graphs$score[[1]]+10, graphs$score[[5]])"
+      #filter for graphs with scores in that threshold
+      R"top_graphs = graphs %>% filter(score <= l_threshold)"
+      R"top_graphs = subset(top_graphs, select = -c(graph, generation, mutation, lasthash))"
+      R"top_graphs$h_search = $h" #insert column with h_search
+
+      @rget top_graphs 
+      top_graphs_edges = top_graphs[!, :"edges"]
+      top_graphs_newick = []
+      top_graphs_hest = []
+      for edgelist in top_graphs_edges
+        net = edgelist_to_net(edgelist[!, "from"], edgelist[!, "to"], 
+                  edgelist[!, "type"], edgelist[!, "weight"])
+        push!(top_graphs_newick, writeTopology(net, internallabel=false))
+        push!(top_graphs_hest, net.numHybrids)
+      end
+
+      insertcols!(top_graphs, 1, :newick => top_graphs_newick)
+      select!(top_graphs, Not(:edges))
+      insertcols!(top_graphs, 6, :h_est => top_graphs_hest)
+        
+      #add top_graphs to df
+      graphs_df= append!(graphs_df, top_graphs)
+
+      irunstring = string(irun, pad = 3)
+      CSV.write("$rep_dir/graphreps/topgraphs$h-$irunstring.csv", graphs_df)
+
+      write(logio, "irun: $irunstring, h_search: $h, seed: $irunseed, time: $elapsed minutes\n")
+      flush(io)
+    end #for each run
+  end #for each h
+  close(logio)
+end
+
+```
+
+- Explicit network inference:
+  - [SNaQ (PhyloNetworks)](https://crsl4.github.io/PhyloNetworks.jl/latest/man/snaq_plot/). We'll have to subsample into smaller groups (20 something max?), there's code in [this thread](https://groups.google.com/g/phylonetworks-users/c/ZFq8X9V2pr4/m/JIjzkc-SEwAJ) for a backbone + small groups approach.
+  - [TinniK](https://github.com/cran/MSCquartets), implemented in MSCQuartets R package v2.0, requires gene trees.
+
+- Other:
+  - Visualizing / quantifying gene tree discordance with [PhyParts](https://bitbucket.org/blackrim/phyparts/src/master/), requires gene trees and species tree, runs using Java and mvn3. Can visualize with [PhyPartsPieCharts](https://github.com/mossmatters/phyloscripts/tree/master/phypartspiecharts), requires Python 2.7+ and ETE3.
+
+3. If yes, does hybridization impact trait evolution?
+
+- [PhyloNetworks](https://crsl4.github.io/PhyloNetworks.jl/latest/man/fitDiscrete/). I'll have to compile some trait data (you can help if you want) for the additional species and we'll have to decide which traits to model (pollination syndrome (discrete), floral color (discrete), might have some data for some continuous floral traits)
