@@ -31,8 +31,8 @@ These clade / subclade names correspond to Lagomarsino et al. 2022. Clades that 
 
 to do: 
 
-- decide on outgroup to include? different one for each clade? []
-    - add to each group's labels []
+- decide on outgroup to include? different one for each clade? [X]
+    - add to each group's labels [X]
 - modify `countquartetsintrees` to give quartets for a subset of taxa, given labels [X]
     - debug pruning trees based on subset given [X]
 - run SNaQ for each group h=0 to max of ??? []
@@ -44,6 +44,7 @@ genetrees = readMultiTopology("data/newgts/all_singlecopy_orthologs_gene_trees.t
 
 #filter Burmeistera from genetrees
 tips = tipLabels(genetrees)
+#use regex to get sample that start either "Bur_sp" or "Burmeistera_sp"
 burmeistera = filter(contains(r"Bur_"), tips)
 append!(burmeistera, filter(contains(r"Burmeistera_"), tips))
 for gt in genetrees
@@ -56,24 +57,32 @@ end
 ```
 
 ```{julia}
-samples = DataFrame(CSV.File("samples2024.csv",stringtype=String))
+samples = DataFrame(CSV.File("samples2024.csv",stringtype=String)) #load df from CSV
+#filter out sample from 2022 paper not included in the new gts
 filter!(:excluded2024 => excluded2024 -> excluded2024 == false, samples)
-indls_to_sp = Dict{String, String}()
+indls_to_sp = Dict{String, String}() #initialize
+#get individuals from sample column
 indls = unique(samples.sample)
+#loop over every indl to add the indl -> species mapping to dict
 for indl in indls
     df = filter(:sample => sample -> sample == indl, samples)
     indls_to_sp[indl]=only(df.simplename)
 end
 
-cladedict = Dict{String, Vector}()
+cladedict = Dict{String, Vector}() #initialize
+#get vector of unique clade names
 clades = unique(samples.clade2024)
+#loop over every clade to make a dictionary of vectors
+#where the vectors contain the species names that correspond to that clade
 for clade in clades
     df = filter(:clade2024 => clade2024 -> clade2024 == clade, samples)
     cladedict[clade]=unique(df.simplename)
 end
 
-subcladedict = Dict{String, Vector}()
+#do the same for subclades
+subcladedict = Dict{String, Vector}() #initialize
 subclades = unique(samples.subclade2024)
+#skip over rows that don't have subclade identifier
 subclades = collect(skipmissing(subclades))
 for subclade in subclades
     df = dropmissing(samples, :subclade2024)
@@ -114,6 +123,10 @@ subnetwork_names = ["eucentropogonid", "peruvianid", "umbellatus",
                     "andinus", "tupaeformis", "brevilimbatid",
                     "giganteus_burmeisterid", "odontosepalus_colombianid",
                     "correoides_nobilis", "furax_actinothrix"]
+#add outgroup to all clades - this is the outgroup sample with best gt presence %
+for group in subnetwork_groups
+    push!(group, "LL104_Lysipomia")
+end
 ```
 
 ```{julia}
@@ -127,6 +140,7 @@ function countquartets_pruned(tree::Vector{HybridNetwork},
         taxa = unionTaxa(tree)
     elseif whichQ == :labels
         #filter taxon map given taxlabels
+        #fixit: add something about checking that all taxa are in the taxonmap
         filteredtaxonmap = filter(p -> p.second ∈ taxlabels, taxonmap)
         #filter gene trees given indl names in filteredtaxonmap
         #deep copy tree so we don't modify original file
@@ -200,12 +214,75 @@ function countquartets_pruned(tree::Vector{HybridNetwork},
     return quartet, taxa
 end
 
+#loop over all subnetwork groups to calc CF tables and write to csvs
 idx = 1
 for group in subnetwork_groups
     q,t = countquartets_pruned(genetrees, indls_to_sp, group, whichQ= :labels)
     df = writeTableCF(q,t)
     cladenames = split(subnetwork_names[idx], "_labels")[1]
     CSV.write("data/cfs/$cladenames-tableCF.csv", df);
+    idx += 1
+end
+```
+
+```{julia}
+#prune species tree down to each group
+sptree = readTopology("data/newgts/newick.tre")
+
+idx = 1
+for group in subnetwork_groups
+    #make deepcopy
+    cladetree = deepcopy(sptree)
+    #filter taxon map to only include species from our focal clade
+    filteredtaxonmap = filter(p -> p.second ∈ group, indls_to_sp)
+    #get the kets from our filtered dict- should be sample/indl names, not species names
+    filteredsamplenames = collect(keys(filteredtaxonmap))
+    #get vector of sample names to delete- those from other clades
+    tipstodelete = setdiff(collect(keys(indls_to_sp)), filteredsamplenames)
+    #and all the Burmeistera sp.
+    append!(tipstodelete, burmeistera)
+
+    #prune all indls from other groups
+    for tip in tipstodelete
+        deleteleaf!(cladetree,tip) 
+    end    
+
+    cladestring = split(subnetwork_names[idx], "_labels")[1]
+    #remove tips with multiple samples in focal clade
+    #if length of species is unequal to length of individuals
+    if length(group) != length(filteredsamplenames)
+        #if there are multiple clades, split the string
+        #and get a vector of the multiple clades
+        if contains(cladestring, "_")
+            cladenames = split(cladestring, "_")
+        #else, make vector of just the single string to iterate on
+        else cladenames = [cladestring] 
+        end
+        for clade in cladenames
+            #filter samples df for just indls within our focal clade
+            df = filter(:clade2024 => clade2024 -> clade2024 == clade, samples)
+            sort!(df, :gts, rev=true) #sort in descending order of gt presence %
+            #identify dupe indls to remove (those that occur second or more after 
+            #first occurrence - indl of same species with best gt presence %)
+            extraindls = df[nonunique(df, :species, keep=:first), :].sample
+            #remove extra indls
+            for indl in extraindls
+                deleteleaf!(cladetree, indl)
+            end
+        end
+    end
+
+    #rename sp. tree edges to match names in CF table
+    for n in cladetree.node
+        isleaf(n) && (n.name = filteredtaxonmap[n.name])
+    end
+
+    #read in CF table
+    cftable = readTableCF(DataFrame(CSV.File("data/cfs/$cladestring-tableCF.csv"); copycols=false))
+
+    #fixit: give different starting seed each time
+    #fixit: decide on search parameters
+    snaq!(cladetree, cftable, hmax=0, filename="output/$cladestring-net0", seed=1234)
     idx += 1
 end
 ```
