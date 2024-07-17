@@ -128,6 +128,7 @@ end
 
 - Other:
   - Visualizing / quantifying gene tree discordance with [PhyParts](https://bitbucket.org/blackrim/phyparts/src/master/), requires gene trees and species tree, runs using Java and mvn3. Can visualize with [PhyPartsPieCharts](https://github.com/mossmatters/phyloscripts/tree/master/phypartspiecharts), requires Python 2.7+ and ETE3.
+    - Laura also recommends doing this with [QuartetSampling](https://github.com/fephyfofum/quartetsampling). Requires: newick species tree, relaxed phylip alignment. Implemented using Python 3.
 
 3. If yes, does hybridization impact trait evolution?
 
