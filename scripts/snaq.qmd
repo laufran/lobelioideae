@@ -57,7 +57,7 @@ end
 ```
 
 ```{julia}
-samples = DataFrame(CSV.File("samples2024.csv",stringtype=String)) #load df from CSV
+samples = DataFrame(CSV.File("data/sampling_csvs/samples2024.csv",stringtype=String)) #load df from CSV
 #filter out sample from 2022 paper not included in the new gts
 filter!(:excluded2024 => excluded2024 -> excluded2024 == false, samples)
 indls_to_sp = Dict{String, String}() #initialize
@@ -227,7 +227,7 @@ end
 
 ```{julia}
 #prune species tree down to each group
-sptree = readTopology("data/newgts/newick.tre")
+sptree = readTopology("data/newgts/species_tree_newick.tre")
 
 idx = 1
 for group in subnetwork_groups
@@ -282,7 +282,7 @@ for group in subnetwork_groups
 
     #fixit: give different starting seed each time
     #fixit: decide on search parameters
-    snaq!(cladetree, cftable, hmax=0, filename="output/$cladestring-net0", seed=1234)
+    snaq!(cladetree, cftable, hmax=0, filename="output/snaq/$cladestring-net0", seed=1234)
     idx += 1
 end
 ```
