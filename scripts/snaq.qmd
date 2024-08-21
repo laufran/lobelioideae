@@ -16,14 +16,22 @@ Using our new dataset, we have 776 gene trees for many *Burmeistera*, *Siphocamp
 2. breadth: randomly (with weight on well sampled) taking individuals from various subclades to get a "backbone"
 
 Our clades we'll be running at a time for the first approach:
-1. eucentropogonids: 17 individuals, 10 species
-2. brevilimbatids + S. nematosepalus: 17 individuals, 16 species
+1. eucentropogonids: 17 individuals, 9 species
+2. brevilimbatids: 15 individuals, 14 species
 3. andinus: 11 individuals, 8 species
 4. tupaeformis: 14 individuals, 12 species
 5. giganteus grade + burmeisterids: 13 individuals, 8 species
-6. odontosepalus + colombianids + S. corymbifer, S. tessmannii, S. smilax: 17 individuals, 15 species
+    - giganteus: 6 individuals, 4 species
+    - burmeisterids: 5 individuals, 4 species
+6. odontosepalus + colombianids: 14 individuals, 11 species
+    - colombianids: 6 individuals, 4 species
+    - odontosepalus: 8 individuals, 7 species
 7. correoides + nobilis subclades in scandens grade: 10 individuals, 9 species
+    - correoides: 7 individuals, 6 species
+    - nobilis: 3 individuals, 3 species
 8. furax + actinothrix subclade (scandens) + S. asplundii: 10 individuals, 10 species
+    - furax: 4 individuals, 4 species
+    - actinothrix: 5 individuals, 5 species
 9. peruvianids: 16 individuals, 10 species
 10. umbellatus: 7 individuals, 5 species
 
@@ -38,6 +46,7 @@ to do:
 - run SNaQ for each group h=0 to max of ??? []
     - change default arguments? time test? []
 - graft subnetworks to backbone (see google groups convo w Rowan Schley) []
+    - decide what species to include along backbone (rogue ones)
 
 ```{julia}
 genetrees = readMultiTopology("data/newgts/all_singlecopy_orthologs_gene_trees.tre");
@@ -47,6 +56,8 @@ tips = tipLabels(genetrees)
 #use regex to get sample that start either "Bur_sp" or "Burmeistera_sp"
 burmeistera = filter(contains(r"Bur_"), tips)
 append!(burmeistera, filter(contains(r"Burmeistera_"), tips))
+#remove outlier C. palmanus sample that's falling in wrong clade
+push!(burmeistera, "Centro_palmanus_LL193_L1")
 for gt in genetrees
     for tip in burmeistera
         try deleteleaf!(gt,tip) 
@@ -57,7 +68,7 @@ end
 ```
 
 ```{julia}
-samples = DataFrame(CSV.File("data/sampling_csvs/samples2024.csv",stringtype=String)) #load df from CSV
+samples = DataFrame(CSV.File("data/sampling_csvs/subclades.csv",stringtype=String)) #load df from CSV
 #filter out sample from 2022 paper not included in the new gts
 filter!(:excluded2024 => excluded2024 -> excluded2024 == false, samples)
 indls_to_sp = Dict{String, String}() #initialize
@@ -97,16 +108,12 @@ andinus_labels = cladedict["andinus"]
 tupaeformis_labels = cladedict["tupaeformis"]
 
 brevilimbatid_labels = cladedict["brevilimbatid"]
-push!(brevilimbatid_labels, "S_nematosepalus")
 
 giganteus_burmeisterid_labels = cladedict["giganteus"]
 append!(giganteus_burmeisterid_labels, cladedict["burmeisterid"])
 
 odontosepalus_colombianid_labels = cladedict["odontosepalus"]
 append!(odontosepalus_colombianid_labels, cladedict["colombianid"])
-push!(odontosepalus_colombianid_labels, "S_corymbifer")
-push!(odontosepalus_colombianid_labels, "C_tessmannii")
-push!(odontosepalus_colombianid_labels, "S_smilax")
 
 correoides_nobilis_labels = subcladedict["correoides"]
 append!(correoides_nobilis_labels, subcladedict["nobilis"])
@@ -280,9 +287,9 @@ for group in subnetwork_groups
     #read in CF table
     cftable = readTableCF(DataFrame(CSV.File("data/cfs/$cladestring-tableCF.csv"); copycols=false))
 
-    #fixit: give different starting seed each time
-    #fixit: decide on search parameters
-    snaq!(cladetree, cftable, hmax=0, filename="output/snaq/$cladestring-net0", seed=1234)
+    #fixit: give different starting seed each time, log it
+    #fixit: add time check
+    snaq!(cladetree, cftable, hmax=0, runs=30, filename="output/snaq/$cladestring-net0", seed=1234)
     idx += 1
 end
 ```
