@@ -9,6 +9,8 @@ using PhyloNetworks
 using DataFrames
 using CSV
 using StaticArrays
+using Plots
+using PhyloPlots
 ```
 
 Using our new dataset, we have 776 gene trees for many *Burmeistera*, *Siphocampylus*, *Centropogon* and outgroup (*Lobelia sp.*, *S. mannettiflorus*, *Lysipomia sp.*) species. To run SNaQ in tractable sizes (~20 taxa or less), we can take two approaches:
@@ -29,11 +31,13 @@ Our clades we'll be running at a time for the first approach:
 7. correoides + nobilis subclades in scandens grade: 10 individuals, 9 species
     - correoides: 7 individuals, 6 species
     - nobilis: 3 individuals, 3 species
-8. furax + actinothrix subclade (scandens) + S. asplundii: 10 individuals, 10 species
-    - furax: 4 individuals, 4 species
+8. actinothrix subclade (scandens) + S. asplundii: 10 individuals, 10 species
     - actinothrix: 5 individuals, 5 species
+    - S. asplundii: 1 individual, 1 species
 9. peruvianids: 16 individuals, 10 species
 10. umbellatus: 7 individuals, 5 species
+
+    - furax: 4 individuals, 4 species
 
 These clade / subclade names correspond to Lagomarsino et al. 2022. Clades that were grouped together were chosen based on their sister clade status / sizes. The peruvianids + umbellatus clade could potentially be grouped together if we do not include all individuals, and just choose a representative from each species.
 
@@ -43,11 +47,26 @@ to do:
     - add to each group's labels [X]
 - modify `countquartetsintrees` to give quartets for a subset of taxa, given labels [X]
     - debug pruning trees based on subset given [X]
-- run SNaQ for each group h=0 to max of ??? []
-    - change default arguments? time test? []
+- run SNaQ for each group h=0 to max of ??? [X]
+    - change default arguments? time test? [X]
 - graft subnetworks to backbone (see google groups convo w Rowan Schley) []
-    - decide what species to include along backbone (rogue ones)
+    - decide what species to include along backbone (rogue ones) []
+        0. Rogue species: S. corymbifer, S. nematosepalus, S. smilax (2), C. tessmannii
+        1. Eucentropogonid:
+        2. Brevilimbatid:
+        3. Andinus:
+        4. Tupaeformis:
+        5. Giganteus + burmeisterids:
+        6. Odontosepalus + colombianids:
+        7. Correoides + nobilis:
+        8. Furax + actinothrix + S. asplundii
+        9. Peruvianids:
+        10. Umbellatus:
 
+     total number of individuals / species: 
+
+
+Has to be run all the time:
 ```{julia}
 genetrees = readMultiTopology("data/newgts/all_singlecopy_orthologs_gene_trees.tre");
 
@@ -67,9 +86,12 @@ for gt in genetrees
 end
 ```
 
+Has to be run all the time:
+Defines the subclades
 ```{julia}
 samples = DataFrame(CSV.File("data/sampling_csvs/subclades.csv",stringtype=String)) #load df from CSV
 #filter out sample from 2022 paper not included in the new gts
+#filter out palmanus sample that falls in the wrong clade
 filter!(:excluded2024 => excluded2024 -> excluded2024 == false, samples)
 indls_to_sp = Dict{String, String}() #initialize
 #get individuals from sample column
@@ -118,24 +140,25 @@ append!(odontosepalus_colombianid_labels, cladedict["colombianid"])
 correoides_nobilis_labels = subcladedict["correoides"]
 append!(correoides_nobilis_labels, subcladedict["nobilis"])
 
-furax_actinothrix_labels = cladedict["furax"]
-append!(furax_actinothrix_labels, subcladedict["actinothrix"])
-push!(furax_actinothrix_labels, "S_asplundii")
+actinothrix_labels = subcladedict["actinothrix"]
+#append!(furax_actinothrix_labels, subcladedict["actinothrix"])
+push!(actinothrix_labels, "S_asplundii")
 
 subnetwork_groups = [eucentropogonid_labels, peruvianid_labels, umbellatus_labels,
                     andinus_labels, tupaeformis_labels, brevilimbatid_labels,
                     giganteus_burmeisterid_labels, odontosepalus_colombianid_labels,
-                    correoides_nobilis_labels, furax_actinothrix_labels]
+                    correoides_nobilis_labels, actinothrix_labels]
 subnetwork_names = ["eucentropogonid", "peruvianid", "umbellatus",
                     "andinus", "tupaeformis", "brevilimbatid",
                     "giganteus_burmeisterid", "odontosepalus_colombianid",
-                    "correoides_nobilis", "furax_actinothrix"]
+                    "correoides_nobilis", "actinothrix"]
 #add outgroup to all clades - this is the outgroup sample with best gt presence %
 for group in subnetwork_groups
-    push!(group, "LL104_Lysipomia")
+    push!(group, "Lysipomia_sp2")
 end
 ```
 
+Should not be run all the time:
 ```{julia}
 function countquartets_pruned(tree::Vector{HybridNetwork},
                            taxonmap::Dict{String,String},
@@ -200,7 +223,7 @@ function countquartets_pruned(tree::Vector{HybridNetwork},
         print("0+" * "-"^nstars * "+100%\n  ")
         stars = 0
         nextstar = Integer(ceil(ntrees_perstar))
-    end
+    end  
     for i in 1:totalt # number of times each quartet resolution is seen in each tree
         PhyloNetworks.countquartetsintrees!(quartet, tree[i], whichQ, weight_byallele, nCk, taxonnumber, taxonmap)
         if showprogressbar && i >= nextstar
@@ -233,11 +256,13 @@ end
 ```
 
 ```{julia}
-#prune species tree down to each group
-sptree = readTopology("data/newgts/species_tree_newick.tre")
+function run_snaq_on_subclade(clade, h, sptree, subnetwork_groups, subnetwork_names)
+    label = split(clade,"-")[1] #get label from CSV name
+    group_num = findfirst(==(label), subnetwork_names)
+    group = subnetwork_groups[group_num]
+    #subnetwork_names is parallel to subnetwork_groups
+    #with values being the clade label, so access the labels through the index of the label
 
-idx = 1
-for group in subnetwork_groups
     #make deepcopy
     cladetree = deepcopy(sptree)
     #filter taxon map to only include species from our focal clade
@@ -254,7 +279,7 @@ for group in subnetwork_groups
         deleteleaf!(cladetree,tip) 
     end    
 
-    cladestring = split(subnetwork_names[idx], "_labels")[1]
+    cladestring = split(subnetwork_names[group_num], "_labels")[1]
     #remove tips with multiple samples in focal clade
     #if length of species is unequal to length of individuals
     if length(group) != length(filteredsamplenames)
@@ -284,12 +309,107 @@ for group in subnetwork_groups
         isleaf(n) && (n.name = filteredtaxonmap[n.name])
     end
 
-    #read in CF table
-    cftable = readTableCF(DataFrame(CSV.File("data/cfs/$cladestring-tableCF.csv"); copycols=false))
+    #read in CF table for clade
+    cftable = readTableCF(DataFrame(CSV.File("data/cfs/$clade"); copycols=false))
+            
+    #randomize and log seed
+    rand_seed = rand(1000:9999)
+    row = DataFrame(clade = ["$cladestring"], h = ["$h"], seed = ["$rand_seed"])
+    CSV.write("output/snaq/seed_logs.csv", row, append = true)
+    snaq!(cladetree, cftable, hmax=h, runs=30, filename="output/snaq/$cladestring-hmax$h", seed=rand_seed)
 
-    #fixit: give different starting seed each time, log it
-    #fixit: add time check
-    snaq!(cladetree, cftable, hmax=0, runs=30, filename="output/snaq/$cladestring-net0", seed=1234)
-    idx += 1
 end
+```
+
+This block should be run on a cluster to use multiprocessing:
+fixit: deal with blocks above and using .jl script
+
+```{julia}
+vals = [0, 1, 2, 3]
+filenames = readdir("data/cfs")
+sptree = readTopology("data/newgts/species_tree_newick.tre")
+
+clades_h_list = collect((clade,h)
+    for h in 0:3
+    for clade in filenames)
+
+@sync @distributed for (clade, h) in clades_h_list[27:40]
+    cladeName = split(clade,"-")[1]  
+    if isfile("output/snaq/$cladeName-hmax$h.out")
+        println("SNAQ for $cladeName, h = $h already present. Skipping")
+        continue
+    else
+        println("Running SNAQ for $cladeName, h = $h")
+        run_snaq_on_subclade(clade, h, sptree, subnetwork_groups, subnetwork_names)
+    end
+end
+```
+
+## Visualizing best h-vals
+
+Get nets and scores from logs, store in a dict:
+```{julia}
+vals = [0, 1, 2, 3]
+subclade_scores = Dict{String, Vector}()
+
+for clade in subnetwork_names
+    clade_scores = []
+    clade_nets = []
+
+    for h in vals
+        #open file, get first line
+        filename = "output/snaq/$clade-hmax$h.out"
+        open(filename) do f
+            #first line in log has best scored net/tree
+            firstline = readlines(f)[1]
+            splitfirst = split(firstline, " -Ploglik = ")
+            net = readTopology(splitfirst[1])
+            push!(clade_nets, net)
+            score = parse(Float64, splitfirst[2])
+            push!(clade_scores, score)
+        end
+    end
+
+    subclade_scores[clade] = [clade_scores, clade_nets]
+end
+```
+
+```{julia}
+for (k,v) in subclade_scores
+    #add title with subclade name (k)
+    #add labels for x and y axis
+    plot(collect(0:3), v[1])
+    savefig("$k-hvals.pdf")
+end
+```
+
+```{julia}
+supported_nets = []
+#second item is list of networks
+#last value is best supported h (+1 because we have 0 in there)
+push!(supported_nets, subclade_scores["actinothrix"][2][2]);
+push!(supported_nets, subclade_scores["andinus"][2][2]);
+push!(supported_nets, subclade_scores["brevilimbatid"][2][4]);
+push!(supported_nets, subclade_scores["correoides_nobilis"][2][3]);
+push!(supported_nets, subclade_scores["eucentropogonid"][2][3]);
+push!(supported_nets, subclade_scores["giganteus_burmeisterid"][2][2]);
+push!(supported_nets, subclade_scores["odontosepalus_colombianid"][2][2]);
+push!(supported_nets, subclade_scores["peruvianid"][2][2]);
+push!(supported_nets, subclade_scores["tupaeformis"][2][2]);
+push!(supported_nets, subclade_scores["umbellatus"][2][2]);
+
+supported_nets
+
+for net in supported_nets
+    try
+        rootatnode!(net, "Lysipomia_sp2")
+    catch e
+    end
+end
+
+#fixit: naming convention for this
+PhyloPlots.plot(supported_nets[1])
+PhyloPlots.plot(supported_nets[2])
+PhyloPlots.plot(supported_nets[5])
+PhyloPlots.plot(supported_nets[6])
 ```
