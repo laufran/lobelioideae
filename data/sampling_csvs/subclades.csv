@@ -1,0 +1,144 @@
+sample,genus,species,clade2024,subclade2024,fruit,pollinator,obsORpred,pollsource,gts,notes,new2024sample,excluded2024,simplename
+LL94_S_andinus,Siphocampylus,andinus,andinus,,capsule,hummingbird,predicted,2017- same sample,0.75128866,,FALSE,FALSE,S_andinus
+Siph_andinus_A16_Lago226_L4,Siphocampylus,andinus,andinus,,capsule,hummingbird,predicted,2017- different sample,0.729381443,,TRUE,FALSE,S_andinus
+Siph_clotho_A208_Lago367_L3,Siphocampylus,clotho,andinus,,capsule,hummingbird,predicted,2017- different sample,0.671391753,,TRUE,FALSE,S_clotho
+Siph_corynellus_ARC6_weigand5815_L1,Siphocampylus,corynellus,andinus,,capsule,bat,predicted,herbarium samples + species description as white/pale yellow?,0.529639175,,TRUE,FALSE,S_corynellus
+LL360_S_fulgens,Siphocampylus,fulgens,andinus,,capsule,hummingbird,predicted,2017- different sample,0.396907216,,TRUE,FALSE,S_fulgens
+LL365_S_longipedunculatus,Siphocampylus,longipedunculatus,andinus,,capsule,hummingbird,predicted,2017- different sample,0.75,,FALSE,FALSE,S_longipedunculatus
+122_S_lycioides,Siphocampylus,lycioides,andinus,,capsule,hummingbird,predicted,2017- same sample,0.761597938,in 2024 sample name excludes LL,FALSE,FALSE,S_lycioides
+LL93_S_orbignianus,Siphocampylus,orbignianus,andinus,,capsule,hummingbird,predicted,2017- same sample,0.743556701,,FALSE,FALSE,S_orbignianus
+LL187_S_rusbyanus,Siphocampylus,rusbyanus,andinus,,capsule,bat,predicted,2017- different sample,0.746134021,,FALSE,FALSE,S_rusbyanus
+Siph_rusbyanus_A17_Lago460_L4,Siphocampylus,rusbyanus,andinus,,capsule,bat,predicted,2017- different sample,0.703608247,,TRUE,FALSE,S_rusbyanus
+Siph_rusbyanus_A213_Lago460_L3,Siphocampylus,rusbyanus,andinus,,capsule,bat,predicted,2017- different sample,0.429123711,,TRUE,FALSE,S_rusbyanus
+Centro_argutus_A177_Lago319_L2,Centropogon,argutus,brevilimbatid,,berry,hummingbird,predicted,2017- different sample,0.621134021,,TRUE,FALSE,C_argutus
+Centro_asclepiadeus_A359_JAS4801,Centropogon,asclepiadeus,brevilimbatid,,berry,hummingbird,predicted,2017- different sample,0.541237113,,TRUE,FALSE,C_asclepiadeus
+LL61_C_asclepideus,Centropogon,asclepiadeus,brevilimbatid,,berry,hummingbird,predicted,2017- same sample,0.783505155,sample name mispelled,FALSE,FALSE,C_asclepiadeus
+Centro_sp_A407_Lago867,Centropogon,asclepiadeus,brevilimbatid,,berry,hummingbird,predicted,new prediction based on morphology,0.610824742,,TRUE,FALSE,C_asclepiadeus
+LL37_C_erythraeus,Centropogon,erythraeus,brevilimbatid,,berry,hummingbird,predicted,2017- same sample,0,,FALSE,TRUE,C_erythraeus
+Centro_ferrugineus_A348_Lago662,Centropogon,ferrugineus,brevilimbatid,,berry,hummingbird,predicted,2017- different sample,0.62757732,,TRUE,FALSE,C_ferrugineus
+Centro_sp_A332_Lago766,Centropogon,ferrugineus,brevilimbatid,,berry,hummingbird,predicted,new prediction based on morphology,0.657216495,,TRUE,FALSE,C_ferrugineus
+LL47_C_grandidentatus,Centropogon,grandidentatus,brevilimbatid,,berry,hummingbird,predicted,2017- same sample,0.827319588,,FALSE,FALSE,C_grandidentatus
+LL165_C_macbridei,Centropogon,macbridei,brevilimbatid,,berry,hummingbird,predicted,2017- same sample,0.746134021,,FALSE,FALSE,C_macbridei
+Centro_nervosus_A181_Lago412_L2,Centropogon,nervosus,brevilimbatid,,berry,hummingbird,predicted,2017- different sample,0.572164948,,TRUE,FALSE,C_nervosus
+Centro_palmanus_LL193_L1,Centropogon,palmanus,brevilimbatid,,berry,hummingbird,predicted,2017- different sample,0.338917526,"why is this in a different clade than other palmanus? LPL: Drop this one, shouldn't be..",TRUE,TRUE,C_palmanus
+Centro_sp_A425_Lago710,Centropogon,spnov3,brevilimbatid,,berry,hummingbird,predicted,new prediction based on morphology,0.645618557,need to ID; definitely not any other species in analhysis,TRUE,FALSE,C_spnov3
+Centro_sp_A428_Lago874,Centropogon,spnov4,brevilimbatid,,berry,hummingbird,predicted,new prediction based on morphology,0.400773196,"need to ID; might be C. asclepidaeus but character of pubescence not quite right, but definitely not C. valerii ",TRUE,FALSE,C_spnov4
+Centro_sp_A435_Lago746,Centropogon,spnov5,brevilimbatid,,berry,hummingbird,predicted,new prediction based on morphology,0.679123711,need to ID; no image,TRUE,FALSE,C_spnov5
+Centro_valerii_A186_Lago177_L2,Centropogon,valerii,brevilimbatid,,berry,hummingbird,predicted,2017- different sample,0.463917526,,TRUE,FALSE,C_valerii
+Centro_weberbaueri_A197_Lago328_L2,Centropogon,weberbaueri,brevilimbatid,,berry,hummingbird,predicted,2017- different sample,0.537371134,,TRUE,FALSE,C_weberbaueri
+Centro_yarumalensis_A404_Lago944,Centropogon,yarumalensis,brevilimbatid,,berry,hummingbird,predicted,2017- different sample,0.505154639,,TRUE,FALSE,C_yarumalensis
+Centro_foetidus_A358_Lago989,Centropogon,foetidus,burmeisterid,,berry,bat,predicted,"rex has data, is a synonym",0.68685567,,TRUE,FALSE,C_foetidus
+LL69_C_nigricans,Centropogon,nigricans,burmeisterid,,berry,bat,observed,Muchhala & Thomson 2012,0.835051546,,FALSE,FALSE,C_nigricans
+Centro_rex_A367_Lago806,Centropogon,rex,burmeisterid,,berry,bat,predicted,2017- different sample,0.573453608,"asking Laura whether this is a synonym of foetidus LPL: I've considered them separate entities, but we don't have any good data to support that (very similar overall with some differences, eg calyx). Go ahead and go with the World Flora Online synonym for this work.",TRUE,FALSE,C_foetidus
+Centro_smithii_A184_Lago281_L2,Centropogon,smithii,burmeisterid,,berry,bat,predicted,2017- different sample,0.557989691,,TRUE,FALSE,C_smithii
+LL6_C_smithii,Centropogon,smithii,burmeisterid,,berry,bat,predicted,2017- same sample,0.842783505,,FALSE,FALSE,C_smithii
+LL327_C_cordifolius,Centropogon,cordifolius,colombianid,,berry,hummingbird,predicted,2017- different sample,0.733247423,,FALSE,FALSE,C_cordifolius
+LL325_C_costaricae,Centropogon,costaricae,colombianid,,berry,hummingbird,predicted,2017- different sample,0.753865979,,FALSE,FALSE,C_costaricae
+Centro_sp_A377_Lago939,Centropogon,leucophyllus,colombianid,,berry,hummingbird,predicted,new prediction based on morphology,0.382731959,,TRUE,FALSE,C_leucophyllus
+Centro_sp_A426_Lago940,Centropogon,leucophyllus var. Minimus,colombianid,,berry,hummingbird,predicted,new prediction based on morphology,0.509020619,,TRUE,FALSE,C_leucophyllus
+Centro_palmanus_A50_Lago193_L4,Centropogon,palmanus,colombianid,,berry,hummingbird,predicted,2017- different sample,0.605670103,,TRUE,FALSE,C_palmanus
+LL35_C_palmanus,Centropogon,palmanus,colombianid,,berry,hummingbird,predicted,2017- same sample,0.731958763,,FALSE,FALSE,C_palmanus
+LL312_C_alectrolophos,Centropogon,alectrolophos,eucentropogonid,,berry,sicklebill,predicted,Field Museum sample J. Cuatrecasas 11511,0.728092784,"not in Kew, found on herbarium samples LPL: still an ined species described by Bruce Stein, but yes it is has sicklebill pollinated morphology",FALSE,FALSE,C_alectrolophos
+LL324_C_baezanus,Centropogon,baezanus,eucentropogonid,,berry,sicklebill,predicted,2017- different sample,0.728092784,,FALSE,FALSE,C_baezanus
+Centro_congestus_LL34_Lago95_L1,Centropogon,congestus,eucentropogonid,,berry,sicklebill,predicted,2017- different sample,0.18556701,,TRUE,FALSE,C_congestus
+Centro_sp_A413_Lago974,Centropogon,congestus,eucentropogonid,,berry,sicklebill,predicted,new prediction based on morphology,0.521907216,,TRUE,FALSE,C_congestus
+LL21_C_congestus,Centropogon,congestus,eucentropogonid,,berry,sicklebill,predicted,2017- same sample,0.719072165,,FALSE,FALSE,C_congestus
+Centro_cornutus_A179_CBD219_L2,Centropogon,cornutus,eucentropogonid,,berry,hummingbird,predicted,2017- different sample,0.510309278,,TRUE,FALSE,C_cornutus
+Centro_cornutus_A378_Lago961,Centropogon,cornutus,eucentropogonid,,berry,hummingbird,predicted,2017- different sample,0.652061856,,TRUE,FALSE,C_cornutus
+LL28_C_cornutus,Centropogon,cornutus,eucentropogonid,,berry,hummingbird,predicted,2017- same sample,0.719072165,,FALSE,FALSE,C_cornutus
+Centro_granulosus_A380_Lago942,Centropogon,granulosus,eucentropogonid,,berry,sicklebill,predicted,2017- different sample,0.332474227,,TRUE,FALSE,C_granulosus
+LL161_C_granulosus_Peru,Centropogon,granulosus,eucentropogonid,,berry,sicklebill,predicted,2017- same sample,0.716494845,,FALSE,FALSE,C_granulosus
+LL168_C_pulcher,Centropogon,pulcher,eucentropogonid,,berry,sicklebill,predicted,2017- same sample,0.731958763,,FALSE,FALSE,C_pulcher
+Centro_solanifolius_A185_Lago284_L2,Centropogon,solanifolius,eucentropogonid,,berry,hummingbird,predicted,2017- different sample,0.333762887,,TRUE,FALSE,C_solanifolius
+Centro_solanifolius_A403_Lago941,Centropogon,solanifolius,eucentropogonid,,berry,hummingbird,predicted,2017- different sample,0.440721649,,TRUE,FALSE,C_solanifolius
+LL26_C_solanifolius,Centropogon,solanifolius,eucentropogonid,,berry,hummingbird,predicted,2017- same sample,0.725515464,,FALSE,FALSE,C_solanifolius
+LL171_C_urubambae,Centropogon,urubambae,eucentropogonid,,berry,sicklebill,predicted,2017- same sample,0.726804124,,FALSE,FALSE,C_urubambae
+Centro_vargasii_A187_Lago356_L2,Centropogon,vargasii,eucentropogonid,,berry,sicklebill,predicted,2017- different sample,0.384020619,"not in Kew, found on herbarium samples LPL: still an ined species described by Bruce Stein, but yes it is has sicklebill pollinated morphology",TRUE,FALSE,C_vargasii
+LL244_C_vargasii,Centropogon,vargasii,eucentropogonid,,berry,sicklebill,predicted,2017- same sample,0.720360825,"not in Kew, found on herbarium samples LPL: still an ined species described by Bruce Stein, but yes it is has sicklebill pollinated morphology",FALSE,FALSE,C_vargasii
+LL351_S_affinis,Siphocampylus,affinis,furax,,capsule,bat,predicted,2017- different sample,0.717783505,,FALSE,FALSE,S_affinis
+Siph_benthamianus_A329_HM23097,Siphocampylus,benthamianus,furax,,capsule,hummingbird,predicted,new prediction based on morphology,0.677835052,wide pink flower? Hummingbird? LPL- that is also what I think!,TRUE,FALSE,S_benthamianus
+99_S_brevicalyx,Siphocampylus,brevicalyx,furax,,capsule,hummingbird,predicted,2017- different sample,0.710051546,in 2024 sample name excludes LL,FALSE,FALSE,S_brevicalyx
+LL361_S_furax,Siphocampylus,furax,furax,,capsule,hummingbird,predicted,herbarium samples (colored corollas),0.702319588,,FALSE,FALSE,S_furax
+LL328_S_giganteus,Siphocampylus,giganteus,giganteus,,capsule,bat,predicted,2017- different sample,0.831185567,,FALSE,FALSE,S_giganteus
+LL159_S_jelskii,Siphocampylus,jelskii,giganteus,jelskii,capsule,bat,predicted,2017- same sample,0.81314433,,FALSE,FALSE,S_jelskii
+Siph_jelskii_A215_Lago321_L3,Siphocampylus,jelskii,giganteus,jelskii,capsule,bat,predicted,2017- different sample,0.5,,TRUE,FALSE,S_jelskii
+LL155_S_mattiaei,Siphocampylus,matthaei,giganteus,jelskii,capsule,bat,predicted,2017- same sample,0.779639175,sample name mispelled,FALSE,FALSE,S_matthaei
+Siph_matthaei_A207_Lago320_L3,Siphocampylus,matthaei,giganteus,jelskii,capsule,bat,predicted,2017- different sample,0.475515464,,TRUE,FALSE,S_matthaei
+LL373_S_sangineus,Siphocampylus,sanguineus,giganteus,,capsule,hummingbird,predicted,herbarium samples (colored corollas),0.399484536,sample name mispelled,TRUE,FALSE,S_sanguineus
+Siph_secundus_A212_Lago313_L3,Siphocampylus,secundus,giganteus,jelskii,capsule,bat,predicted,new prediction based on morphology,0.469072165,"""flowers green and purple"" ?",TRUE,FALSE,S_secundus
+Centro_bogotensis_A365_Lago784,Siphocampylus,bogotensis,odontosepalus,,capsule,hummingbird,predicted,new prediction based on morphology,0.56443299,,TRUE,FALSE,S_bogotensis
+Siph_bogotensis_A347_Lago659,Siphocampylus,bogotensis,odontosepalus,,capsule,hummingbird,predicted,new prediction based on morphology,0.690721649,,TRUE,FALSE,S_bogotensis
+Siph_lasiandrus_A370_Lago853,Siphocampylus,lasiandrus,odontosepalus,,capsule,hummingbird,predicted,narrow red corolla from images + herbarium samples,0.632731959,,TRUE,FALSE,S_lasiandrus
+Siph_sp_A406_Lago649,Siphocampylus,longibracteolatus,odontosepalus,,capsule,hummingbird,predicted,new prediction based on morphology,0.667525773,,TRUE,FALSE,S_longibracteolatus
+LL366_S_longibracteolatus,Siphocampylus,longibracteolatus,odontosepalus,,capsule,hummingbird,predicted,narrow red corolla from images + herbarium samples,0.716494845,,FALSE,FALSE,S_longibracteolatus
+LL348_S_odontosepalus,Siphocampylus,odontosepalus,odontosepalus,,capsule,hummingbird,predicted,narrow red corolla from herbarium samples,0.724226804,,FALSE,FALSE,S_odontosepalus
+LL371_S_planchonis,Siphocampylus,planchonis,odontosepalus,,capsule,hummingbird,predicted,herbarium samples (colored corollas),0.715206186,"asking Laura whether this is a synonym of polyphyllus, red/orange flowers LPL- I don't think, stick with S. planchonis",FALSE,FALSE,S_planchonis
+Siph_sp_A350_CMT220,Siphocampylus,spnov1,odontosepalus,,capsule,hummingbird,predicted,new prediction based on morphology,0.659793814,need to ID; flowers look like longebractelatus but leaves wrong,TRUE,FALSE,S_spnov1
+Lobelia_excelsa_Lagosn_L1,Lobelia,excelsa,outgroup,,capsule,hummingbird,predicted,new prediction based on morphology,0.215206186,,TRUE,FALSE,Lobelia_excelsa
+Lysipomia_laciniata_A401_Lago780,Lysipomia,laciniata,outgroup,,capsule,insect,predicted,new prediction based on morphology,0.845360825,,TRUE,FALSE,Lysipomia_laciniata
+Lobelia_laxiflora_A216_Lago261_L3,Lobelia,laxiflora,outgroup,,capsule,hummingbird,predicted,new prediction based on morphology,0.386597938,,TRUE,FALSE,Lobelia_laxiflora
+LL368_S_manntiaeflorus,Siphocampylus,manettiiflorus,outgroup,,capsule,hummingbird,predicted,new prediction based on morphology,0.652061856,sample name mispelled,FALSE,FALSE,S_manettiiflorus
+Siph_manettiflorus_A200_Herber_L2,Siphocampylus,manettiiflorus,outgroup,,capsule,hummingbird,predicted,new prediction based on morphology,0.192010309,sample name mispelled,TRUE,FALSE,S_manettiiflorus
+Lysipomia_muscoides_A364_Lago781,Lysipomia,muscoides,outgroup,,capsule,insect,predicted,new prediction based on morphology,0.556701031,,TRUE,FALSE,Lysipomia_muscoides
+LL104_Lysipomia,Lysipomia,pumila,outgroup,,capsule,insect,predicted,new prediction based on morphology,0.851804124,,FALSE,FALSE,Lysipomia_pumila
+Lysipomia_sp_A362_Lago633,Lysipomia,sp,outgroup,,capsule,insect,predicted,new prediction based on morphology,0.845360825,"need to ID; need to ID- not L. pumila, which is not found in Colombia",TRUE,FALSE,Lysipomia_sp
+LL350_L_tupa,Lobelia,tupa,outgroup,,capsule,hummingbird,predicted,new prediction based on morphology,0.695876289,,FALSE,FALSE,Lobelia_tupa
+Lysipomia_vitreola_A217_Antonellii6B_L3,Lysipomia,vitreola,outgroup,,capsule,insect,predicted,new prediction based on morphology,0.369845361,,TRUE,FALSE,Lysipomia_vitreola
+Centro_britto_A26_Lago427_L4,Centropogon,brittonianus,peruvianid,,berry,bat,predicted,2017- different sample,0.550257732,,TRUE,FALSE,C_brittonianus
+LL83_C_brittonianus,Centropogon,brittonianus,peruvianid,,berry,bat,predicted,2017- same sample,0.793814433,,FALSE,FALSE,C_brittonianus
+LL195_C_dianae,Centropogon,dianae,peruvianid,,berry,bat,predicted,2017- same sample,0.793814433,,FALSE,FALSE,C_dianae
+LL269_S_imbricatus,Siphocampylus,imbricatus,andinus,,capsule,hummingbird,predicted,herbarium samples (yellow narrow corollas) + inat images,0.760309278,,FALSE,FALSE,S_imbricatus
+Centro_incanus_A1_Lago423_L4,Centropogon,incanus,peruvianid,,berry,bat,predicted,2017- different sample,0.603092784,pollinator presumably bat? LPL: yes (citation: https://doi.org/10.1002/ajb2.1276),TRUE,FALSE,C_incanus
+LL49_C_incanus,Centropogon,incanus,peruvianid,,berry,bat,predicted,2017- same sample,0.81185567,,FALSE,FALSE,C_incanus
+LL85_C_incanus,Centropogon,incanus,peruvianid,,berry,bat,predicted,2017- different sample,0.792525773,pollinator presumably bat?,FALSE,FALSE,C_incanus
+LL87_C_incanus_pink,Centropogon,incanus,peruvianid,,berry,hummingbird,predicted,2017- same sample,0.805412371,,FALSE,FALSE,C_incanus
+Centro_mandonis_A12_Lago193_L4,Centropogon,mandonis,peruvianid,,berry,hummingbird,predicted,2017- different sample,0.739690722,,TRUE,FALSE,C_mandonis
+Centro_mandonis_A180_Lagosn_L2,Centropogon,mandonis,peruvianid,,berry,hummingbird,predicted,2017- different sample,0.578608247,,TRUE,FALSE,C_mandonis
+LL86_C_mandonis,Centropogon,mandonis,peruvianid,,berry,hummingbird,predicted,2017- same sample,0.792525773,,FALSE,FALSE,C_mandonis
+LL194_C_perlongus,Centropogon,perlongus,peruvianid,,berry,bat,predicted,2017- same sample,0.802835052,,FALSE,FALSE,C_perlongus
+Centro_peruvianus_A182_Lago386_L2,Centropogon,peruvianus,peruvianid,,berry,bat,predicted,2017- different sample,0.606958763,,TRUE,FALSE,C_peruvianus
+LL248_C_simulans,Centropogon,simulans,peruvianid,,berry,bat,predicted,2017- same sample,0.797680412,,FALSE,FALSE,C_simulans
+LL378_S_verticillatus,Siphocampylus,verticillatus,andinus,,capsule,hummingbird,predicted,herbarium samples (colored corollas) + inat images,0.739690722,,FALSE,FALSE,S_verticillatus
+LL180_C_viriduliflora,Centropogon,viriduliflorus,peruvianid,,berry,bat,predicted,2017- same sample,0.802835052,sample name mispelled,FALSE,FALSE,C_viriduliflorus
+LL91_S_corymbifer,Siphocampylus,corymbifer,rogue,,capsule,hummingbird,predicted,2017- same sample,0.731958763,,FALSE,FALSE,S_corymbifer
+LL329_S_nematosepalus,Siphocampylus,nematosepalus,rogue,,capsule,hummingbird,predicted,2017- different sample,0.804123711,,FALSE,FALSE,S_nematosepalus
+LL330_S_smilax,Siphocampylus,smilax,rogue,,capsule,bat,predicted,2017- different sample,0.762886598,,FALSE,FALSE,S_smilax
+Siph_smilax_A205_Lago248_L1,Siphocampylus,smilax,rogue,,capsule,bat,predicted,2017- different sample,0.648195876,,TRUE,FALSE,S_smilax
+LL349_C_tessmannii,Centropogon,tessmannii,rogue,,berry,hummingbird,predicted,2017- different sample,0.402061856,,TRUE,FALSE,C_tessmannii
+LL352_S_actinothrix,Siphocampylus,actinothrix,scandens,actinothrix,capsule,bat,predicted,2017- different sample,0.765463918,,FALSE,FALSE,S_actinothrix
+Siph_angustiflorus_A202_Lago417_L2,Siphocampylus,angustiflorus,scandens,correoides,capsule,hummingbird,predicted,2017- different sample,0.74742268,,TRUE,FALSE,S_angustiflorus
+LL189_S_antonellii,Siphocampylus,antonellii,scandens,actinothrix,capsule,hummingbird,predicted,2017- same sample,0.768041237,"in 2017 data was listed as sp. nov. LPL: yes, it is now described! Doi: 10.3897/phytokeys.58.6973",FALSE,FALSE,S_antonellii
+LL333_S_asplundii,Siphocampylus,asplundii,scandens,,capsule,hummingbird,predicted,"""narrow, pink flower"" Lagomarsino et al. 2022",0.75128866,,FALSE,FALSE,S_asplundii
+LL88_S_ayersiae,Siphocampylus,ayersiae,scandens,correoides,capsule,bat,predicted,2017- same sample,0.728092784,,FALSE,FALSE,S_ayersiae
+LL355_S_chloroleucus,Siphocampylus,chloroleucus,scandens,correoides,capsule,bat,predicted,2017- different sample,0.740979381,,FALSE,FALSE,S_chloroleucus
+LL357_S_correoides,Siphocampylus,correoides,scandens,correoides,capsule,hummingbird,predicted,2017- different sample,0.734536082,,FALSE,FALSE,S_correoides
+Siph_correoides_A201_Lago413_L2,Siphocampylus,correoides,scandens,correoides,capsule,hummingbird,predicted,2017- different sample,0.663659794,,TRUE,FALSE,S_correoides
+Siph_elfriedii_A214_Lago387_L3,Siphocampylus,elfriedii,scandens,actinothrix,capsule,hummingbird,predicted,2017- different sample,0.405927835,,TRUE,FALSE,S_elfriedii
+LL337_S_nobilis,Siphocampylus,nobilis,scandens,nobilis,capsule,hummingbird,predicted,narrow red corolla from herbarium samples,0.68814433,,FALSE,FALSE,S_nobilis
+Siph_purdieanus_A368_Lago820,Siphocampylus,purdieanus,scandens,correoides,capsule,bat,predicted,new prediction based on morphology,0.625,,TRUE,FALSE,S_purdieanus
+Siph_sp_A414_Lago856,Siphocampylus,retorsus,scandens,nobilis,capsule,hummingbird,predicted,new prediction based on morphology,0.746134021,,TRUE,FALSE,S_retorsus
+LL375_S_scandens,Siphocampylus,scandens,scandens,nobilis,capsule,hummingbird,predicted,2017- different sample,0.725515464,,FALSE,FALSE,S_scandens
+Siph_sp_A415_Lago882,Siphocampylus,spnov3,scandens,correoides,capsule,hummingbird,predicted,new prediction based on morphology,0.591494845,need to ID; not other Siphocampylus in dataset,TRUE,FALSE,S_spnov3
+LL341_S_vatkeanus,Siphocampylus,vatkeanus,scandens,actinothrix,capsule,bat,predicted,2017- different sample,0.760309278,,FALSE,FALSE,S_vatkeanus
+Siph_veteranus_A204_Lago385_L2,Siphocampylus,veteranus,scandens,actinothrix,capsule,bat,predicted,Lagomarsino & Santamaria-Aguilar 2016,0.475515464,,TRUE,FALSE,S_veteranus
+LL334_S_aureus,Siphocampylus,aureus,tupaeformis,,capsule,hummingbird,predicted,2017- different sample,0.743556701,,FALSE,FALSE,S_aureus
+Siph_columnae_A357_JAS4781,Siphocampylus,columnae,tupaeformis,,capsule,hummingbird,predicted,"narrow red corolla from images + herbarium samples, mentions of colibris in literature",0.615979381,,TRUE,FALSE,S_columnae
+Siph_corynoides_A209_Lago350_L3,Siphocampylus,corynoides,tupaeformis,,capsule,bat,predicted,2017- different sample,0.524484536,,TRUE,FALSE,S_corynoides
+Siph_ecuadoriensis_ARC7_Clarck1906_L1,Siphocampylus,ecuadorensis,tupaeformis,,capsule,bat,predicted,herbarium samples (yellow wide corolla),0.606958763,sample name mispelled,TRUE,FALSE,S_ecuadorensis
+LL358_S_fiebrigii,Siphocampylus,fiebrigii,tupaeformis,,capsule,hummingbird,predicted,2017- different sample,0.744845361,,FALSE,FALSE,S_fiebrigii
+LL363_S_krauseanus,Siphocampylus,krauseanus,tupaeformis,,capsule,hummingbird,predicted,2017- different sample,0.739690722,,FALSE,FALSE,S_krauseanus
+Siph_krauseanus_A203_Lago418_L2,Siphocampylus,krauseanus,tupaeformis,,capsule,hummingbird,predicted,2017- different sample,0.692010309,,TRUE,FALSE,S_krauseanus
+LL367_S_macropodus,Siphocampylus,macropodus,tupaeformis,,capsule,hummingbird,predicted,2017- different sample,0.766752577,,FALSE,FALSE,S_macropodus
+LL173_S_obovatus,Siphocampylus,obovatus,tupaeformis,,capsule,bat,predicted,2017- same sample,0.75,,FALSE,FALSE,S_obovatus
+Siph_rosmarinifolius_A206_Lago357_L3,Siphocampylus,rosmarinifolius,tupaeformis,,capsule,hummingbird,predicted,2017- different sample,0.722938144,,TRUE,FALSE,S_rosmarinifolius
+LL99_S_tupaeformis,Siphocampylus,tupaeformis,tupaeformis,,capsule,hummingbird,predicted,2017- different sample,0.757731959,,FALSE,FALSE,S_tupaeformis
+Siph_tupaeformis_A199_Lago434_L2,Siphocampylus,tupaeformis,tupaeformis,,capsule,hummingbird,predicted,2017- different sample,0.493556701,,TRUE,FALSE,S_tupaeformis
+LL167_S_virgatus,Siphocampylus,virgatus,tupaeformis,,capsule,hummingbird,predicted,2017- same sample,0.75128866,asking Laura whether this is a synonym of comosus LPL: I'd keep S. virgatus for this one until I'm able to study more. ,FALSE,FALSE,S_virgatus
+LL101_S_werdermannii,Siphocampylus,werdermannii,tupaeformis,,capsule,hummingbird,predicted,2017- same sample,0.756443299,,FALSE,FALSE,S_werdermannii
+LL90_S_boliviensis,Siphocampylus,boliviensis,umbellatus,,capsule,hummingbird,predicted,2017- same sample,0.800257732,,FALSE,FALSE,S_boliviensis
+Siph_boliviensis_A210_Lago378_L3,Siphocampylus,boliviensis,umbellatus,,capsule,hummingbird,predicted,2017- different sample,0.556701031,,TRUE,FALSE,S_boliviensis
+LL102_S_siberiensis,Siphocampylus,siberiensis,umbellatus,,capsule,hummingbird,predicted,Lagomarsino & Santamaria-Aguilar 2016,0.764175258,,FALSE,FALSE,S_siberiensis
+LL97_S_tunarensis,Siphocampylus,tunarensis,umbellatus,,capsule,bat,predicted,2017- same sample,0.762886598,,FALSE,FALSE,S_tunarensis
+Siph_tunarensis_A211_Lago232_L3,Siphocampylus,tunarensis,umbellatus,,capsule,bat,predicted,2017- different sample,0.367268041,,TRUE,FALSE,S_tunarensis
+LL98_S_tunicatus,Siphocampylus,tunicatus,umbellatus,,capsule,bat,predicted,Lagomarsino & Santamaria-Aguilar 2016,0.769329897,,FALSE,FALSE,S_tunicatus
+LL332_S_umbellatus,Siphocampylus,umbellatus,umbellatus,,capsule,bat,predicted,2017- different sample,0.773195876,,FALSE,FALSE,S_umbellatus
