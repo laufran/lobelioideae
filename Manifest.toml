@@ -2,7 +2,7 @@
 
 julia_version = "1.11.6"
 manifest_format = "2.0"
-project_hash = "276c262f01beffc71f36a499b98a5d120ef73dd0"
+project_hash = "d4e25b84863713fe68286c50b13ff9491c34b3da"
 
 [[deps.AliasTables]]
 deps = ["PtrArrays", "Random"]
@@ -387,6 +387,12 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Xorg_libXcursor_jl
 git-tree-sha1 = "fcb0584ff34e25155876418979d4c8971243bb89"
 uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
 version = "3.4.0+2"
+
+[[deps.GLM]]
+deps = ["Distributions", "LinearAlgebra", "Printf", "Reexport", "SparseArrays", "SpecialFunctions", "Statistics", "StatsAPI", "StatsBase", "StatsFuns", "StatsModels"]
+git-tree-sha1 = "273bd1cd30768a2fddfa3fd63bbc746ed7249e5f"
+uuid = "38e38edf-8417-5370-95a0-9cbb8c7f171a"
+version = "1.9.0"
 
 [[deps.GR]]
 deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Preferences", "Printf", "Qt6Wayland_jll", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "p7zip_jll"]
@@ -841,6 +847,12 @@ deps = ["DataFrames", "Markdown", "PhyloNetworks", "Printf", "RCall"]
 git-tree-sha1 = "78458181ae0cdde3a1d2090b7ba2c6cc62c986b6"
 uuid = "c0d5b6db-e3fc-52bc-a87d-1d050989ed3b"
 version = "2.1.0"
+
+[[deps.PhyloTraits]]
+deps = ["BioSequences", "BioSymbols", "DataFrames", "Distributions", "FASTX", "GLM", "LinearAlgebra", "NLopt", "PhyloNetworks", "Printf", "Random", "StaticArrays", "Statistics", "StatsAPI", "StatsBase", "StatsFuns", "StatsModels"]
+git-tree-sha1 = "48dee5627a6fb7877369b02f0ec50a431eeceedb"
+uuid = "bce24f4f-6725-4ba4-a77f-2b043c8e33c5"
+version = "1.1.0"
 
 [[deps.Pidfile]]
 deps = ["FileWatching", "Test"]
