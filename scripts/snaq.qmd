@@ -17,6 +17,7 @@ Using our new dataset, we have 776 gene trees for many *Burmeistera*, *Siphocamp
 1. depth: sampling all individuals/species in each subclade, running a subclade at a time
 2. breadth: randomly (with weight on well sampled) taking individuals from various subclades to get a "backbone"
 
+fixit: update these numbers
 Our clades we'll be running at a time for the first approach:
 1. eucentropogonids: 17 individuals, 9 species
 2. brevilimbatids: 15 individuals, 14 species
@@ -49,22 +50,6 @@ to do:
     - debug pruning trees based on subset given [X]
 - run SNaQ for each group h=0 to max of ??? [X]
     - change default arguments? time test? [X]
-- graft subnetworks to backbone (see google groups convo w Rowan Schley) []
-    - decide what species to include along backbone (rogue ones) []
-        0. Rogue species: S. corymbifer, S. nematosepalus, S. smilax (2), C. tessmannii
-        1. Eucentropogonid:
-        2. Brevilimbatid:
-        3. Andinus:
-        4. Tupaeformis:
-        5. Giganteus + burmeisterids:
-        6. Odontosepalus + colombianids:
-        7. Correoides + nobilis:
-        8. Furax + actinothrix + S. asplundii
-        9. Peruvianids:
-        10. Umbellatus:
-
-     total number of individuals / species: 
-
 
 Has to be run all the time:
 ```{julia}
@@ -125,17 +110,25 @@ end
 
 eucentropogonid_labels = cladedict["eucentropogonid"]
 peruvianid_labels = cladedict["peruvianid"]
+#push!(peruvianid_labels, "S_smilax")
+
 umbellatus_labels = cladedict["umbellatus"]
+#push!(umbellatus_labels, "S_smilax")
+
 andinus_labels = cladedict["andinus"]
+#push!(andinus_labels, "S_smilax")
 tupaeformis_labels = cladedict["tupaeformis"]
 
 brevilimbatid_labels = cladedict["brevilimbatid"]
 
 giganteus_burmeisterid_labels = cladedict["giganteus"]
 append!(giganteus_burmeisterid_labels, cladedict["burmeisterid"])
+#push!(giganteus_burmeisterid_labels, "S_smilax")
 
 odontosepalus_colombianid_labels = cladedict["odontosepalus"]
 append!(odontosepalus_colombianid_labels, cladedict["colombianid"])
+push!(odontosepalus_colombianid_labels, "S_nematosepalus")
+#push!(odontosepalus_colombianid_labels, "S_smilax")
 
 correoides_nobilis_labels = subcladedict["correoides"]
 append!(correoides_nobilis_labels, subcladedict["nobilis"])
@@ -154,7 +147,7 @@ subnetwork_names = ["eucentropogonid", "peruvianid", "umbellatus",
                     "correoides_nobilis", "actinothrix"]
 #add outgroup to all clades - this is the outgroup sample with best gt presence %
 for group in subnetwork_groups
-    push!(group, "Lysipomia_sp2")
+    push!(group, "Lysipomia_pumila")
 end
 ```
 
@@ -327,13 +320,14 @@ fixit: deal with blocks above and using .jl script
 ```{julia}
 vals = [0, 1, 2, 3]
 filenames = readdir("data/cfs")
+filenames = ["brevilimbatid-tableCF.csv", "odontosepalus_colombianid-tableCF.csv", "correoides_nobilis-tableCF.csv"]
 sptree = readTopology("data/newgts/species_tree_newick.tre")
 
 clades_h_list = collect((clade,h)
     for h in 0:3
     for clade in filenames)
 
-@sync @distributed for (clade, h) in clades_h_list[27:40]
+@sync @distributed for (clade, h) in clades_h_list
     cladeName = split(clade,"-")[1]  
     if isfile("output/snaq/$cladeName-hmax$h.out")
         println("SNAQ for $cladeName, h = $h already present. Skipping")
@@ -345,12 +339,15 @@ clades_h_list = collect((clade,h)
 end
 ```
 
-## Visualizing best h-vals
+fixit: probably delete everything above since it's in snaq_setup
+----
+
+## Look at snaq results for all subclades
 
 Get nets and scores from logs, store in a dict:
 ```{julia}
 vals = [0, 1, 2, 3]
-subclade_scores = Dict{String, Vector}()
+subclade_scores_nosmilax = Dict{String, Vector}()
 
 for clade in subnetwork_names
     clade_scores = []
@@ -358,7 +355,7 @@ for clade in subnetwork_names
 
     for h in vals
         #open file, get first line
-        filename = "output/snaq/$clade-hmax$h.out"
+        filename = "output/snaq-withoutsmilax/$clade-hmax$h.out"
         open(filename) do f
             #first line in log has best scored net/tree
             firstline = readlines(f)[1]
@@ -370,46 +367,127 @@ for clade in subnetwork_names
         end
     end
 
-    subclade_scores[clade] = [clade_scores, clade_nets]
+    subclade_scores_nosmilax[clade] = [clade_scores, clade_nets]
+end
+```
+
+generate plot of hvals:
+```{julia}
+for (k,v) in subclade_scores_nosmilax
+    #fixit: add title with subclade name (k)
+    #fixit: add labels for x and y axis
+    Plots.plot(collect(0:3), v[1])
+    savefig("output/hvals-withoutsmilax/$k-hvals.pdf")
 end
 ```
 
 ```{julia}
-for (k,v) in subclade_scores
-    #add title with subclade name (k)
-    #add labels for x and y axis
-    plot(collect(0:3), v[1])
-    savefig("$k-hvals.pdf")
+supported_nets_nosmilax = []
+
+nets_to_hvals_nosmilax = Dict("actinothrix" => 1, 
+                            "andinus" => 1, 
+                            "brevilimbatid" => 2,
+                            "correoides_nobilis" => 2,
+                            "eucentropogonid" => 1,
+                            "tupaeformis" => 1,
+                            "umbellatus" => 2,
+                            "peruvianid" => 1, #conflicts with root
+                            "giganteus_burmeisterid" => 1,
+                            "odontosepalus_colombianid" => 2)
+
+function getsupportednet(clade::AbstractString, hvalmappingdict::Dict, cladescores::Dict)
+    hval_index = hvalmappingdict[clade] + 1
+    cladescores[clade][2][hval_index]
 end
-```
 
-```{julia}
-supported_nets = []
-#second item is list of networks
-#last value is best supported h (+1 because we have 0 in there)
-push!(supported_nets, subclade_scores["actinothrix"][2][2]);
-push!(supported_nets, subclade_scores["andinus"][2][2]);
-push!(supported_nets, subclade_scores["brevilimbatid"][2][4]);
-push!(supported_nets, subclade_scores["correoides_nobilis"][2][3]);
-push!(supported_nets, subclade_scores["eucentropogonid"][2][3]);
-push!(supported_nets, subclade_scores["giganteus_burmeisterid"][2][2]);
-push!(supported_nets, subclade_scores["odontosepalus_colombianid"][2][2]);
-push!(supported_nets, subclade_scores["peruvianid"][2][2]);
-push!(supported_nets, subclade_scores["tupaeformis"][2][2]);
-push!(supported_nets, subclade_scores["umbellatus"][2][2]);
-
-supported_nets
-
-for net in supported_nets
-    try
-        rootatnode!(net, "Lysipomia_sp2")
-    catch e
+for clade in subnetwork_names
+    net_sym = Symbol(clade * "_net")
+    @eval begin
+        $net_sym = getsupportednet($clade, nets_to_hvals_nosmilax, subclade_scores_nosmilax)
+        push!(supported_nets_nosmilax, $net_sym)
     end
 end
 
-#fixit: naming convention for this
-PhyloPlots.plot(supported_nets[1])
-PhyloPlots.plot(supported_nets[2])
-PhyloPlots.plot(supported_nets[5])
-PhyloPlots.plot(supported_nets[6])
+for net in supported_nets_nosmilax
+  try
+    rootatnode!(net, "Lysipomia_pumila")
+  catch e
+  end
+end
 ```
+
+fixit: automate visualization of nets and writing out pdf
+```{julia}
+```
+
+## Look at subclades that smilax may be involved with
+
+```{julia}
+subclade_scores_smilax = Dict{String, Vector}()
+
+for clade in ["andinus", "giganteus_burmeisterid", "odontosepalus_colombianid", "peruvianid", "umbellatus"]
+    clade_scores = []
+    clade_nets = []
+
+    for h in vals
+        #open file, get first line
+        filename = "output/snaq-withsmilax/$clade-hmax$h.out"
+        open(filename) do f
+            #first line in log has best scored net/tree
+            firstline = readlines(f)[1]
+            splitfirst = split(firstline, " -Ploglik = ")
+            net = readTopology(splitfirst[1])
+            push!(clade_nets, net)
+            score = parse(Float64, splitfirst[2])
+            push!(clade_scores, score)
+        end
+    end
+
+    subclade_scores_smilax[clade] = [clade_scores, clade_nets]
+end
+```
+
+visualize hvals:
+```{julia}
+for (k,v) in subclade_scores_smilax
+    #add title with subclade name (k)
+    #add labels for x and y axis
+    Plots.plot(collect(0:3), v[1])
+    savefig("output/hvals-withsmilax/$k-hvals.pdf")
+end
+```
+
+```{julia}
+supported_nets_smilax = []
+
+nets_to_hvals_smilax = Dict("peruvianid" => 1,
+                            "giganteus_burmeisterid" => 1,
+                            "odontosepalus_colombianid" => 2,
+                            "umbellatus" => 1,
+                            "andinus" => 1)
+
+
+getsupportednet("odontosepalus_colombianid", nets_to_hvals_smilax, subclade_scores_smilax)
+
+for clade in ["andinus", "giganteus_burmeisterid", "odontosepalus_colombianid", "peruvianid", "umbellatus"]
+    net_sym = Symbol(clade * "_net_smilax")
+    @eval begin
+        $net_sym = getsupportednet($clade, nets_to_hvals_smilax, subclade_scores_smilax)
+        push!(supported_nets_smilax, $net_sym)
+    end
+end
+
+for net in supported_nets_smilax
+  try
+    rootatnode!(net, "Lysipomia_pumila")
+  catch e
+  end
+end
+```
+
+results:
+    - andinus: doesn't involve smilax, same topology as before. --> keep old topology.
+    - umbellatus: doesn't involve smilax, same topology as before. --> keep old topology.
+    - peruvianid: h=1 involves ghost, but not root, nor smilax.
+    - odontosepalus: h=2 doesn't involve smilax directly, but finds smilax sister to nematosepalus.
+    - giganteus: involves smilax.
