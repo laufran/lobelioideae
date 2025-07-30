@@ -87,7 +87,7 @@ for subnet in subnetwork_names
 
     seed1 = rand(1000:9999)
     res1 = quarnetGoFtest!(net1, qCF, true; seed=seed1, nsim=3);
-    push!(df, [subnet, 1, seed1, nsim, res1[1], res1[2], res1[3]])
+    push!(df, [subnet, hval, seed1, nsim, res1[1], res1[2], res1[3]])
 
     seed2 = rand(1000:9999)
     res2 = quarnetGoFtest!(net2, qCF, true; seed=seed2, nsim=3);
@@ -151,7 +151,7 @@ for subnet in ["peruvianid", "giganteus_burmeisterid", "odontosepalus_colombiani
 
     seed1 = rand(1000:9999)
     res1 = quarnetGoFtest!(net1, qCF, true; seed=seed1, nsim=3);
-    push!(df_withsmilax, [subnet, 1, seed1, nsim, res1[1], res1[2], res1[3]])
+    push!(df_withsmilax, [subnet, hval, seed1, nsim, res1[1], res1[2], res1[3]])
 
     seed2 = rand(1000:9999)
     res2 = quarnetGoFtest!(net2, qCF, true; seed=seed2, nsim=3);
