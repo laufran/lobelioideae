@@ -12,6 +12,8 @@ using CSV, DataFrames, PhyloNetworks, StatsBase, Random
 include("scripts/snaq_setup.jl")
 ```
 
+fixit: deal with w/ smilax nets?
+
 # Calibrate network
 
 define calibration functions:
@@ -148,7 +150,7 @@ nets_to_hvals_nosmilax = Dict("actinothrix" => 1,
                             "umbellatus" => 2,
                             "peruvianid" => 1,
                             "giganteus_burmeisterid" => 1,
-                            "odontosepalus_colombianid" => 1)
+                            "odontosepalus_colombianid" => 2)
 ```
 
 helper functions:

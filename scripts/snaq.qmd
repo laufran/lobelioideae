@@ -488,6 +488,7 @@ end
 results:
     - andinus: doesn't involve smilax, same topology as before. --> keep old topology.
     - umbellatus: doesn't involve smilax, same topology as before. --> keep old topology.
+    ----
     - peruvianid: h=1 involves ghost, but not root, nor smilax.
     - odontosepalus: h=2 doesn't involve smilax directly, but finds smilax sister to nematosepalus.
     - giganteus: involves smilax.

@@ -56,7 +56,7 @@ nets_to_hvals_nosmilax = Dict("actinothrix" => 1,
                             "umbellatus" => 2,
                             "peruvianid" => 1,
                             "giganteus_burmeisterid" => 1,
-                            "odontosepalus_colombianid" => 1)
+                            "odontosepalus_colombianid" => 2)
 ```
 
 this block does not run because of problems with eucentropogonid taxon matching --> something weird is going on there.
@@ -99,6 +99,7 @@ end
 ```{julia}
 subclade_scores_smilax = Dict{String, Vector}()
 
+#hardcode: only the clades whose inclusion of smilax made a difference in their topology
 for clade in ["peruvianid", "giganteus_burmeisterid", "odontosepalus_colombianid"]
     clade_scores = []
     clade_nets = []
