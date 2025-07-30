@@ -7,10 +7,13 @@ date: 2025-7-9
 ```{julia}
 using CSV, DataFrames, PhyloNetworks
 using PhyloPlots, RCall, PhyloTraits
+using StatsBase
 include("snaq_setup.jl");
 ```
 
-# Estimate transition rates
+fixit: might have to re-run on updated supernet, once I decide how to deal with subclades?
+
+# Estimate transition rates on super tree (using the most data)
 
 ```{julia}
 #load in supertree with clades all stitched together
@@ -33,12 +36,66 @@ unique(nosicklebill_df.trait) #two states
 unique(fruit_df.trait) #two states
 ```
 
+try all rates equal (ERSM) & allowing for different rates, but just two traits (BTSM):
 ```{julia}
-s1_poll = fitdiscrete(supertree, :ERSM, species, select(pollinator_df, :trait); optimizeQ=true)
+s1_poll = fitdiscrete(supertree, :ERSM, species, select(nosicklebill_df, :trait); optimizeQ=true) #all rates equal to: α=1.66364
+s1_poll = fitdiscrete(supertree, :ERSM, species, select(pollinator_df, :trait); optimizeQ=true) 
 #bug: DomainError with -1.1102230246251565e-16:
 #log was called with a negative real argument but will only return a complex result if called with a complex argument
 s1_fruit = fitdiscrete(supertree, :ERSM, species, select(fruit_df, :trait); optimizeQ=true) #all rates equal to α=0.69657.
 
-s2_poll = fitdiscrete(supertree, :BTSM, species, select(nosicklebill_df, :trait); optimizeQ=true)
+s2_poll = fitdiscrete(supertree, :BTSM, species, select(nosicklebill_df, :trait); optimizeQ=true) #both rates equal to β=0.00059, huh.
 s2_fruit = PhyloNetworks.fitdiscrete(supertree, :BTSM, species, select(fruit_df, :trait); optimizeQ=true)
+```
+
+have to use the dataframe with sicklebill coded as hummingbird, as it causes a bug with ERSM?
+
+compare models:
+```{julia}
+aic(s1_poll) #83.48251671742102 --> lower better.
+aic(s2_poll) #208.7359314789224
+
+aic(s1_fruit) #54.20699671869852 --> lower better.
+aic(s2_fruit) #109.83038283177308
+
+#save the rates as an int (have to index into vector)
+s1_poll_rate = s1_poll.model.rate[1]
+s1_fruit_rate = s1_fruit.model.rate[1]
+```
+
+both prefer s1, the all rates equal model.
+
+# Take rates & infer trait evolution on each subclade
+
+load in calibrated subnetworks:
+```{julia}
+calibrated_nets = []
+
+for clade in subnetwork_names
+    filename = "output/snaq-withoutsmilax/" * clade * "_calibratednet.tre"
+    cal_sym = Symbol(clade * "_calibrated")
+    @eval $cal_sym = readnewick($filename)
+    @eval push!(calibrated_nets, $cal_sym)
+end
+
+#define models with rates already esimated
+m_fruit = BinaryTraitSubstitutionModel([s1_fruit_rate, s1_fruit_rate], ["berry", "capsule"]);
+m_poll = BinaryTraitSubstitutionModel([s1_poll_rate, s1_poll_rate], ["hummingbird", "bat"]);
+
+for net in calibrated_nets
+    #fit models to networks
+    subclade_poll_fit  = fitdiscrete(supertree, m_poll, species, select(nosicklebill_df, :trait))
+    subclade_fruit_fit = fitdiscrete(supertree, m_fruit, species, select(nosicklebill_df, :trait))
+
+    #do asr using models
+    subclade_poll_asr  = ancestralreconstruction(subclade_poll_fit)
+    subclade_fruit_asr = ancestralreconstruction(subclade_fruit_fit)
+
+    #fixit: write out these asr df variables to csv? so i can visualize locally?
+end
+```
+
+# Visualize results per subclade
+
+```{julia}
 ```
