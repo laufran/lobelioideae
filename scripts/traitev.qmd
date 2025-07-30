@@ -1,0 +1,44 @@
+---
+title: "inferring trait evolution on subnetworks"
+output: github_document
+date: 2025-7-9
+---
+
+```{julia}
+using CSV, DataFrames, PhyloNetworks
+using PhyloPlots, RCall, PhyloTraits
+include("snaq_setup.jl");
+```
+
+# Estimate transition rates
+
+```{julia}
+#load in supertree with clades all stitched together
+supertree = readTopology("output/snaq-withoutsmilax/supernet.tre")
+filtered_samples = subset(samples, :simplename => ByRow(in(tiplabels(supertree))))
+species = filtered_samples.simplename
+pollinator_df = select(filtered_samples, [:simplename, :pollinator])
+fruit_df = select(filtered_samples, [:simplename, :fruit])
+
+rename!(pollinator_df, :simplename => :species);
+rename!(fruit_df, :simplename => :species);
+rename!(fruit_df, :fruit => :trait);
+rename!(pollinator_df, :pollinator => :trait);
+unique(fruit_df.trait)
+
+unique(pollinator_df.trait) #three states
+nosicklebill_df = deepcopy(pollinator_df)
+nosicklebill_df.trait = replace.(pollinator_df.trait, "sicklebill" => "hummingbird")
+unique(nosicklebill_df.trait) #two states
+unique(fruit_df.trait) #two states
+```
+
+```{julia}
+s1_poll = fitdiscrete(supertree, :ERSM, species, select(pollinator_df, :trait); optimizeQ=true)
+#bug: DomainError with -1.1102230246251565e-16:
+#log was called with a negative real argument but will only return a complex result if called with a complex argument
+s1_fruit = fitdiscrete(supertree, :ERSM, species, select(fruit_df, :trait); optimizeQ=true) #all rates equal to α=0.69657.
+
+s2_poll = fitdiscrete(supertree, :BTSM, species, select(nosicklebill_df, :trait); optimizeQ=true)
+s2_fruit = PhyloNetworks.fitdiscrete(supertree, :BTSM, species, select(fruit_df, :trait); optimizeQ=true)
+```
