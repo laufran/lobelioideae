@@ -1,0 +1,162 @@
+---
+title: "quartet goodness of fit"
+output: github_document
+date: 2025-6-18
+---
+
+```{julia}
+using QuartetNetworkGoodnessFit, DataFrames, CSV
+```
+
+fixits:
+- write summary
+
+subclades whose topologies weren't affected by including smilax:
+(missing odontosepalus, giganteus, peruvianid)
+
+```{julia}
+include("snaq_setup.jl")
+vals = [0, 1, 2, 3]
+```
+
+## Run QGoF on all subclades (without S. smilax)
+
+```{julia}
+subclade_scores_nosmilax = Dict{String, Vector}()
+
+for clade in subnetwork_names
+    clade_scores = []
+    clade_nets = []
+
+    for h in vals
+        #open file, get first line
+        filename = "output/snaq-withoutsmilax/$clade-hmax$h.out"
+        open(filename) do f
+            #first line in log has best scored net/tree
+            firstline = readlines(f)[1]
+            splitfirst = split(firstline, " -Ploglik = ")
+            net = readTopology(splitfirst[1])
+            push!(clade_nets, net)
+            score = parse(Float64, splitfirst[2])
+            push!(clade_scores, score)
+        end
+    end
+
+    subclade_scores_nosmilax[clade] = [clade_scores, clade_nets]
+end
+
+#hard code correct hvals from looking at loglikelihood score diff plot 
+    #& where it plateaus out.
+nets_to_hvals_nosmilax = Dict("actinothrix" => 1, 
+                            "andinus" => 1, 
+                            "brevilimbatid" => 2,
+                            "correoides_nobilis" => 2,
+                            "eucentropogonid" => 1,
+                            "tupaeformis" => 1,
+                            "umbellatus" => 2,
+                            "peruvianid" => 1,
+                            "giganteus_burmeisterid" => 1,
+                            "odontosepalus_colombianid" => 1)
+```
+
+this block does not run because of problems with eucentropogonid taxon matching --> something weird is going on there.
+correoides/nobilis also has something weird going on:
+
+```{julia}
+#fixit: parallelize for subnet
+df = DataFrame(subclade = String[], h = Int64[], seed = Int64[], nsim = Int64[],
+                pval = Float64[], zval= Float64[], sigma= Float64[])
+nsim = 1000
+
+for subnet in subnetwork_names
+    cffile = joinpath("data", "cfs", "withoutsmilax", "$(subnet)-tableCF.csv");
+
+    qCF = CSV.read(cffile, DataFrame)
+
+    net0 = subclade_scores_nosmilax[subnet][2][1]
+    
+    hval = nets_to_hvals_nosmilax[subnet]
+    idx_hval = hval + 1 #need to add one because indexing starts at 1,
+                        #whereas hvals start at 0
+    net1 = subclade_scores_nosmilax[subnet][2][hval]
+    net2 = subclade_scores_nosmilax[subnet][2][hval+1]
+
+    seed0 = rand(1000:9999)
+    res0 = quarnetGoFtest!(net0, qCF, true; seed=seed0, nsim=nsim);
+    push!(df, [subnet, 0, seed0, nsim, res0[1], res0[2], res0[3]])
+
+    seed1 = rand(1000:9999)
+    res1 = quarnetGoFtest!(net1, qCF, true; seed=seed1, nsim=3);
+    push!(df, [subnet, 1, seed1, nsim, res1[1], res1[2], res1[3]])
+
+    seed2 = rand(1000:9999)
+    res2 = quarnetGoFtest!(net2, qCF, true; seed=seed2, nsim=3);
+    push!(df, [subnet, hval+1, seed2, nsim, res2[1], res2[2], res2[3]])
+end
+```
+
+## Run QGoF on select subclades (including S. smilax)
+```{julia}
+subclade_scores_smilax = Dict{String, Vector}()
+
+for clade in ["peruvianid", "giganteus_burmeisterid", "odontosepalus_colombianid"]
+    clade_scores = []
+    clade_nets = []
+
+    for h in vals
+        #open file, get first line
+        filename = "output/snaq-withsmilax/$clade-hmax$h.out"
+        open(filename) do f
+            #first line in log has best scored net/tree
+            firstline = readlines(f)[1]
+            splitfirst = split(firstline, " -Ploglik = ")
+            net = readTopology(splitfirst[1])
+            push!(clade_nets, net)
+            score = parse(Float64, splitfirst[2])
+            push!(clade_scores, score)
+        end
+    end
+
+    subclade_scores_smilax[clade] = [clade_scores, clade_nets]
+end
+
+nets_to_hvals_smilax = Dict("peruvianid" => 1,
+                            "giganteus_burmeisterid" => 1,
+                            "odontosepalus_colombianid" => 2)
+```
+
+```{julia}
+#fixit: parallelize for subnet
+
+df_withsmilax = DataFrame(subclade = String[], h = Int64[], seed = Int64[], nsim = Int64[],
+                pval = Float64[], zval= Float64[], sigma= Float64[])
+nsim = 1000
+
+for subnet in ["peruvianid", "giganteus_burmeisterid", "odontosepalus_colombianid"]
+    cffile = joinpath("data", "cfs", "withsmilax", "$(subnet)-smilax-tableCF.csv");
+
+    qCF = CSV.read(cffile, DataFrame)
+
+    net0 = subclade_scores_smilax[subnet][2][1]
+    
+    hval = nets_to_hvals_smilax[subnet]
+    idx_hval = hval + 1 #need to add one because indexing starts at 1,
+                        #whereas hvals start at 0
+    net1 = subclade_scores_smilax[subnet][2][hval]
+    net2 = subclade_scores_smilax[subnet][2][hval+1]
+
+    seed0 = rand(1000:9999)
+    res0 = quarnetGoFtest!(net0, qCF, true; seed=seed0, nsim=nsim);
+    push!(df_withsmilax, [subnet, 0, seed0, nsim, res0[1], res0[2], res0[3]])
+
+    seed1 = rand(1000:9999)
+    res1 = quarnetGoFtest!(net1, qCF, true; seed=seed1, nsim=3);
+    push!(df_withsmilax, [subnet, 1, seed1, nsim, res1[1], res1[2], res1[3]])
+
+    seed2 = rand(1000:9999)
+    res2 = quarnetGoFtest!(net2, qCF, true; seed=seed2, nsim=3);
+    push!(df_withsmilax, [subnet, hval+1, seed2, nsim, res2[1], res2[2], res2[3]])
+end
+
+CSV.write("output/qgof_withsmilax_nsim1000.csv", df_withsmilax)
+```
