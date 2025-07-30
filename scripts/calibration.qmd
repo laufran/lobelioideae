@@ -1,0 +1,382 @@
+---
+title: "calibrating networks"
+output: github_document
+date: 2025-6-18
+---
+
+Following code from network PCM tutorial, but modified as PN has updated.
+https://cecileane.github.io/networkPCM-workshop/topic7-averagedistances.html
+
+```{julia}
+using CSV, DataFrames, PhyloNetworks, StatsBase, Random
+include("scripts/snaq_setup.jl")
+```
+
+# Calibrate network
+
+define calibration functions:
+```{julia}
+"""
+    getpairwisedistances(genetrees, taxa)
+
+Return a tuple of 3 objects:
+1. A vector `D` of matrices, one per gene tree, containing the pairwise distance
+   between all pairs of `taxa`. If taxon i is missing from tree `k`, then the
+   distance matrix `D[k]` for that tree will have zeros on its ith row and ith column.
+   In each matrix, row & column `i` correspond to `taxa[i]`, that is, taxa are
+   listed in the same order as in the input `taxa`.
+2. A matrix `ngenes` containing the number of genes with data on the pair
+   of taxa (i,j) in row i, column j
+3. A vector of integers, giving the index of gene trees with some missing taxa.
+
+This function uses `pairwiseTaxonDistanceMatrix(tree)` from `PhyloNetworks`,
+which outputs a matrix in which the rows correspond to taxa in the order in
+which they come in `tipLabels(tree)`.
+It then takes care of the fact that taxa may not be listed in the same order by
+`tipLabels` across all gene trees.
+"""
+function getpairwisedistances(genetrees, taxa)
+  ntips = length(taxa)
+  D = Array{Float64,2}[]; # empty vector. will contain all distance matrices
+  ngenes = zeros(Int, ntips, ntips) # number of genes that have data for each pair
+  geneind = Int[];        # indices of genes with missing taxa
+  istaxonmissing = Vector{Bool}(undef, ntips) # to be modified in place for each gene
+  for (g_index,g) in enumerate(genetrees)
+    M = zeros(ntips,ntips) # initialized at 0.0: for missing pairs
+    taxnames = tipLabels(g)
+    tipind = Int[]
+    for k in 1:ntips
+      j = findfirst(isequal(taxa[k]), taxnames)
+      notfound = isnothing(j)
+      istaxonmissing[k] = notfound # modified in place
+      notfound || push!(tipind, j) # add j to tipind if taxa[k] was found
+    end
+    M[.!istaxonmissing, .!istaxonmissing] = pairwisetaxondistancematrix(g)[tipind,tipind]
+    ngenes[.!istaxonmissing, .!istaxonmissing] .+= 1
+    any(istaxonmissing) && push!(geneind,g_index)
+    push!(D, M)
+  end
+  return D, ngenes, geneind
+end
+
+"""
+    normalizedistances_outgroup2ingroup!(D; taxa, ingroup, outgroup)
+
+Rescale each input distance matrix `D[k]`, such that all have the same
+median patristic distance between outgroup taxa and ingroup taxa.
+Input: `D` should be a vector of pairwise distances matrices, one per gene
+(modified by the function).
+Output: vector of original median ingroup-outgroup distance, one per gene.
+
+Why the *median*? So that one taxon or one small clade with an unusually large
+(or low) substitution rate does have an undue influence on the scaling factor.
+
+Assumptions:
+- all trees have at least 1 outgroup and 1 ingroup
+- row & column `i` in D[k] (for gene k) correspond to `taxa[i]`
+- `D[k][i,j]` = 0 if gene `k` doesn't have both taxa `i` and `j`
+- `ingroup` and `outgroup` are sets. The function does *not* check whether they
+  are subsets of `taxa`, or don't overlap, or cover the full set of `taxa`.
+"""
+function normalizedistances_outgroup2ingroup!(D; taxa, ingroup, outgroup)
+  ntax = length(taxa)
+  inding = findall(in(ingroup),  taxa) # indices of ingroup  taxa
+  indout = findall(in(outgroup), taxa) # indices of outgroup taxa
+  medianingroup2outgroup = Float64[]   # will contain 1 median per gene
+  for dm in D # dm = distance matrix
+    size(dm) = (ntax,ntax) || error("there's a distance matrix with wrong dimensions: $(size(dm))")
+    absent = findall([all(dm[:,i] .== 0.0) for i in 1:ntax])
+    push!(medianingroup2outgroup,
+          median(dm[setdiff(inding, absent), setdiff(indout, absent)]) )
+  end
+  mi2o = mean(medianingroup2outgroup)
+  for k in 1:length(D)
+    D[k] .*= mi2o/medianingroup2outgroup[k]
+  end
+  return medianingroup2outgroup
+end
+
+"""
+    averagepairwisedistances(D, ngenes)
+
+Matrix `M` containing the average pairwise distances, weighted by number of
+genes with data on the pair: M[i,j] = (sum_k D[k][i,j] ) / ngenes[i,j].
+This is because for each pair of taxa `i,j`, it is assumed that a number
+`ngenes[i,j]` of genes (indexed by k) contributed data for the pair, and
+the other genes without both taxa i and j had D[k][i,j]=0.
+"""
+function averagepairwisedistances(D, ngenes)
+  return sum(D) ./ ngenes
+end
+```
+
+## Load in subnetworks - those without smilax
+
+load in snaq data:
+```{julia}
+subclade_scores_nosmilax = Dict{String, Vector}()
+
+for clade in subnetwork_names
+    clade_scores = []
+    clade_nets = []
+
+    for h in vals
+        #open file, get first line
+        filename = "output/snaq-withoutsmilax/$clade-hmax$h.out"
+        open(filename) do f
+            #first line in log has best scored net/tree
+            firstline = readlines(f)[1]
+            splitfirst = split(firstline, " -Ploglik = ")
+            net = readTopology(splitfirst[1])
+            push!(clade_nets, net)
+            score = parse(Float64, splitfirst[2])
+            push!(clade_scores, score)
+        end
+    end
+
+    subclade_scores_nosmilax[clade] = [clade_scores, clade_nets]
+end
+
+#hard code correct hvals from looking at loglikelihood score diff plot 
+    #& where it plateaus out.
+nets_to_hvals_nosmilax = Dict("actinothrix" => 1, 
+                            "andinus" => 1, 
+                            "brevilimbatid" => 2,
+                            "correoides_nobilis" => 2,
+                            "eucentropogonid" => 1,
+                            "tupaeformis" => 1,
+                            "umbellatus" => 2,
+                            "peruvianid" => 1,
+                            "giganteus_burmeisterid" => 1,
+                            "odontosepalus_colombianid" => 1)
+```
+
+helper functions:
+```{julia}
+function getsupportednet(clade::AbstractString)
+    hval_index = nets_to_hvals_nosmilax[clade] + 1
+    subclade_scores_nosmilax[clade][2][hval_index]
+end
+```
+
+## prune gene trees to each subclade
+
+```{julia}
+function prunegenetrees(genetrees, clade, subnetwork_groups, subnetwork_names)
+    group_num = findfirst(==(clade), subnetwork_names)
+    group = subnetwork_groups[group_num]
+    #subnetwork_names is parallel to subnetwork_groups
+    #with values being the clade label, so access the labels through the index of the label
+
+    #make deepcopy
+    cladegts = deepcopy(genetrees)
+    #filter taxon map to only include species from our focal clade
+    filteredtaxonmap = filter(p -> p.second ∈ group, indls_to_sp)
+    #get the keys from our filtered dict- should be sample/indl names, not species names
+    filteredsamplenames = collect(keys(filteredtaxonmap))
+    #get vector of sample names to delete- those from other clades
+    tipstodelete = setdiff(collect(keys(indls_to_sp)), filteredsamplenames)
+    #and all the Burmeistera sp.
+    append!(tipstodelete, burmeistera)
+    #hardcode delete all the problem taxa
+    push!(tipstodelete, "Siph_smilax_A205_Lago248_L1")
+    push!(tipstodelete, "Centro_sp_A377_Lago939")
+    push!(tipstodelete, "Centro_rex_A367_Lago806")
+    push!(tipstodelete, "Siph_correoides_A201_Lago413_L2")
+
+    #prune all indls from other groups
+    for tip in tipstodelete
+        for gt in cladegts
+          try deleteleaf!(gt,tip)
+          catch e
+          end
+        end 
+    end    
+
+    cladestring = split(subnetwork_names[group_num], "_labels")[1]
+    #remove tips with multiple samples in focal clade
+    #if length of species is unequal to length of individuals
+    if length(group) != length(filteredsamplenames)
+        #if there are multiple clades, split the string
+        #and get a vector of the multiple clades
+        if contains(cladestring, "_")
+            cladenames = split(cladestring, "_")
+        #else, make vector of just the single string to iterate on
+        else cladenames = [cladestring] 
+        end
+        for clade in cladenames
+            #filter samples df for just indls within our focal clade
+            df = filter(:clade2024 => clade2024 -> clade2024 == clade, samples)
+            sort!(df, :gts, rev=true) #sort in descending order of gt presence %
+            #identify dupe indls to remove (those that occur second or more after 
+            #first occurrence - indl of same species with best gt presence %)
+            extraindls = df[nonunique(df, :species, keep=:first), :].sample
+            #remove extra indls
+            for indl in extraindls
+              for gt in cladegts
+                try deleteleaf!(gt,indl)
+                catch e
+                end
+              end 
+            end
+        end
+    end
+
+    #rename sp. tree edges to match names in CF table
+    for gt in cladegts
+      for n in gt.node
+        isleaf(n) && (n.name = filteredtaxonmap[n.name])
+      end
+    end 
+
+    #filter for genetrees that have outgroup
+    filter!(x -> "Lysipomia_pumila" in tiplabels(x), cladegts)
+
+    #filter for more than 2 taxa
+    filter!(x -> x.numtaxa > 1, cladegts)
+
+    return cladegts
+end
+```
+
+```{julia}
+for clade in subnetwork_names
+    @eval $(Symbol(clade * "_net")) = getsupportednet($clade)
+    @eval $(Symbol(clade * "_gts")) = prunegenetrees(genetrees, $clade, subnetwork_groups, subnetwork_names)
+end
+```
+
+## calibrate network
+
+define calibration function:
+```{julia}
+function calibratenet(cladegts::Vector, cladename::AbstractString, net::HybridNetwork, normalize=false)
+  taxa_long = sort!(union([tipLabels(tree) for tree in cladegts]...))
+  D, ngenes, geneind = getpairwisedistances(cladegts, taxa_long);
+
+  #check median dist:
+  outgroup = filter(x -> occursin("pumila",x), taxa_long)
+  ingroup = setdiff(taxa_long, outgroup)
+  med_in2out = normalizedistances_outgroup2ingroup!(D,
+    taxa=taxa_long, ingroup=ingroup, outgroup=outgroup);
+  med_in2out
+
+  avD = averagepairwisedistances(D, ngenes)
+  csv_filename = "output/avgdistances/$cladename-averagedist.csv"
+  avD_df = DataFrame([avD[:,j] for j in 1:size(avD,2)], # column data
+                    [Symbol(t) for t in taxa_long])    # column names
+  CSV.write(csv_filename, avD_df)
+
+  calibratednet = deepcopy(net)
+  # modify branch lengths for good starting values: max distance / # taxa
+  startingval = maximum(avD) / calibratednet.numtaxa
+  for e in calibratednet.edge
+      e.length = (e.hybrid ? 0.0 : startingval)
+  end
+
+  @show Random.seed!(rand(1000:9999))
+  fmin, xmin, ret = calibrateFromPairwiseDistances!(calibratednet, avD, taxa_long,
+          forceMinorLength0=false, NLoptMethod=:LD_MMA);
+  @show fmin, ret
+
+  fmin, xmin, ret = calibrateFromPairwiseDistances!(calibratednet, avD, taxa_long,
+          forceMinorLength0=false, NLoptMethod=:LN_COBYLA);
+  @show fmin, ret
+
+  fmin, xmin, ret = calibrateFromPairwiseDistances!(calibratednet, avD, taxa_long,
+          forceMinorLength0=false, NLoptMethod=:LD_MMA);
+  @show fmin, ret
+
+  sort!([e.length for e in calibratednet.edge])
+
+  #replace any slightly negative edges to zero
+  for e in calibratednet.edge
+    if e.length < 0 e.length = 0; end
+  end
+
+  if normalize == true
+    rootage = getNodeAges(calibratednet)[1]
+    for e in calibratednet.edge
+        e.length /= rootage
+    end
+    getNodeAges(calibratednet) |> maximum # should be 1
+  end
+
+  return calibratednet
+end
+```
+
+calibrate and write out newick to `output/snaq-withoutsmilax/`:
+```{julia}
+calibrated_nets = []
+
+for clade in subnetwork_names
+    gts_sym = Symbol(clade * "_gts")
+    net_sym = Symbol(clade * "_net")
+    cal_sym = Symbol(clade * "_calibrated")
+    filename = "output/snaq-withoutsmilax/" * clade * "_calibratednet.tre"
+
+    @eval begin
+        $cal_sym = calibratenet($gts_sym, $clade, $net_sym)
+        writenewick($cal_sym, $filename)
+        push!(calibrated_nets, $cal_sym)
+    end
+end
+```
+
+# Artificially stitch together calibrated networks (for transition rate estimation)
+
+## Remove outgroup
+
+Need to remove outgroup from each subnetwork, as they all have it:
+```{julia}
+calibrated_nets_nooutgroup = []
+
+#fixit: don't include nets that conflict with root!
+for net in calibrated_nets
+  nooutgroup_subclade = deepcopy(net)
+  try
+    rootatnode!(nooutgroup_subclade, "Lysipomia_pumila")
+  catch e
+    continue
+  end
+  deleteleaf!(nooutgroup_subclade, "Lysipomia_pumila")
+  push!(calibrated_nets_nooutgroup, nooutgroup_subclade)
+end
+```
+
+## Stitch together networks
+
+first need to edit hybrid node labels, so they're all unique:
+```{julia}
+function unique_hybrid_node_names!(net::HybridNetwork, suffix::AbstractString)
+    for node in net.node
+        if node.hybrid
+            #append a suffix to the hybrid name
+            node.name = string(node.name, "_", suffix)
+        end
+    end
+    return net
+end
+```
+
+```{julia}
+supernetstring = "("
+for (idx, net) in enumerate(calibrated_nets_nooutgroup)
+    unique_hybrid_node_names!(net, "net$idx")
+    netstring = chop(writenewick(net))  #remove semicolon from end
+    supernetstring *= netstring * ":100000"
+    #if not the last group, add comma to end    
+    if idx != length(calibrated_nets_nooutgroup)
+        supernetstring *= ","
+    end
+end
+supernetstring *= ");"
+
+supernet = readTopology(supernetstring)
+writenewick(supernet, "output/snaq-withoutsmilax/supernet.tre")
+```
+
+## Add back outgroup?
+
+CONCEPTUAL FIXIT: do I need to add outgroup?!?
