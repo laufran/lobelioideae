@@ -9,7 +9,7 @@ https://cecileane.github.io/networkPCM-workshop/topic7-averagedistances.html
 
 ```{julia}
 using CSV, DataFrames, PhyloNetworks, StatsBase, Random
-include("scripts/snaq_setup.jl")
+include("snaq_setup.jl");
 ```
 
 fixit: deal with w/ smilax nets?
@@ -139,29 +139,61 @@ for clade in subnetwork_names
     subclade_scores_nosmilax[clade] = [clade_scores, clade_nets]
 end
 
-#hard code correct hvals from looking at loglikelihood score diff plot 
-    #& where it plateaus out.
+#hard code correct hvals from qgof & looking at hvals 
 nets_to_hvals_nosmilax = Dict("actinothrix" => 1, 
-                            "andinus" => 1, 
+                            "andinus" => 2, 
                             "brevilimbatid" => 2,
                             "correoides_nobilis" => 2,
-                            "eucentropogonid" => 1,
-                            "tupaeformis" => 1,
-                            "umbellatus" => 2,
+                            "eucentropogonid" => 2,
+                            "giganteus_burmeisterid" => 1,
+                            "odontosepalus_colombianid" => 2,
                             "peruvianid" => 1,
+                            "tupaeformis" => 1,
+                            "umbellatus" => 2)
+```
+
+## Load in subnetworks - those with smilax
+```{julia}
+subclade_scores_smilax = Dict{String, Vector}()
+
+for clade in ["peruvianid", "odontosepalus_colombianid", "giganteus_burmeisterid"]
+    clade_scores = []
+    clade_nets = []
+
+    for h in vals
+        #open file, get first line
+        filename = "output/snaq-withsmilax/$clade-hmax$h.out"
+        open(filename) do f
+            #first line in log has best scored net/tree
+            firstline = readlines(f)[1]
+            splitfirst = split(firstline, " -Ploglik = ")
+            net = readTopology(splitfirst[1])
+            push!(clade_nets, net)
+            score = parse(Float64, splitfirst[2])
+            push!(clade_scores, score)
+        end
+    end
+
+    subclade_scores_smilax[clade] = [clade_scores, clade_nets]
+end
+
+nets_to_hvals_smilax = Dict("peruvianid" => 1,
                             "giganteus_burmeisterid" => 1,
                             "odontosepalus_colombianid" => 2)
 ```
 
+## prune gene trees to each subclade
 helper functions:
 ```{julia}
-function getsupportednet(clade::AbstractString)
-    hval_index = nets_to_hvals_nosmilax[clade] + 1
-    subclade_scores_nosmilax[clade][2][hval_index]
+function getsupportednet(clade::AbstractString, nets_to_hvals::Dict, subclade_scores::Dict)
+    hval_index = nets_to_hvals[clade] + 1
+    subclade_scores[clade][2][hval_index]
+end
+
+function gettree(clade::AbstractString, subclade_scores::Dict)
+    subclade_scores[clade][2][1]
 end
 ```
-
-## prune gene trees to each subclade
 
 ```{julia}
 function prunegenetrees(genetrees, clade, subnetwork_groups, subnetwork_names)
@@ -242,10 +274,24 @@ end
 ```
 
 ```{julia}
+#run for all clades (nets & trees) without smilax:
 for clade in subnetwork_names
-    @eval $(Symbol(clade * "_net")) = getsupportednet($clade)
+    @eval $(Symbol(clade * "_tree")) = gettree($clade, subclade_scores_nosmilax)
+    @eval $(Symbol(clade * "_net")) = getsupportednet($clade, nets_to_hvals_nosmilax, subclade_scores_nosmilax)
     @eval $(Symbol(clade * "_gts")) = prunegenetrees(genetrees, $clade, subnetwork_groups, subnetwork_names)
 end
+
+#with smilax: just run odontosepalus_colombianid, as supported by qgof
+clade = "odontosepalus_colombianid"
+@eval $(Symbol(clade * "_smilax_tree")) = gettree($clade, subclade_scores_smilax)
+@eval $(Symbol(clade * "_smilax_net")) = getsupportednet($clade, nets_to_hvals_smilax, subclade_scores_smilax)
+#of note: subclade labels loaded in as part of snaq_setup.jl does NOT include smilax
+push!(odontosepalus_colombianid_labels, "S_smilax")
+subnetwork_groups = [eucentropogonid_labels, peruvianid_labels, umbellatus_labels,
+                    andinus_labels, tupaeformis_labels, brevilimbatid_labels,
+                    giganteus_burmeisterid_labels, odontosepalus_colombianid_labels,
+                    correoides_nobilis_labels, actinothrix_labels]
+@eval $(Symbol(clade * "_smilax_gts")) = prunegenetrees(genetrees, $clade, subnetwork_groups, subnetwork_names)
 ```
 
 ## calibrate network
@@ -310,75 +356,39 @@ end
 
 calibrate and write out newick to `output/snaq-withoutsmilax/`:
 ```{julia}
-calibrated_nets = []
-
 for clade in subnetwork_names
-    gts_sym = Symbol(clade * "_gts")
-    net_sym = Symbol(clade * "_net")
-    cal_sym = Symbol(clade * "_calibrated")
-    filename = "output/snaq-withoutsmilax/" * clade * "_calibratednet.tre"
+    gts_sym  = Symbol(clade * "_gts")
+    tree_sym = Symbol(clade * "_tree")
+    net_sym  = Symbol(clade * "_net")
+    calnet_sym  = Symbol(clade * "_net_calibrated")
+    caltree_sym = Symbol(clade * "_tree_calibrated")
+    filename_net  = "output/snaq-withoutsmilax/" * clade * "_calibratednet.tre"
+    filename_tree = "output/snaq-withoutsmilax/" * clade * "_calibratedtree.tre"
 
     @eval begin
-        $cal_sym = calibratenet($gts_sym, $clade, $net_sym)
-        writenewick($cal_sym, $filename)
-        push!(calibrated_nets, $cal_sym)
+        $calnet_sym  = calibratenet($gts_sym, $clade, $net_sym)
+        $caltree_sym = calibratenet($gts_sym, $clade, $tree_sym)
+        writenewick($calnet_sym, $filename_net)
+        writenewick($caltree_sym, $filename_tree)
     end
 end
 ```
 
-# Artificially stitch together calibrated networks (for transition rate estimation)
-
-## Remove outgroup
-
-Need to remove outgroup from each subnetwork, as they all have it:
+calibrate and write out newick to `output/snaq-withsmilax/` just for "odontosepalus_colombianid":
 ```{julia}
-calibrated_nets_nooutgroup = []
+clade = "odontosepalus_colombianid"
+gts_sym  = Symbol(clade * "_gts")
+tree_sym = Symbol(clade * "_tree")
+net_sym  = Symbol(clade * "_net")
+calnet_sym  = Symbol(clade * "_net_calibrated")
+caltree_sym = Symbol(clade * "_tree_calibrated")
+filename_net  = "output/snaq-withsmilax/" * clade * "_calibratednet.tre"
+filename_tree = "output/snaq-withsmilax/" * clade * "_calibratedtree.tre"
 
-#fixit: don't include nets that conflict with root!
-for net in calibrated_nets
-  nooutgroup_subclade = deepcopy(net)
-  try
-    rootatnode!(nooutgroup_subclade, "Lysipomia_pumila")
-  catch e
-    continue
-  end
-  deleteleaf!(nooutgroup_subclade, "Lysipomia_pumila")
-  push!(calibrated_nets_nooutgroup, nooutgroup_subclade)
+@eval begin
+  $calnet_sym  = calibratenet($gts_sym, $clade, $net_sym)
+  $caltree_sym = calibratenet($gts_sym, $clade, $tree_sym)
+  writenewick($calnet_sym, $filename_net)
+  writenewick($caltree_sym, $filename_tree)
 end
 ```
-
-## Stitch together networks
-
-first need to edit hybrid node labels, so they're all unique:
-```{julia}
-function unique_hybrid_node_names!(net::HybridNetwork, suffix::AbstractString)
-    for node in net.node
-        if node.hybrid
-            #append a suffix to the hybrid name
-            node.name = string(node.name, "_", suffix)
-        end
-    end
-    return net
-end
-```
-
-```{julia}
-supernetstring = "("
-for (idx, net) in enumerate(calibrated_nets_nooutgroup)
-    unique_hybrid_node_names!(net, "net$idx")
-    netstring = chop(writenewick(net))  #remove semicolon from end
-    supernetstring *= netstring * ":100000"
-    #if not the last group, add comma to end    
-    if idx != length(calibrated_nets_nooutgroup)
-        supernetstring *= ","
-    end
-end
-supernetstring *= ");"
-
-supernet = readTopology(supernetstring)
-writenewick(supernet, "output/snaq-withoutsmilax/supernet.tre")
-```
-
-## Add back outgroup?
-
-CONCEPTUAL FIXIT: do I need to add outgroup?!?
