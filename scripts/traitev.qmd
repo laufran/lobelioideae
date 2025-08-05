@@ -11,91 +11,197 @@ using StatsBase
 include("snaq_setup.jl");
 ```
 
-fixit: might have to re-run on updated supernet, once I decide how to deal with subclades?
+# Estimate transition rates for each subclade
 
-# Estimate transition rates on super tree (using the most data)
-
+## Set up `@everywhere` block with trait dataframes, correct hvals
 ```{julia}
-#load in supertree with clades all stitched together
-supertree = readTopology("output/snaq-withoutsmilax/supernet.tre")
-filtered_samples = subset(samples, :simplename => ByRow(in(tiplabels(supertree))))
-species = filtered_samples.simplename
-pollinator_df = select(filtered_samples, [:simplename, :pollinator])
-fruit_df = select(filtered_samples, [:simplename, :fruit])
+#make trait dfs by filtering down to only cols needed
+pollinator_df = select(samples, [:simplename, :pollinator])
+fruit_df = select(samples, [:simplename, :fruit])
 
+#rename simplename col to species
+#(can't change it in samples df because there already exists a species col)
 rename!(pollinator_df, :simplename => :species);
 rename!(fruit_df, :simplename => :species);
+
+#rename fruit, pollinator to "trait" to be compatible with fitdiscrete
 rename!(fruit_df, :fruit => :trait);
 rename!(pollinator_df, :pollinator => :trait);
-unique(fruit_df.trait)
-
-unique(pollinator_df.trait) #three states
 nosicklebill_df = deepcopy(pollinator_df)
 nosicklebill_df.trait = replace.(pollinator_df.trait, "sicklebill" => "hummingbird")
-unique(nosicklebill_df.trait) #two states
-unique(fruit_df.trait) #two states
+
+nets_to_hvals_smilax = Dict("actinothrix" => 1, 
+                        "andinus" => 2, 
+                        "brevilimbatid" => 0,
+                        "correoides_nobilis" => 0,
+                        "eucentropogonid" => 2,
+                        "giganteus_burmeisterid" => 0,
+                        "odontosepalus_colombianid" => 2,
+                        "peruvianid" => 0,
+                        "tupaeformis" => 1,
+                        "umbellatus" => 2)
 ```
 
-try all rates equal (ERSM) & allowing for different rates, but just two traits (BTSM):
+
+## Load in each subclade's calibrated network or tree & estimate transition rates
 ```{julia}
-s1_poll = fitdiscrete(supertree, :ERSM, species, select(nosicklebill_df, :trait); optimizeQ=true) #all rates equal to: α=1.66364
-s1_poll = fitdiscrete(supertree, :ERSM, species, select(pollinator_df, :trait); optimizeQ=true) 
-#bug: DomainError with -1.1102230246251565e-16:
-#log was called with a negative real argument but will only return a complex result if called with a complex argument
-s1_fruit = fitdiscrete(supertree, :ERSM, species, select(fruit_df, :trait); optimizeQ=true) #all rates equal to α=0.69657.
-
-s2_poll = fitdiscrete(supertree, :BTSM, species, select(nosicklebill_df, :trait); optimizeQ=true) #both rates equal to β=0.00059, huh.
-s2_fruit = PhyloNetworks.fitdiscrete(supertree, :BTSM, species, select(fruit_df, :trait); optimizeQ=true)
-```
-
-have to use the dataframe with sicklebill coded as hummingbird, as it causes a bug with ERSM?
-
-compare models:
-```{julia}
-aic(s1_poll) #83.48251671742102 --> lower better.
-aic(s2_poll) #208.7359314789224
-
-aic(s1_fruit) #54.20699671869852 --> lower better.
-aic(s2_fruit) #109.83038283177308
-
-#save the rates as an int (have to index into vector)
-s1_poll_rate = s1_poll.model.rate[1]
-s1_fruit_rate = s1_fruit.model.rate[1]
-```
-
-both prefer s1, the all rates equal model.
-
-# Take rates & infer trait evolution on each subclade
-
-load in calibrated subnetworks:
-```{julia}
-calibrated_nets = []
+aic_df = DataFrame(subclade = String[], h = Int64[], trait = String[], model = String[], aic = Float64[])
 
 for clade in subnetwork_names
-    filename = "output/snaq-withoutsmilax/" * clade * "_calibratednet.tre"
     cal_sym = Symbol(clade * "_calibrated")
-    @eval $cal_sym = readnewick($filename)
-    @eval push!(calibrated_nets, $cal_sym)
+    s1_poll_sym = Symbol(clade * "_s1_poll_asr")
+    s2_poll_sym = Symbol(clade * "_s2_poll_asr")
+    s1_fruit_sym = Symbol(clade * "_s1_fruit_asr")
+    s2_fruit_sym = Symbol(clade * "_s2_fruit_asr")
+
+    if clade == "brevilimbatid"
+        continue #has no trait variation
+    elseif clade == "odontosepalus_colombianid"
+        filename = "output/snaq-withsmilax/" * clade * "_calibratednet.tre"
+    else
+        if nets_to_hvals_smilax[clade] == 0
+            filename = "output/snaq-withoutsmilax/" * clade * "_calibratedtree.tre"
+        else
+            filename = "output/snaq-withoutsmilax/" * clade * "_calibratednet.tre"
+        end
+    end
+
+    #load in calibrated network for each subclade
+    cal_sym = readnewick(filename)
+    #fixit: change this later, retain root, but manually alter outgroup state depending on other clades? idk
+    #remove root since it has a different pollinator state
+    deleteleaf!(cal_sym, "Lysipomia_pumila")
+
+    #filter sample CSV based on taxa present
+    filtered_samples = subset(samples, :simplename => ByRow(in(tiplabels(cal_sym))))
+    filtered_poll = subset(pollinator_df, :species => ByRow(in(tiplabels(cal_sym))))
+    filtered_nosicklebill = subset(nosicklebill_df, :species => ByRow(in(tiplabels(cal_sym))))
+    filtered_fruit = subset(fruit_df, :species => ByRow(in(tiplabels(cal_sym))))
+    species = filtered_samples.simplename
+
+    if length(unique(filtered_nosicklebill.trait)) == 2
+        #use @eval to create global symbols for the results
+        @eval begin
+            $s1_poll_sym = fitdiscrete($cal_sym, :ERSM, species, select(filtered_nosicklebill, :trait); optimizeQ=true)
+            push!(aic_df, [$clade, nets_to_hvals_smilax[$clade], "pollinator", "ersm", aic($s1_poll_sym)])
+            
+            $s2_poll_sym = fitdiscrete($cal_sym, :BTSM, species, select(filtered_nosicklebill, :trait); optimizeQ=true)
+            push!(aic_df, [$clade, nets_to_hvals_smilax[$clade], "pollinator", "btsm", aic($s2_poll_sym)])
+        end
+    elseif clade == "eucentropogonid"
+        @eval begin
+            $s1_poll_sym = fitdiscrete($cal_sym, :ERSM, species, select(filtered_poll, :trait); optimizeQ=true)
+            push!(aic_df, [$clade, nets_to_hvals_smilax[$clade], "pollinator", "ersm", aic($s1_poll_sym)])
+            
+            $s2_poll_sym = fitdiscrete($cal_sym, :BTSM, species, select(filtered_poll, :trait); optimizeQ=true)
+            push!(aic_df, [$clade, nets_to_hvals_smilax[$clade], "pollinator", "btsm", aic($s2_poll_sym)])
+        end
+    end
+
+    if length(unique(filtered_fruit.trait)) == 2
+        @eval begin
+            $s1_fruit_sym = fitdiscrete($cal_sym, :ERSM, species, select(filtered_fruit, :trait); optimizeQ=true)
+            push!(aic_df, [$clade, nets_to_hvals_smilax[$clade], "fruit", "ersm", aic($s1_fruit_sym)])
+            
+            $s2_fruit_sym = fitdiscrete($cal_sym, :BTSM, species, select(filtered_fruit, :trait); optimizeQ=true)
+            push!(aic_df, [$clade, nets_to_hvals_smilax[$clade], "fruit", "btsm", aic($s2_fruit_sym)])
+        end
+    end
 end
+```
 
-#define models with rates already esimated
-m_fruit = BinaryTraitSubstitutionModel([s1_fruit_rate, s1_fruit_rate], ["berry", "capsule"]);
-m_poll = BinaryTraitSubstitutionModel([s1_poll_rate, s1_poll_rate], ["hummingbird", "bat"]);
+# Compare transition rates, fit best model to network
+```{julia}
+for gdf in groupby(aic_df, [:subclade, :trait])
+    group_data = DataFrame(gdf)
+    subclade = group_data.subclade[1] #since we're doing a grouped data frame, will be a vector, but just one entry
+    trait = group_data.trait[1] #since we're doing a grouped data frame, will be a vector, but just one entry
+    #find the model with the minimum AIC
+    min_aic_row = group_data[argmin(group_data.aic), :]
+    model_with_min_aic = min_aic_row.model
+    
+    #set asrmodel variable to correct model based on min value, model, trait
+    if trait == "pollinator"
+        if model_with_min_aic == "ersm"
+            asrmodel = Symbol(subclade * "_s1_poll_asr")
+        elseif model_with_min_aic == "btsm"
+            asrmodel = Symbol(subclade * "_s2_poll_asr")
+        end
+    elseif trait == "fruit"
+        if model_with_min_aic == "ersm"
+            asrmodel = Symbol(subclade * "_s1_fruit_asr")
+        elseif model_with_min_aic == "btsm"
+            asrmodel = Symbol(subclade *"_s2_fruit_asr")
+        end
+    end
 
-for net in calibrated_nets
-    #fit models to networks
-    subclade_poll_fit  = fitdiscrete(supertree, m_poll, species, select(nosicklebill_df, :trait))
-    subclade_fruit_fit = fitdiscrete(supertree, m_fruit, species, select(nosicklebill_df, :trait))
-
-    #do asr using models
-    subclade_poll_asr  = ancestralreconstruction(subclade_poll_fit)
-    subclade_fruit_asr = ancestralreconstruction(subclade_fruit_fit)
-
-    #fixit: write out these asr df variables to csv? so i can visualize locally?
+    asr_sym = Symbol(subclade * "_" * trait * "_asr")
+    @show asr_sym
+    @eval begin
+        $asr_sym = ancestralreconstruction($asrmodel)
+    end
 end
 ```
 
 # Visualize results per subclade
 
 ```{julia}
+function plot_discreteasr(asr::DataFrame, figure_filename::AbstractString, net::HybridNetwork, trait::AbstractString)
+    asr_dc = deepcopy(asr)
+    net_dc =  deepcopy(net)
+    PhyloNetworks.resetnodenumbers!(net_dc)
+    colnames = names(asr_dc)[3:end] # to get the correct state - probability match
+    # create a new column in the asr data frame, filled with the empty string ""
+    asr_dc[!,:fake] .= ""; # to add fake internal node labels later: and extract their positions
+
+    coltrait = ["red","grey"] # or anything else: names that R knows how to interpret
+
+    R"pdf"(figure_filename, height=6, width=8);
+    # start the plot
+    R"par"(mar=[0,0,0,0]);
+    res = plot(net_dc, tipoffset=0.5, xlim=[0.5,16], arrowlen=0.15,
+            nodelabel = asr_dc[:,[:nodenumber, :fake]]);
+    ndf = res[:node_data] # locations of internal nodes --> this is different depending on PhyloPlots version
+
+    # add pie charts, using locations of internal nodes
+    for i in 1:nrow(asr_dc) # loop over each row in the ancestral state reconstruction data frame
+        ii = findfirst(isequal(string(asr_dc[!,:nodenumber][i])), ndf[!,:num]);
+        colpp = Vector(asr_dc[i,colnames]);    
+        R"ape::floating.pie.asp"(ndf[ii,:x], ndf[ii,:y], colpp,
+                                radius=0.2, col=coltrait);
+    end
+    # add legend with correct mapping of color -> state
+    R"legend"(x=1, y=19, legend=colnames, pch=21, var"pt.bg"=coltrait,
+            bty="n", title=trait, var"title.adj"=0, var"pt.cex"=1.5);
+    R"dev.off"();
+end
+#fixits: rooting, margins, legend
+```
+
+```{julia}
+asrs_to_nets = Dict(
+    "actinothrix_pollinator"            => [actinothrix_pollinator_asr actinothrix_calibrated],
+    "eucentropogonid_pollinator"        => [eucentropogonid_pollinator_asr, eucentropogonid_calibrated],
+    "peruvianid_pollinator"             => [peruvianid_pollinator_asr, peruvianid_calibrated],
+    "umbellatus_pollinator"             => [umbellatus_pollinator_asr, umbellatus_calibrated],
+    "andinus_pollinator"                => [andinus_pollinator_asr, andinus_calibrated],
+    "tupaeformis_pollinator"            => [tupaeformis_pollinator_asr, tupaeformis_calibrated],
+    "giganteus-burmeisterid_pollinator" => [giganteus_burmeisterid_pollinator_asr, giganteus_burmeisterid_calibrated],
+    "giganteus-burmeisterid_fruit"      => [giganteus_burmeisterid_fruit_asr, giganteus_burmeisterid_calibrated],
+    "odontosepalus-colombianid_fruit"   => [odontosepalus_colombianid_fruit_asr, odontosepalus_colombianid_calibrated],
+    "correoides-nobilis_pollinator"     => [correoides_nobilis_pollinator_asr, correoides_nobilis_calibrated]
+)
+
+for (key, value) in asrs_to_nets
+    clade = split(string(key), "_")[1]
+    trait = split(string(key), "_")[2]
+    figure_filename = "output/" * clade * "_" * trait * ".pdf"
+
+    if trait == "pollinator"
+        legend = "pollinator syndrome"
+    else legend = "fruit type"
+    end
+
+    plot_discreteasr(value[1], figure_filename, value[2], legend)
+end
 ```
