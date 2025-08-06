@@ -11,9 +11,6 @@ using QuartetNetworkGoodnessFit, DataFrames, CSV
 fixits:
 - write summary
 
-subclades whose topologies weren't affected by including smilax:
-(missing odontosepalus, giganteus, peruvianid)
-
 ```{julia}
 include("snaq_setup.jl")
 vals = [0, 1, 2, 3]
@@ -44,19 +41,6 @@ for clade in subnetwork_names
 
     subclade_scores_nosmilax[clade] = [clade_scores, clade_nets]
 end
-
-#hard code correct hvals from looking at loglikelihood score diff plot 
-    #& where it plateaus out.
-nets_to_hvals_nosmilax = Dict("actinothrix" => 1, 
-                            "andinus" => 1, 
-                            "brevilimbatid" => 2,
-                            "correoides_nobilis" => 2,
-                            "eucentropogonid" => 1,
-                            "tupaeformis" => 1,
-                            "umbellatus" => 2,
-                            "peruvianid" => 1,
-                            "giganteus_burmeisterid" => 1,
-                            "odontosepalus_colombianid" => 2)
 ```
 
 this block does not run because of problems with eucentropogonid taxon matching --> something weird is going on there.
@@ -122,10 +106,6 @@ for clade in ["peruvianid", "giganteus_burmeisterid", "odontosepalus_colombianid
 
     subclade_scores_smilax[clade] = [clade_scores, clade_nets]
 end
-
-nets_to_hvals_smilax = Dict("peruvianid" => 1,
-                            "giganteus_burmeisterid" => 1,
-                            "odontosepalus_colombianid" => 2)
 ```
 
 ```{julia}
