@@ -141,7 +141,7 @@ end
 
 #hard code correct hvals from qgof & looking at hvals 
 nets_to_hvals_nosmilax = Dict("actinothrix" => 1, 
-                            "andinus" => 2, 
+                            "andinus" => 1, 
                             "brevilimbatid" => 2,
                             "correoides_nobilis" => 2,
                             "eucentropogonid" => 2,
@@ -149,7 +149,7 @@ nets_to_hvals_nosmilax = Dict("actinothrix" => 1,
                             "odontosepalus_colombianid" => 2,
                             "peruvianid" => 1,
                             "tupaeformis" => 1,
-                            "umbellatus" => 2)
+                            "umbellatus" => 1)
 ```
 
 ## Load in subnetworks - those with smilax
@@ -368,6 +368,13 @@ for clade in subnetwork_names
     @eval begin
         $calnet_sym  = calibratenet($gts_sym, $clade, $net_sym)
         $caltree_sym = calibratenet($gts_sym, $clade, $tree_sym)
+        rootatnode!($caltree_sym, "Lysipomia_pumila")
+        try rootatnode!($calnet_sym, "Lysipomia_pumila")
+        catch e
+          @show "$clade cannot be rooted"
+        end
+        #will say that odontosepalus_colombianid cannot be rooted, that's fine,
+          #we're using the smilax version anyway
         writenewick($calnet_sym, $filename_net)
         writenewick($caltree_sym, $filename_tree)
     end
@@ -388,6 +395,10 @@ filename_tree = "output/snaq-withsmilax/" * clade * "_calibratedtree.tre"
 @eval begin
   $calnet_sym  = calibratenet($gts_sym, $clade, $net_sym)
   $caltree_sym = calibratenet($gts_sym, $clade, $tree_sym)
+  rootatnode!($caltree_sym, "Lysipomia_pumila")
+  try rootatnode!($calnet_sym, "Lysipomia_pumila")
+  catch e
+  end
   writenewick($calnet_sym, $filename_net)
   writenewick($caltree_sym, $filename_tree)
 end
