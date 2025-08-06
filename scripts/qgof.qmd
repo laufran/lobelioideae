@@ -66,7 +66,6 @@ correoides/nobilis also has something weird going on:
 #fixit: parallelize for subnet
 df = DataFrame(subclade = String[], h = Int64[], seed = Int64[], nsim = Int64[],
                 pval = Float64[], zval= Float64[], sigma= Float64[])
-nsim = 1000
 
 for subnet in subnetwork_names
     cffile = joinpath("data", "cfs", "withoutsmilax", "$(subnet)-tableCF.csv");
@@ -74,25 +73,28 @@ for subnet in subnetwork_names
     qCF = CSV.read(cffile, DataFrame)
 
     net0 = subclade_scores_nosmilax[subnet][2][1]
-    
-    hval = nets_to_hvals_nosmilax[subnet]
-    idx_hval = hval + 1 #need to add one because indexing starts at 1,
-                        #whereas hvals start at 0
-    net1 = subclade_scores_nosmilax[subnet][2][hval]
-    net2 = subclade_scores_nosmilax[subnet][2][hval+1]
+    net1 = subclade_scores_nosmilax[subnet][2][2]
+    net2 = subclade_scores_nosmilax[subnet][2][3]
+    net3 = subclade_scores_nosmilax[subnet][2][4]
 
     seed0 = rand(1000:9999)
-    res0 = quarnetGoFtest!(net0, qCF, true; seed=seed0, nsim=nsim);
+    res0 = quarnetGoFtest!(net0, qCF, true; seed=seed0, nsim=1000);
     push!(df, [subnet, 0, seed0, nsim, res0[1], res0[2], res0[3]])
 
     seed1 = rand(1000:9999)
-    res1 = quarnetGoFtest!(net1, qCF, true; seed=seed1, nsim=3);
-    push!(df, [subnet, hval, seed1, nsim, res1[1], res1[2], res1[3]])
+    res1 = quarnetGoFtest!(net1, qCF, true; seed=seed1, nsim=1000);
+    push!(df, [subnet, 1, seed1, nsim, res1[1], res1[2], res1[3]])
 
     seed2 = rand(1000:9999)
-    res2 = quarnetGoFtest!(net2, qCF, true; seed=seed2, nsim=3);
-    push!(df, [subnet, hval+1, seed2, nsim, res2[1], res2[2], res2[3]])
+    res2 = quarnetGoFtest!(net2, qCF, true; seed=seed2, nsim=1000);
+    push!(df, [subnet, 2, seed2, nsim, res2[1], res2[2], res2[3]])
+
+    seed3 = rand(1000:9999)
+    res3 = quarnetGoFtest!(net3, qCF, true; seed=seed3, nsim=1000);
+    push!(df, [subnet, 3, seed3, nsim, res3[1], res3[2], res3[3]])
 end
+
+CSV.write("output/qgof_nsim1000_updated.csv", df)
 ```
 
 ## Run QGoF on select subclades (including S. smilax)
@@ -139,25 +141,26 @@ for subnet in ["peruvianid", "giganteus_burmeisterid", "odontosepalus_colombiani
     qCF = CSV.read(cffile, DataFrame)
 
     net0 = subclade_scores_smilax[subnet][2][1]
-    
-    hval = nets_to_hvals_smilax[subnet]
-    idx_hval = hval + 1 #need to add one because indexing starts at 1,
-                        #whereas hvals start at 0
-    net1 = subclade_scores_smilax[subnet][2][hval]
-    net2 = subclade_scores_smilax[subnet][2][hval+1]
+    net1 = subclade_scores_smilax[subnet][2][2]
+    net2 = subclade_scores_smilax[subnet][2][3]
+    net3 = subclade_scores_smilax[subnet][2][4]
 
     seed0 = rand(1000:9999)
-    res0 = quarnetGoFtest!(net0, qCF, true; seed=seed0, nsim=nsim);
+    res0 = quarnetGoFtest!(net0, qCF, true; seed=seed0, nsim=1000);
     push!(df_withsmilax, [subnet, 0, seed0, nsim, res0[1], res0[2], res0[3]])
 
     seed1 = rand(1000:9999)
-    res1 = quarnetGoFtest!(net1, qCF, true; seed=seed1, nsim=3);
-    push!(df_withsmilax, [subnet, hval, seed1, nsim, res1[1], res1[2], res1[3]])
+    res1 = quarnetGoFtest!(net1, qCF, true; seed=seed1, nsim=1000);
+    push!(df_withsmilax, [subnet, 1, seed1, nsim, res1[1], res1[2], res1[3]])
 
     seed2 = rand(1000:9999)
-    res2 = quarnetGoFtest!(net2, qCF, true; seed=seed2, nsim=3);
-    push!(df_withsmilax, [subnet, hval+1, seed2, nsim, res2[1], res2[2], res2[3]])
+    res2 = quarnetGoFtest!(net2, qCF, true; seed=seed2, nsim=1000);
+    push!(df_withsmilax, [subnet, 2, seed2, nsim, res2[1], res2[2], res2[3]])
+
+    seed3 = rand(1000:9999)
+    res3 = quarnetGoFtest!(net3, qCF, true; seed=seed3, nsim=1000);
+    push!(df_withsmilax, [subnet, 3, seed3, nsim, res3[1], res3[2], res3[3]])
 end
 
-CSV.write("output/qgof_withsmilax_nsim1000.csv", df_withsmilax)
+CSV.write("output/qgof_withsmilax_nsim1000_updated.csv", df_withsmilax)
 ```
