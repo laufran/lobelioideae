@@ -8,7 +8,7 @@ Following code from network PCM tutorial, but modified as PN has updated.
 https://cecileane.github.io/networkPCM-workshop/topic7-averagedistances.html
 
 ```{julia}
-using CSV, DataFrames, PhyloNetworks, StatsBase, Random
+using CSV, DataFrames, PhyloNetworks, StatsBase, Random, PhyloPlots
 include("snaq_setup.jl");
 ```
 
@@ -140,11 +140,14 @@ for clade in subnetwork_names
 end
 
 #hard code correct hvals from qgof & looking at hvals 
+#this is a dictionary that should NOT be copied to other docs
+#setting all hvals above 0 to calibrate nets for each subclade
+#then also calibrating trees for all subclades as well
 nets_to_hvals_nosmilax = Dict("actinothrix" => 1, 
                             "andinus" => 1, 
                             "brevilimbatid" => 2,
                             "correoides_nobilis" => 2,
-                            "eucentropogonid" => 2,
+                            "eucentropogonid" => 1,
                             "giganteus_burmeisterid" => 1,
                             "odontosepalus_colombianid" => 2,
                             "peruvianid" => 1,
@@ -385,8 +388,8 @@ calibrate and write out newick to `output/snaq-withsmilax/` just for "odontosepa
 ```{julia}
 clade = "odontosepalus_colombianid"
 gts_sym  = Symbol(clade * "_gts")
-tree_sym = Symbol(clade * "_tree")
-net_sym  = Symbol(clade * "_net")
+tree_sym = Symbol(clade * "_smilax_tree")
+net_sym  = Symbol(clade * "_smilax_net")
 calnet_sym  = Symbol(clade * "_net_calibrated")
 caltree_sym = Symbol(clade * "_tree_calibrated")
 filename_net  = "output/snaq-withsmilax/" * clade * "_calibratednet.tre"
@@ -402,4 +405,80 @@ filename_tree = "output/snaq-withsmilax/" * clade * "_calibratedtree.tre"
   writenewick($calnet_sym, $filename_net)
   writenewick($caltree_sym, $filename_tree)
 end
+```
+
+# Combine subclades into artificial star tree
+
+Need to remove outgroup from each subnetwork, as they all have it:
+
+```{julia}
+#this should be fine for odontosepalus_colombianid
+  # --> I rewrite the odontosepalus_colombianid variable 
+nets_to_finalhvals =  Dict("actinothrix" => 1, 
+                        "andinus" => 1, 
+                        "brevilimbatid" => 0,
+                        "correoides_nobilis" => 0,
+                        "eucentropogonid" => 1,
+                        "giganteus_burmeisterid" => 0,
+                        "odontosepalus_colombianid" => 2,
+                        "peruvianid" => 0,
+                        "tupaeformis" => 1,
+                        "umbellatus" => 1)
+
+calibrated_nets = []
+for clade in subnetwork_names
+  if nets_to_finalhvals[clade] == 0
+    caltree_sym = Symbol(clade * "_tree_calibrated")
+    push!(calibrated_nets, eval(caltree_sym))
+  else
+    calnet_sym  = Symbol(clade * "_net_calibrated")
+    push!(calibrated_nets, eval(calnet_sym))
+  end
+end
+
+calibrated_nets_nooutgroup = []
+
+for net in calibrated_nets
+  nooutgroup_subclade = deepcopy(net)
+  deleteleaf!(nooutgroup_subclade, "Lysipomia_pumila")
+  push!(calibrated_nets_nooutgroup, nooutgroup_subclade)
+end
+```
+
+## Stitch together networks
+
+first need to edit hybrid node labels, so they're all unique:
+
+```{julia}
+function unique_hybrid_node_names!(net::HybridNetwork, suffix::AbstractString)
+    for node in net.node
+        if node.hybrid
+            #append a suffix to the hybrid name
+            node.name = string(node.name, "_", suffix)
+        end
+    end
+    return net
+end
+```
+
+```{julia}
+supernetstring = "("
+for (idx, net) in enumerate(calibrated_nets_nooutgroup)
+    unique_hybrid_node_names!(net, "net$idx")
+    netstring = chop(writenewick(net))  #remove semicolon from end
+    supernetstring *= netstring * ":100000"
+
+    #if not the last group, add comma to end    
+    if idx != length(calibrated_nets_nooutgroup)
+        supernetstring *= ","
+    end
+end
+supernetstring *= ");"
+
+supernet = readTopology(supernetstring)
+#plot to make sure this looks right
+plot(supernet); #can see that not all clades have hyb. events --> good! some *are* trees.
+plot(supernet, useedgelength=true); #yep superlong artificial branch lengths
+
+writenewick(supernet, "output/snaq-withoutsmilax/supernet.tre")
 ```
