@@ -110,6 +110,10 @@ traits_to_clades = Dict("fruit" => ["giganteus_burmeisterid", "odontosepalus_col
 m_fruit = BinaryTraitSubstitutionModel([s1_fruit_rate, s1_fruit_rate], ["berry", "capsule"]);
 m_poll = BinaryTraitSubstitutionModel([s1_poll_rate, s1_poll_rate], ["hummingbird", "bat"]);
 
+#initialize dicts to store results in
+clade_calibrated = Dict{String, HybridNetwork}()
+asr_results = Dict{String, Any}()
+
 for (trait,cladelist) in traits_to_clades
     for clade in cladelist
         if trait == "fruit"
@@ -136,19 +140,19 @@ for (trait,cladelist) in traits_to_clades
         cladetree = readnewick(filename)
         #prune out outgroup
         deleteleaf!(cladetree, "Lysipomia_pumila")
+        clade_calibrated[clade] = cladetree
+
         trait_df = subset(trait_df, :species => ByRow(in(tiplabels(cladetree))))
         species = trait_df.species
-        asr_sym = Symbol(clade * "_" * trait * "_asr")
         subclade_model_fit = fitdiscrete(cladetree, asrmodel, species, select(trait_df, :trait))
-        asr_sym  = ancestralreconstruction(subclade_model_fit)
-        eval(asr_sym)
+        asr_result  = ancestralreconstruction(subclade_model_fit)
+        key = string(clade, "_", trait, "_asr")
+        asr_results[key] = asr_result
     end
 end
 ```
 
 # Visualize results per subclade
-
-fixit: need to update from here on
 
 ```{julia}
 function plot_discreteasr(asr::DataFrame, figure_filename::AbstractString, net::HybridNetwork, trait::AbstractString)
@@ -159,13 +163,60 @@ function plot_discreteasr(asr::DataFrame, figure_filename::AbstractString, net::
     # create a new column in the asr data frame, filled with the empty string ""
     asr_dc[!,:fake] .= ""; # to add fake internal node labels later: and extract their positions
 
-    coltrait = ["red","grey"] # or anything else: names that R knows how to interpret
+    #note: I rotate each node number twice
+    #I tested doing it once, for some reason did not work.
+    #why doing it twice works? I do not know!
+    if clade == "tupaeformis"
+        for _ in 1:2; for n in [19, 20, 21, 22]; rotate!(net_dc, n); end; end
+    elseif clade == "actinothrix"
+        rotate!(net_dc, 9); rotate!(net_dc, 9)
+    elseif clade == "andinus"
+        for _ in 1:2; for n in [12, 13, 16]; rotate!(net_dc, n); end; end
+    elseif clade == "umbellatus"
+        for _ in 1:2; for n in [7, 8]; rotate!(net_dc, n); end; end
+    elseif clade == "odontosepalus_colombianid"
+        for _ in 1:2; for n in [21, 22, 16, 17]; rotate!(net_dc, n); end; end
+    end
 
-    R"pdf"(figure_filename, height=6, width=8);
+    #make colors match previous Lagomarsino plots
+    coltrait = trait == "fruit" ? ["red", "blue"] : ["deeppink", "chartreuse4"]
+    #replace pollinator to pollinator syndrome for legend label
+    if trait == "pollinator"
+        trait == "pollinator syndrome"
+    end
+
+    #replace mispelled species & species that aren't really new but aren't id'ed
+    label_map = Dict(
+    "S_retorsus" => "S_retrorsus",
+    "S_spnov3" => "S_sp. 3",
+    "C_spnov3" => "C_sp. 3",
+    "C_spnov4" => "C_sp. 4",
+    "C_spnov5" => "C_sp. 5",
+    "S_spnov1" => "S_sp. 1",
+    )
+
+    for leaf in tiplabels(net_dc)
+        if haskey(label_map, leaf)
+            leaf = label_map[leaf]
+        end
+    end
+
+    #scale plot by number of tips
+    ntips = length(tiplabels(net_dc))
+    xpad, ypad = 2.0, 2.0
+    xmax = ntips + xpad + 2.0  # extra space for legend
+    ymax = ntips + ypad
+    pdf_width = 0.5 * ntips + 4  # increase to accommodate legend
+    pdf_height = 6
+
+    #pie size scales with number of tips (smaller if more tips)
+    pie_radius = clamp(4 / ntips, 0.12, 0.2)
+
+    R"pdf"(figure_filename, height=pdf_height, width=pdf_width);
     # start the plot
-    R"par"(mar=[0,0,0,0]);
-    res = plot(net_dc, tipoffset=0.5, xlim=[0.5,16], arrowlen=0.15,
-            nodelabel = asr_dc[:,[:nodenumber, :fake]]);
+    R"par"(mar=[0,0,0,0], cex=0.75);
+    res = plot(net_dc, tipoffset=0.5, xlim=[0.5,xmax], ylim=[0,ymax], arrowlen=0.15,
+            nodelabel = asr_dc[:,[:nodenumber, :fake]], showgamma=true);
     ndf = res[:node_data] # locations of internal nodes --> this is different depending on PhyloPlots version
 
     # add pie charts, using locations of internal nodes
@@ -175,38 +226,32 @@ function plot_discreteasr(asr::DataFrame, figure_filename::AbstractString, net::
         R"ape::floating.pie.asp"(ndf[ii,:x], ndf[ii,:y], colpp,
                                 radius=0.2, col=coltrait);
     end
+
+    legend_x = 0.7
+    legend_y = ymax - 1
     # add legend with correct mapping of color -> state
-    R"legend"(x=1, y=19, legend=colnames, pch=21, var"pt.bg"=coltrait,
+    R"legend"(x=legend_x, y=legend_y, legend=colnames, pch=21, var"pt.bg"=coltrait,
             bty="n", title=trait, var"title.adj"=0, var"pt.cex"=1.5);
     R"dev.off"();
 end
-#fixits: margins, legend, add gammas
 ```
 
 ```{julia}
-asrs_to_nets = Dict(
-    "actinothrix_pollinator"            => [actinothrix_pollinator_asr, actinothrix_calibrated],
-    "eucentropogonid_pollinator"        => [eucentropogonid_pollinator_asr, eucentropogonid_calibrated],
-    "peruvianid_pollinator"             => [peruvianid_pollinator_asr, peruvianid_calibrated],
-    "umbellatus_pollinator"             => [umbellatus_pollinator_asr, umbellatus_calibrated],
-    "andinus_pollinator"                => [andinus_pollinator_asr, andinus_calibrated],
-    "tupaeformis_pollinator"            => [tupaeformis_pollinator_asr, tupaeformis_calibrated],
-    "giganteus-burmeisterid_pollinator" => [giganteus_burmeisterid_pollinator_asr, giganteus_burmeisterid_calibrated],
-    "giganteus-burmeisterid_fruit"      => [giganteus_burmeisterid_fruit_asr, giganteus_burmeisterid_calibrated],
-    "odontosepalus-colombianid_fruit"   => [odontosepalus_colombianid_fruit_asr, odontosepalus_colombianid_calibrated],
-    "correoides-nobilis_pollinator"     => [correoides_nobilis_pollinator_asr, correoides_nobilis_calibrated]
-)
+for (key, value) in asr_results
+    #remove the "_asr" first
+    base = replace(key, "_asr" => "")
 
-for (key, value) in asrs_to_nets
-    clade = split(string(key), "_")[1]
-    trait = split(string(key), "_")[2]
-    figure_filename = "output/" * clade * "_" * trait * ".pdf"
+    #split from the right only once — gives (clade, trait)
+    parts = rsplit(base, "_", limit=2)
+    clade = parts[1]
+    trait = parts[2]
+    figure_filename = "output/netviz/" * clade * "_" * trait * ".pdf"
 
     if trait == "pollinator"
         legend = "pollinator syndrome"
-    else legend = "fruit type"
+    else legend = "fruit"
     end
 
-    plot_discreteasr(value[1], figure_filename, value[2], legend)
+    plot_discreteasr(value, figure_filename, clade_calibrated[clade], legend)
 end
 ```
