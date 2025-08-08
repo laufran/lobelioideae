@@ -97,8 +97,8 @@ data:
 log-likelihood: -27.19157
 
 ```{julia}
-s1_poll_rate = s1_poll.model.rate[1]
-s1_fruit_rate = s1_fruit.model.rate[1]
+s1_poll_rate = s1_poll.model.rate[1] #1.6881
+s1_fruit_rate = s1_fruit.model.rate[1] #0.6413
 ```
 
 # Fit rates to subclades with trait variation
@@ -123,7 +123,6 @@ for (trait,cladelist) in traits_to_clades
             asrmodel = m_poll
             trait_df = filtered_nosicklebill
         end
-    
 
         if clade == "brevilimbatid"
             continue #has no trait variation
@@ -140,6 +139,23 @@ for (trait,cladelist) in traits_to_clades
         cladetree = readnewick(filename)
         #prune out outgroup
         deleteleaf!(cladetree, "Lysipomia_pumila")
+        PhyloNetworks.resetnodenumbers!(cladetree)
+
+        #rotate nodes so as to untangle:
+        #note: doing this BEFORE doing ancestralstatereconstruction
+        #that way nodes match up in ASR model and net
+        if clade == "tupaeformis"
+            for n in [19, 20, 21, 22]; rotate!(cladetree, n); end
+        elseif clade == "actinothrix"
+            rotate!(cladetree, 9)
+        elseif clade == "andinus"
+            for n in [12, 13, 16]; rotate!(cladetree, n); end
+        elseif clade == "umbellatus"
+            for n in [7, 8]; rotate!(cladetree, n); end
+        elseif clade == "odontosepalus_colombianid"
+            for n in [21, 22, 16, 17]; rotate!(cladetree, n); end
+        end
+
         clade_calibrated[clade] = cladetree
 
         trait_df = subset(trait_df, :species => ByRow(in(tiplabels(cladetree))))
@@ -162,21 +178,6 @@ function plot_discreteasr(asr::DataFrame, figure_filename::AbstractString, net::
     colnames = names(asr_dc)[3:end] # to get the correct state - probability match
     # create a new column in the asr data frame, filled with the empty string ""
     asr_dc[!,:fake] .= ""; # to add fake internal node labels later: and extract their positions
-
-    #note: I rotate each node number twice
-    #I tested doing it once, for some reason did not work.
-    #why doing it twice works? I do not know!
-    if clade == "tupaeformis"
-        for _ in 1:2; for n in [19, 20, 21, 22]; rotate!(net_dc, n); end; end
-    elseif clade == "actinothrix"
-        rotate!(net_dc, 9); rotate!(net_dc, 9)
-    elseif clade == "andinus"
-        for _ in 1:2; for n in [12, 13, 16]; rotate!(net_dc, n); end; end
-    elseif clade == "umbellatus"
-        for _ in 1:2; for n in [7, 8]; rotate!(net_dc, n); end; end
-    elseif clade == "odontosepalus_colombianid"
-        for _ in 1:2; for n in [21, 22, 16, 17]; rotate!(net_dc, n); end; end
-    end
 
     #make colors match previous Lagomarsino plots
     coltrait = trait == "fruit" ? ["red", "blue"] : ["deeppink", "chartreuse4"]
