@@ -60,45 +60,45 @@ s2_fruit = fitdiscrete(supertree, :BTSM, species, select(filtered_fruit, :trait)
 
 compare AIC of each model:
 ```{julia}
-aic(s1_poll) #92.26033338520169 --> much better!
-aic(s2_poll) #233.5170854022659
-aic(s1_fruit) #56.38313045514319 --> much better!
-aic(s2_fruit) #105.43158109464444
+aic(s1_poll) #94.33747997755411 --> much better!
+aic(s2_poll) #252.2718658578484
+aic(s1_fruit) #49.439072090658534 --> much better!
+aic(s2_fruit) #87.34871719969516
 ```
 
 we want the model with the lowest AIC --> in this case both s1 (ERSM) models were best.
 
-julia> s1_poll
+julia> s1_poll = fitdiscrete(supertree, :ERSM, species, select(filtered_nosicklebill, :trait); optimizeQ=true)
 PhyloTraits.StatisticalSubstitutionModel:
 Equal Rates Substitution Model with k=2,
-  all rates equal to α=1.68814.
+  all rates equal to α=1.94502.
   rate matrix Q:
        hummingbird     bat
-  hummingbird       *  1.6881
-       bat  1.6881       *
+  hummingbird       *  1.9450
+       bat  1.9450       *
 on a network with 7 reticulations
 data:
-  91 species
+  92 species
   1 trait
-log-likelihood: -45.13017
+log-likelihood: -46.16874
 
-julia> s1_fruit
+julia> s1_fruit = fitdiscrete(supertree, :ERSM, species, select(filtered_fruit, :trait); optimizeQ=true)
 PhyloTraits.StatisticalSubstitutionModel:
 Equal Rates Substitution Model with k=2,
-  all rates equal to α=0.64125.
+  all rates equal to α=0.5151.
   rate matrix Q:
            capsule   berry
-   capsule       *  0.6413
-     berry  0.6413       *
+   capsule       *  0.5151
+     berry  0.5151       *
 on a network with 7 reticulations
 data:
-  91 species
+  92 species
   1 trait
-log-likelihood: -27.19157
+log-likelihood: -23.71954
 
 ```{julia}
-s1_poll_rate = s1_poll.model.rate[1] #1.6881
-s1_fruit_rate = s1_fruit.model.rate[1] #0.6413
+s1_poll_rate = s1_poll.model.rate[1] #1.945
+s1_fruit_rate = s1_fruit.model.rate[1] #0.5151
 ```
 
 # Fit rates to subclades with trait variation
@@ -153,7 +153,9 @@ for (trait,cladelist) in traits_to_clades
         elseif clade == "umbellatus"
             for n in [7, 8]; rotate!(cladetree, n); end
         elseif clade == "odontosepalus_colombianid"
-            for n in [21, 22, 16, 17]; rotate!(cladetree, n); end
+            #if excluding smilax:
+            #for n in [21, 22, 16, 17]; rotate!(cladetree, n); end
+            for n in [15, 23, 14, 18]; rotate!(cladetree, n); end
         end
 
         clade_calibrated[clade] = cladetree
