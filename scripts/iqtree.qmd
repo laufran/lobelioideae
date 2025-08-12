@@ -1,0 +1,16 @@
+# IQ-TREE
+
+download iqtree-3.0.1-Linux.tar.gz locally (https://iqtree.github.io/#download), transfer to franklin00 in /bin/.
+
+in /bin/ folder, decompress file:
+```{bash}
+tar -xvzf iqtree-3.0.1-Linux.tar.gz
+```
+
+then it's ready to run.
+
+inferring branch lengths on ASTRAL species tree from alignments, using GTR+G model,
+and 120 threads.
+```{bash}
+bin/iqtree-3.0.1-Linux/bin/iqtree3 -s data/alignments/concat.phy -te data/newgts/species_tree_newick.tre -m GTR+G -keep-ident -redo -nt 120
+```
